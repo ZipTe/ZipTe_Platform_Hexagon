@@ -5,7 +5,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-import java.time.Instant;
+import java.time.LocalDateTime;
 
 @Getter
 @AllArgsConstructor
@@ -23,7 +23,7 @@ public class CommentEvent {
     private Long writerId;
     private Long commentId;
     private String comment;
-    private Instant occurredAt;
+    private LocalDateTime occurredAt;
 
     //echo '{"type":"ADD","postId":1,"postOwnerId":1,"writerId":1,"commentId":1,"comment":"hello","occurredAt":"2025-02-10T23:50:00Z"}'| kafka-console-producer --broker-list localhost:9092 --topic comment
 }

@@ -7,7 +7,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-import java.time.Instant;
+import java.time.LocalDateTime;
 
 @Getter
 @AllArgsConstructor
@@ -24,7 +24,7 @@ public class FavoriteEvent {
     private FavoriteType favoriteType;
     private String complexCode;
     private String regionCode;
-    private Instant occurredAt;
+    private LocalDateTime occurredAt;
 
     /// 생성자
     public static FavoriteEvent from(EventType type, Favorite favorite) {
