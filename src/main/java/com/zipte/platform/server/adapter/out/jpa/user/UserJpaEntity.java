@@ -1,63 +1,79 @@
 package com.zipte.platform.server.adapter.out.jpa.user;
 
-import com.zipte.platform.server.adapter.out.jpa.BaseEntity;
+import com.zipte.platform.server.domain.user.OAuthProvider;
 import com.zipte.platform.server.domain.user.User;
+import com.zipte.platform.server.domain.user.UserConsent;
 import com.zipte.platform.server.domain.user.UserRole;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
-import org.hibernate.annotations.Cascade;
 
 import java.util.ArrayList;
 import java.util.List;
-
-
 @Entity
-@AllArgsConstructor
 @NoArgsConstructor
+@AllArgsConstructor
+@Getter
 @Builder
-public class UserJpaEntity extends BaseEntity {
+public class UserJpaEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String username;
+    private String socialId;
+
     private String email;
-    private String password;
-    private String phoneNumber;
+
+    private String username;
+
+    private String nickname;
+
+    private String birthday;
+
+    private String imageUrl;
 
     @Enumerated(EnumType.STRING)
+    private OAuthProvider social;
+
+    @Embedded
+    private UserConsent consent;
+
     @ElementCollection(fetch = FetchType.EAGER)
-    @Builder.Default
-    @Cascade(org.hibernate.annotations.CascadeType.ALL)
+    @Enumerated(EnumType.STRING)
     private List<UserRole> roles = new ArrayList<>();
 
-
-    // from
+    // from Domain
     public static UserJpaEntity from(User user) {
         return UserJpaEntity.builder()
-                .id(user.getId())
-                .username(user.getUsername())
+                .socialId(user.getSocialId())
                 .email(user.getEmail())
-                .password(user.getPassword())
-                .phoneNumber(user.getPhoneNumber())
+                .username(user.getUsername())
+                .nickname(user.getNickname())
+                .imageUrl(user.getImageUrl())
+                .social(user.getSocial())
+                .birthday(user.getBirthday())
+                .consent(user.getConsent())
                 .roles(user.getRoles())
                 .build();
     }
 
-
-    // toDomain
+    // to Domain
     public User toDomain() {
         return User.builder()
-                .id(id)
-                .username(username)
-                .email(email)
-                .password(password)
-                .phoneNumber(phoneNumber)
-                .roles(roles)
+                .id(this.id)
+                .email(this.email)
+                .username(this.username)
+                .nickname(this.nickname)
+                .imageUrl(this.imageUrl)
+                .socialId(this.socialId)
+                .social(this.social)
+                .birthday(this.birthday)
+                .consent(this.consent)
+                .roles(this.roles)
                 .build();
     }
-
 }
+

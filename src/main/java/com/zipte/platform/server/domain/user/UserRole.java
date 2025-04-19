@@ -1,9 +1,20 @@
 package com.zipte.platform.server.domain.user;
 
+import com.fasterxml.jackson.annotation.JsonValue;
+import lombok.Getter;
+import lombok.RequiredArgsConstructor;
+
+@Getter
+@RequiredArgsConstructor
 public enum UserRole {
 
-    FIRST, // 기본 역할
-    USER,  // 일반 사용자
-    LAWYER, // 법무사
-    BROKER // 공인중개사
+    MEMBER("ROLE_MEMBER"),
+    ADMIN("ROLE_ADMIN");
+
+    private final String role;
+
+    @JsonValue
+    public String getRole() {
+        return role;
+    }
 }
