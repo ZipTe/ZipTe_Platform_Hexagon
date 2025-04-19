@@ -2,14 +2,13 @@ package com.zipte.platform.server.application.service;
 
 
 import com.zipte.platform.server.adapter.in.web.dto.PropertyConditionRequest;
-import com.zipte.platform.server.adapter.in.web.dto.PropertyDetailResponse;
 import com.zipte.platform.server.adapter.in.web.dto.PropertyRequest;
 import com.zipte.platform.server.application.in.property.*;
 import com.zipte.platform.server.application.out.estate.LoadEstatePort;
 import com.zipte.platform.server.application.out.property.DeletePropertyPort;
 import com.zipte.platform.server.application.out.property.LoadPropertyPort;
 import com.zipte.platform.server.application.out.property.SavePropertyPort;
-import com.zipte.platform.server.application.out.user.LoadUserPort;
+import com.zipte.platform.server.application.out.user.UserPort;
 import com.zipte.platform.server.domain.estate.Estate;
 import com.zipte.platform.server.domain.property.Property;
 import com.zipte.platform.server.domain.property.PropertyAddress;
@@ -33,7 +32,7 @@ public class PropertyService implements CreatePropertyUseCase, GetPropertyDetail
     private final LoadPropertyPort loadPort;
     private final DeletePropertyPort deletePort;
 
-    private final LoadUserPort loadUserPort;
+    private final UserPort loadUserPort;
     private final LoadEstatePort loadEstatePort;
 
     @Override
@@ -88,7 +87,7 @@ public class PropertyService implements CreatePropertyUseCase, GetPropertyDetail
 
 
     private User getUser(Long userId) {
-        return loadUserPort.loadUser(userId)
+        return loadUserPort.loadUserById(userId)
                 .orElseThrow(() -> new EntityNotFoundException("해당 유저가 존재하지 않습니다"));
     }
 

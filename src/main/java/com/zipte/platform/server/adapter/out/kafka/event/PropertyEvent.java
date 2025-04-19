@@ -4,7 +4,7 @@ import com.zipte.platform.server.domain.property.Property;
 import lombok.Builder;
 import lombok.Data;
 
-import java.time.Instant;
+import java.time.LocalDateTime;
 
 @Data
 @Builder
@@ -13,7 +13,7 @@ public class PropertyEvent {
     private EventType type;
     private String complexCode;
     private long price;
-    private Instant occurredAt;
+    private LocalDateTime occurredAt;
 
     public static PropertyEvent of(EventType type, Property property) {
 
