@@ -4,6 +4,8 @@ import com.zipte.platform.server.domain.favorite.Favorite;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
+import java.util.List;
+
 public interface FavoritePort {
 
     // 관심 목록 저장
@@ -15,6 +17,8 @@ public interface FavoritePort {
     // 관심 목록 조회하기
     Page<Favorite> loadUserPreferences(Long userId, Pageable pageable);
 
+    // 아파트
+    List<Long> loadUserFavoriteByComplexCode(String complexCode);
 
 
 }
