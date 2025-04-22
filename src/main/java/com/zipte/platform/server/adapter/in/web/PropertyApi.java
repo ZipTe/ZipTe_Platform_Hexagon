@@ -3,14 +3,10 @@ package com.zipte.platform.server.adapter.in.web;
 import com.zipte.platform.core.response.ApiResponse;
 import com.zipte.platform.core.response.pageable.PageRequest;
 import com.zipte.platform.core.response.pageable.PageResponse;
-import com.zipte.platform.core.util.KafkaKeyGenerator;
-import com.zipte.platform.server.adapter.out.kafka.event.PropertyEvent;
-import com.zipte.platform.server.adapter.out.kafka.event.EventType;
 import com.zipte.platform.server.adapter.in.web.dto.PropertyDetailResponse;
 import com.zipte.platform.server.adapter.in.web.dto.PropertyListResponse;
 import com.zipte.platform.server.adapter.in.web.dto.PropertyRequest;
 import com.zipte.platform.server.application.in.property.*;
-import com.zipte.platform.server.application.out.mq.ProducerPort;
 import com.zipte.platform.server.domain.property.Property;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -32,17 +28,11 @@ public class PropertyApi {
     private final UpdatePropertyUseCase updateService;
     private final DeletePropertyUseCase deleteService;
 
-    ///  mq까지 한번에 전송
-    private final ProducerPort<PropertyEvent> kafkaProducer;
-
     // 매물 생성
     @PostMapping
     public ApiResponse<PropertyDetailResponse> create(@Valid @RequestBody PropertyRequest request) {
 
         Property property = createService.create(request);
-
-        PropertyEvent event = PropertyEvent.of(EventType.ADD, property);
-        kafkaProducer.send(KafkaKeyGenerator.getProperty(), event);
 
         return ApiResponse.created(PropertyDetailResponse.from(property));
     }
@@ -95,7 +85,7 @@ public class PropertyApi {
     // 매물 상세 조회
     @GetMapping("/{id}")
     public ApiResponse<PropertyDetailResponse> getDetailOne(@PathVariable Long id) {
-        Property property = getService.getPropertyDetails(id);
+        Property property = getService.getPropertyById(id);
 
         return ApiResponse.ok(PropertyDetailResponse.from(property));
     }
