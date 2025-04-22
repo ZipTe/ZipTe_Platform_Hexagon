@@ -9,12 +9,12 @@ import java.util.Optional;
 public interface PropertyMongoRepository extends NotificationMongoRepository<PropertyDocument, String> {
 
 
-    void deleteByComplexCode(String complexCode);
+    void deleteByKaptCode(String kaptCode);
 
     Optional<NotificationDocument> findFirstByUserIdOrderByOccurredAtDesc(Long userId);
 
-    @Query("{'complexCode' : ?0}")
-    Optional<PropertyDocument> findByComplexCode(String complexCode);
+    @Query("{'kaptCode' : ?0}")
+    Optional<PropertyDocument> findByKaptCode(String kaptCode);
 
 
 }

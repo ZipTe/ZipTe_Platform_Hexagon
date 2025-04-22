@@ -10,16 +10,16 @@ import java.time.LocalDateTime;
 @SuperBuilder
 public class PropertyNotification extends Notification {
 
-    private String complexCode;
+    private String kaptCode;
     private long price;
 
     // 생성자
-    public static PropertyNotification of(String id, NotificationType type,Long userId, LocalDateTime occurredAt, LocalDateTime createdAt, LocalDateTime lastUpdatedAt, LocalDateTime deleteAt, String complexCode, long price){
+    public static PropertyNotification of(String id, NotificationType type,Long userId, LocalDateTime occurredAt, LocalDateTime createdAt, LocalDateTime lastUpdatedAt, LocalDateTime deleteAt, String kaptCode, long price){
         return PropertyNotification.builder()
                 .id(id)
                 .type(type)
                 .userId(userId)
-                .complexCode(complexCode)
+                .kaptCode(kaptCode)
                 .price(price)
                 .occurredAt(occurredAt)
                 .createdAt(createdAt)

@@ -23,7 +23,11 @@ public class Property extends BaseDomain {
     private boolean verified;
 
     // 생성자
-    public static Property of(Long ownerId, PropertyType type, PropertyAddress address, PropertySnippet snippet, PropertyStatistic statistic, long price, String kaptCode) {
+    public static Property of(Long ownerId, PropertyType type, PropertyAddress address, PropertySnippet snippet, long price, String kaptCode) {
+
+        // 통계 정보 생성
+        PropertyStatistic statistic = PropertyStatistic.of(0, 0);
+
         return Property.builder()
                 .ownerId(ownerId)
                 .kaptCode(kaptCode)

@@ -15,7 +15,7 @@ import org.springframework.data.annotation.TypeAlias;
 @SuperBuilder
 public class PropertyDocument extends NotificationDocument {
 
-    private String complexCode;
+    private String kaptCode;
     private long price;
 
     // From
@@ -23,7 +23,7 @@ public class PropertyDocument extends NotificationDocument {
         return PropertyDocument.builder()
                 .id(notification.getId())
                 .userId(notification.getUserId())
-                .complexCode(notification.getComplexCode())
+                .kaptCode(notification.getKaptCode())
                 .price(notification.getPrice())
                 .type(notification.getType())
                 .occurredAt(notification.getOccurredAt())
@@ -40,7 +40,7 @@ public class PropertyDocument extends NotificationDocument {
                 .userId(getUserId())
                 .type(getType())
                 .deleteAt(getDeletedAt())
-                .complexCode(complexCode)
+                .kaptCode(kaptCode)
                 .price(price)
                 .occurredAt(getOccurredAt())
                 .createdAt(getCreatedAt())
