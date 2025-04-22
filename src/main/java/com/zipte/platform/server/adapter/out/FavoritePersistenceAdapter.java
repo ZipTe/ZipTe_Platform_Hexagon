@@ -9,6 +9,8 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Component;
 
+import java.util.List;
+
 @Component
 @RequiredArgsConstructor
 public class FavoritePersistenceAdapter implements FavoritePort {
@@ -32,6 +34,13 @@ public class FavoritePersistenceAdapter implements FavoritePort {
     public Page<Favorite> loadUserPreferences(Long userId, Pageable pageable) {
         return repository.findByUserId(userId, pageable)
                 .map(FavoriteJpaEntity::toDomain);
+    }
+
+    @Override
+    public List<Long> loadUserFavoriteByComplexCode(String kaptCode) {
+        return repository.findUserIdsByKaptCode(kaptCode).stream()
+                .map(FavoriteJpaEntity::getUserId)
+                .toList();
     }
 
 

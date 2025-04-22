@@ -8,7 +8,7 @@ public interface GetPropertyDetailsUseCase {
         매물 상세정보 가져오기
      */
 
-    Property getPropertyDetails(Long propertyId);
+    Property getPropertyById(Long propertyId);
 
 
 }
