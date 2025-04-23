@@ -31,7 +31,7 @@ public class ReviewApi {
 
     // 리뷰 작성
     @PostMapping
-    public ApiResponse<ReviewDetailResponse> create(ReviewRequest reviewRequest) {
+    public ApiResponse<ReviewDetailResponse> create(@RequestBody ReviewRequest reviewRequest) {
 
         return ApiResponse.created(ReviewDetailResponse.from(createService.createReview(reviewRequest)));
     }

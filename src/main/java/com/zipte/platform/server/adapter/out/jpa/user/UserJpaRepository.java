@@ -11,5 +11,5 @@ public interface UserJpaRepository extends JpaRepository<UserJpaEntity, Long> {
 
     boolean existsBySocialAndSocialId(OAuthProvider social, String socialId);
 
-
+    boolean existsById(Long id);
 }

@@ -19,7 +19,18 @@ public enum ErrorCode {
     // 404 Not Found
     NOT_FOUND_END_POINT(404, HttpStatus.NOT_FOUND, "요청한 대상이 존재하지 않습니다."),
     // 500 Internal Server Error
-    INTERNAL_SERVER_ERROR(500, HttpStatus.INTERNAL_SERVER_ERROR, "서버 내부 오류입니다.");
+    INTERNAL_SERVER_ERROR(500, HttpStatus.INTERNAL_SERVER_ERROR, "서버 내부 오류입니다."),
+
+    /// 유저 관련
+    NOT_USER(1000, HttpStatus.NOT_FOUND, "해당하는 유저가 존재하지 않습니다."),
+
+    /// 부동산 관련
+    NOT_ESTATE(2000, HttpStatus.NOT_FOUND, "해당하는 부동산이 존재하지 않습니다."),
+    NOT_ESTATE_IN_YOUR_AREA(2001, HttpStatus.BAD_REQUEST, "1KM 반경 내에 해당하는 부동산이 존재하지 않습니다."),
+
+    /// 리뷰 관련
+    NOT_REVIEW(5000, HttpStatus.NOT_FOUND, "해당하는 리뷰가 존재하지 않습니다."),
+    BAD_REQUEST_REVIEW(5001, HttpStatus.BAD_REQUEST, "실거주자 인증이 되지 않은 유저입니다.");
 
 
     private final Integer code;

@@ -23,5 +23,5 @@ public interface EstateMongoRepository extends MongoRepository<EstateDocument, S
     @Query(value = "{ 'location': { $geoWithin: { $centerSphere: [ [ ?0, ?1 ], ?2 ] } } }")
     List<EstateDocument> findByLocation(double longitude, double latitude, double radiusInRadians);
 
-
+    boolean existsByKaptCode(String kaptCode);
 }

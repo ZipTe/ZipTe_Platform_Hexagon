@@ -31,6 +31,12 @@ public class ReviewSnippet {
 
     // 생성 로직
     public static ReviewSnippet of(String title, String content,int transport, int environment, int apartmentManagement, int livingEnvironment) {
+
+        /// 예외처리
+        if(transport < 1 || environment < 1 || apartmentManagement < 1 || livingEnvironment < 1) {
+            throw new IllegalArgumentException("평점은 0점 1~5점만이 가능합니다.");
+        }
+
         return ReviewSnippet.builder()
                 .title(title)
                 .content(content)
