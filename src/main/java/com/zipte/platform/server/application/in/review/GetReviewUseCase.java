@@ -4,12 +4,10 @@ import com.zipte.platform.server.domain.review.Review;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
-import java.util.Optional;
-
 public interface GetReviewUseCase {
 
     // 하나의 리뷰 가져오기
-    Optional<Review> getReview(Long id);
+    Review getReview(Long id);
 
     // 유저별 작성한 리뷰 가져오기
     Page<Review> getReviewsByMember(Long memberId, Pageable pageable);
