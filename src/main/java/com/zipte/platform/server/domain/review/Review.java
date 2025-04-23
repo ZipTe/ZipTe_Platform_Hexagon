@@ -18,32 +18,24 @@ public class Review extends BaseDomain {
 
     private String kaptCode;
 
-    private String title;
-
-    private String content;
-
     private String imageUrl;
 
-    private int facilities;
+    private ReviewSnippet snippet;
 
-    private int infrastructure;
-
-    private int neighborhood;
+    private ReviewStatistics statistics;
 
     private boolean certified;
 
     /// 정적 팩토리 메서드
-    public static Review of(Long userId, String kaptCode, String title, String content, String imageUrl, int facilities, int infrastructure, int neighborhood, boolean certified) {
+    /// 아직 이미지는 포함 X
+    public static Review of(Long userId, String kaptCode, ReviewSnippet snippet, boolean certified) {
 
         return Review.builder()
                 .id(userId)
                 .kaptCode(kaptCode)
-                .title(title)
-                .content(content)
-                .imageUrl(imageUrl)
-                .facilities(facilities)
-                .infrastructure(infrastructure)
-                .neighborhood(neighborhood)
+                .imageUrl("imageUrl")
+                .snippet(snippet)
+                .statistics(ReviewStatistics.of())
                 .certified(certified)
                 .build();
     }
