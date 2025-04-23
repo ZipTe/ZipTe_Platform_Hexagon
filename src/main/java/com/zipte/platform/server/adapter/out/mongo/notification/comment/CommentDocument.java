@@ -15,7 +15,7 @@ import org.springframework.data.annotation.TypeAlias;
 @SuperBuilder
 public class CommentDocument extends NotificationDocument {
 
-    private Long questionId;
+    private Long postId;
     private Long writerId;
     private Long commentId;
     private String comment;
@@ -30,7 +30,7 @@ public class CommentDocument extends NotificationDocument {
                 .createdAt(notification.getCreatedAt())
                 .lastUpdatedAt(notification.getLastUpdatedAt())
                 .deletedAt(notification.getDeleteAt())
-                .questionId(notification.getQuestionId())
+                .postId(notification.getPostId())
                 .writerId(notification.getWriterId())
                 .commentId(notification.getCommentId())
                 .comment(notification.getComment())
@@ -47,7 +47,7 @@ public class CommentDocument extends NotificationDocument {
                 .createdAt(getCreatedAt())
                 .lastUpdatedAt(getLastUpdatedAt())
                 .deleteAt(getDeletedAt())
-                .questionId(this.questionId)
+                .postId(this.postId)
                 .writerId(this.writerId)
                 .commentId(this.commentId)
                 .comment(this.comment)

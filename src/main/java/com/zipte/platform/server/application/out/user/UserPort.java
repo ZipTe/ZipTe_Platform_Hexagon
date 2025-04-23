@@ -17,6 +17,8 @@ public interface UserPort {
     /// 조회하기
     boolean checkExistingBySocialAndSocialId(OAuthProvider social, String socialId);
 
+    boolean checkExistingById(Long userId);
+
     Optional<User> loadUserById(Long userId);
 
     Optional<User> loadUserBySocialAndSocialId(OAuthProvider social, String socialId);

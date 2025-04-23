@@ -1,7 +1,6 @@
 package com.zipte.platform.server.application.in.property;
 
-import com.zipte.platform.server.adapter.in.web.dto.PropertyDetailResponse;
-import com.zipte.platform.server.adapter.in.web.dto.PropertyRequest;
+import com.zipte.platform.server.adapter.in.web.dto.request.PropertyRequest;
 import com.zipte.platform.server.domain.property.Property;
 
 public interface CreatePropertyUseCase {

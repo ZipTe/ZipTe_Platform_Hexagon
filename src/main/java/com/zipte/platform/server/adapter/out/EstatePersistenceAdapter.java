@@ -42,4 +42,9 @@ public class EstatePersistenceAdapter implements LoadEstatePort {
                 .map(EstateDocument::toDomain);
     }
 
+    @Override
+    public boolean checkExistingByCode(String kaptCode) {
+        return repository.existsByKaptCode(kaptCode);
+    }
+
 }

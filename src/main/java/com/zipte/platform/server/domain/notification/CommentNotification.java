@@ -10,7 +10,7 @@ import java.time.LocalDateTime;
 @SuperBuilder
 public class CommentNotification extends Notification {
 
-    private Long questionId;
+    private Long postId;
     private Long writerId;
     private Long commentId;
     private String comment;
@@ -21,7 +21,7 @@ public class CommentNotification extends Notification {
                 .id(id)
                 .userId(userId)
                 .type(type)
-                .questionId(postId)
+                .postId(postId)
                 .writerId(writerId)
                 .commentId(commentId)
                 .comment(comment)

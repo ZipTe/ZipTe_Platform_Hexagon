@@ -1,4 +1,4 @@
-package com.zipte.platform.server.adapter.in.web.dto;
+package com.zipte.platform.server.adapter.in.web.dto.request;
 
 import com.zipte.platform.server.domain.favorite.FavoriteType;
 import lombok.Data;

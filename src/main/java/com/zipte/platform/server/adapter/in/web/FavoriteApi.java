@@ -1,13 +1,10 @@
 package com.zipte.platform.server.adapter.in.web;
 
 import com.zipte.platform.core.response.ApiResponse;
-import com.zipte.platform.server.adapter.in.web.dto.FavoriteRequest;
+import com.zipte.platform.server.adapter.in.web.dto.request.FavoriteRequest;
 import com.zipte.platform.server.application.in.favorite.FavoriteUseCase;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/v1/favorite")
@@ -16,6 +13,7 @@ public class FavoriteApi {
 
     private final FavoriteUseCase favoriteService;
 
+    /// 관심 목록 추가하기
     @PostMapping()
     public ApiResponse<String> createFavorite(@RequestBody FavoriteRequest request) {
 

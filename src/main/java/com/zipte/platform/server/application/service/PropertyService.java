@@ -1,8 +1,8 @@
 package com.zipte.platform.server.application.service;
 
 
-import com.zipte.platform.server.adapter.in.web.dto.PropertyConditionRequest;
-import com.zipte.platform.server.adapter.in.web.dto.PropertyRequest;
+import com.zipte.platform.server.adapter.in.web.dto.request.PropertyConditionRequest;
+import com.zipte.platform.server.adapter.in.web.dto.request.PropertyRequest;
 import com.zipte.platform.server.application.in.property.*;
 import com.zipte.platform.server.application.in.task.PropertyNotificationTask;
 import com.zipte.platform.server.application.out.estate.LoadEstatePort;

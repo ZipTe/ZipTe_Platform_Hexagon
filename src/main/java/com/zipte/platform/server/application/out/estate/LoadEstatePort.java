@@ -17,6 +17,6 @@ public interface LoadEstatePort {
 
     Page<Estate> loadEstatesByRegion(String region, Pageable pageable);
 
-
+    boolean checkExistingByCode(String kaptCode);
 
 }
