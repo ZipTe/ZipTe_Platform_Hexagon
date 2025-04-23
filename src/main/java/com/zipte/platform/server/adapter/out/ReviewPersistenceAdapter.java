@@ -9,17 +9,19 @@ import com.zipte.platform.server.domain.review.Review;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.stereotype.Repository;
+import org.springframework.stereotype.Component;
 
 import java.util.Optional;
 
-@Repository
+@Component
 @RequiredArgsConstructor
 public class ReviewPersistenceAdapter implements LoadReviewPort, SaveReviewPort, RemoveReviewPort {
 
     private final ReviewJpaRepository repository;
 
+
     @Override
+
     public Review saveReview(Review review) {
         var entity = ReviewJpaEntity.from(review);
 
@@ -29,25 +31,30 @@ public class ReviewPersistenceAdapter implements LoadReviewPort, SaveReviewPort,
 
     @Override
     public Optional<Review> loadReview(Long id) {
+
+        /// REDIS 키 값 상승
+
+
+        /// 값 주기
         return repository.findById(id)
                 .map(ReviewJpaEntity::toDomain);
     }
 
     @Override
     public Page<Review> getReviewsByMember(Long memberId, Pageable pageable) {
-        return repository.findByMemberId(memberId, pageable)
+        return repository.findByUserId(memberId, pageable)
                 .map(ReviewJpaEntity::toDomain);
     }
 
     @Override
     public Page<Review> getReviews(String aptId, Pageable pageable) {
-        return repository.findByAptId(aptId, pageable)
+        return repository.findByKaptCode(aptId, pageable)
                 .map(ReviewJpaEntity::toDomain);
     }
 
     @Override
     public Page<Review> getReviewsByRating(String aptId, Pageable pageable) {
-        return repository.findByAptIdOrderBySnippetOverallDesc(aptId, pageable)
+        return repository.findByKaptCodeOrderBySnippetOverallDesc(aptId, pageable)
                 .map(ReviewJpaEntity::toDomain);
     }
 
