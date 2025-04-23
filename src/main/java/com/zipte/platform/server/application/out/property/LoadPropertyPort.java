@@ -1,6 +1,6 @@
 package com.zipte.platform.server.application.out.property;
 
-import com.zipte.platform.server.adapter.in.web.dto.PropertyConditionRequest;
+import com.zipte.platform.server.adapter.in.web.dto.request.PropertyConditionRequest;
 import com.zipte.platform.server.domain.property.Property;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;

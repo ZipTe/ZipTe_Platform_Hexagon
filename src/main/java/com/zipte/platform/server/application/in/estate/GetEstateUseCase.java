@@ -1,6 +1,6 @@
 package com.zipte.platform.server.application.in.estate;
 
-import com.zipte.platform.server.adapter.in.web.dto.EstateListResponse;
+import com.zipte.platform.server.adapter.in.web.dto.response.EstateListResponse;
 import com.zipte.platform.server.domain.estate.Estate;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;

@@ -1,4 +1,4 @@
-package com.zipte.platform.server.adapter.in.web.dto;
+package com.zipte.platform.server.adapter.in.web.dto.request;
 
 import com.zipte.platform.server.domain.property.PropertyType;
 import jakarta.validation.constraints.*;

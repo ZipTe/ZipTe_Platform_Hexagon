@@ -1,4 +1,4 @@
-package com.zipte.platform.server.adapter.in.web.dto;
+package com.zipte.platform.server.adapter.in.web.dto.response;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.zipte.platform.server.domain.estate.Estate;

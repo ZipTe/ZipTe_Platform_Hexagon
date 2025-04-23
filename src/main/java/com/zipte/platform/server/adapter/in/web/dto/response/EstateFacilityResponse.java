@@ -1,4 +1,4 @@
-package com.zipte.platform.server.adapter.in.web.dto;
+package com.zipte.platform.server.adapter.in.web.dto.response;
 
 import com.zipte.platform.server.domain.estate.Estate;
 import lombok.Builder;

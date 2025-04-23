@@ -1,8 +1,7 @@
-package com.zipte.platform.server.adapter.in.web.dto;
+package com.zipte.platform.server.adapter.in.web.dto.response;
 
 import com.zipte.platform.server.domain.property.Property;
 import com.zipte.platform.server.domain.property.PropertyType;
-import com.zipte.platform.server.domain.user.User;
 import lombok.Builder;
 import lombok.Getter;
 

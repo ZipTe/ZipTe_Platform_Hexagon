@@ -1,6 +1,6 @@
 package com.zipte.platform.server.application.service;
 
-import com.zipte.platform.server.adapter.in.web.dto.EstateListResponse;
+import com.zipte.platform.server.adapter.in.web.dto.response.EstateListResponse;
 import com.zipte.platform.server.application.in.estate.GetEstateUseCase;
 import com.zipte.platform.server.application.out.estate.LoadEstatePort;
 import com.zipte.platform.server.application.out.property.LoadPropertyPort;
