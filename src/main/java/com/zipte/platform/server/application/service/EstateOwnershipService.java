@@ -10,13 +10,14 @@ import com.zipte.platform.server.application.service.exception.NotExistingEstate
 import com.zipte.platform.server.domain.estate.Estate;
 import com.zipte.platform.server.domain.estateOwnership.EstateOwnership;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.NoSuchElementException;
-import java.util.stream.Stream;
 
+@Slf4j
 @Service
 @Transactional
 @RequiredArgsConstructor
@@ -46,7 +47,9 @@ public class EstateOwnershipService implements EstateOwnershipUseCase {
         /// 현 위치와 아파트 위치와의 비교 예외처리
 
         // 현 위치 반경 1KM 조회에 아파트 존재하는지 체크
-        List<Estate> list = loadEstatePort.loadEstatesNearBy(request.getLongitude(), request.getLatitude(), 1);
+        List<Estate> list = loadEstatePort.loadEstatesNearBy(request.getLongitude(), request.getLatitude(), 1 / 6373 / 2);
+
+        log.info("Load estates nearby : {}", list.toString());
 
         boolean hasKaptCode = list.stream()
                 .anyMatch(f -> f.getKaptCode().equals(request.getKaptCode()));
