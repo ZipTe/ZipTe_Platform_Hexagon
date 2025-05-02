@@ -14,17 +14,13 @@ public class Region {
     // 코드
     private String code;
 
-    // 부모 코드
-    private String parentCode;
-
     // 법정동명
-    private String name;
+    private String address;
 
-    public static Region of(String code, String parentCode, String name) {
+    public static Region of(String code, String address) {
         return Region.builder()
                 .code(code)
-                .parentCode(parentCode)
-                .name(name)
+                .address(address)
                 .build();
     }
 

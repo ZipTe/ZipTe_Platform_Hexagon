@@ -16,23 +16,19 @@ public class RegionJpaEntity {
     @Id
     private String code;
 
-    private String parentCode;
-
-    private String name;
+    private String address;
 
     public static RegionJpaEntity from(Region region) {
         return RegionJpaEntity.builder()
                 .code(region.getCode())
-                .parentCode(region.getParentCode())
-                .name(region.getName())
+                .address(region.getAddress())
                 .build();
     }
 
     public Region toDomain() {
         return Region.builder()
-                .code(this.code)
-                .parentCode(this.parentCode)
-                .name(this.name)
+                .code(code)
+                .address(address)
                 .build();
     }
 
