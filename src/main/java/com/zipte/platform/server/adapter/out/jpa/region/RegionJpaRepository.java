@@ -9,6 +9,8 @@ public interface RegionJpaRepository extends JpaRepository<RegionJpaEntity, Stri
 
     RegionJpaEntity findByCode(String code);
 
-    @Query("SELECT r from RegionJpaEntity r where r.parentCode =: parentCode")
-    List<RegionJpaEntity> findByParentCode(String parentCode);
+    // 바로 아래 단계의 하위 지역 조회
+    @Query("SELECT r FROM RegionJpaEntity r WHERE r.code LIKE :prefix%")
+    List<RegionJpaEntity> findChildRegionsByPrefix(String prefix);
+
 }

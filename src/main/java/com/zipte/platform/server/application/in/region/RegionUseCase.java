@@ -25,6 +25,6 @@ public interface RegionUseCase {
     Region loadRegion(String regionCode);
 
     /// 특정 법정동의 하위 법정동 목록 조회하기
-    List<Region> loadParentRegions(String regionCode);
+    List<Region> loadChildRegionsByCode(String regionCode);
 
 }

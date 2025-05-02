@@ -10,6 +10,6 @@ public interface RegionPort {
     Region loadRegion(String regionCode);
 
     /// 법정동의 하위 법정동 목록 조회
-    List<Region> loadParentRegions(String regionCode);
+    List<Region> loadChildRegionsByPrefix(String prefix);
 
 }
