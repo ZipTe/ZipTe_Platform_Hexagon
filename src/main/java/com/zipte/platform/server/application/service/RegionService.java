@@ -33,20 +33,15 @@ public class RegionService implements RegionUseCase {
         107 : 읍면동
         00 : 리
 
-        41 130 00000 성남시
-        41 131 00000 수정구
-        41 135 00000 분당구
+        41 000 000 00 경기도
+        41 130 000 00 성남시
+        41 131 000 00 수정구
+        41 135 000 00 분당구
+        41 135 107 00 야탑동
 
-        ex : 성남시의 아래 코드이면
-        01 234 567 89
-        해당하는 01 234가 동일하지만,
-            다른 567 89 값을 가져와야 한다.
-
-        ex : 분당구의 아래 코드이면
-        01 234 567 89
-        해당하는 01 234 567가 동일하지만 다른 89
-            값이 존재하는 코드를 가져와야 한다.
-
+        11 000 000 00 서울특별시
+        11 110 000 00 종로구
+        11 110 101 00 종로구 청운동
 
      */
 
@@ -58,26 +53,56 @@ public class RegionService implements RegionUseCase {
             throw new IllegalArgumentException("유효하지 않은 법정동 코드입니다.");
         }
 
+
+        String sidoCode = regionCode.substring(0, 2);  // 시도 코드 추출
+
         /// 뒤에 존재하는 0의 개수로 구분
         String prefix;
+        String suffix;
 
         /// 시도
         if (regionCode.endsWith("00000000")) {
-            prefix = regionCode.substring(0, 2);
+            prefix = sidoCode;
+            suffix = "000000";
         }
+
         /// 시군구
-        else if (regionCode.endsWith("00000")) {
-            prefix = regionCode.substring(0, 4);
+        // 성남시
+        else if (regionCode.endsWith("000000")) {
+
+            // 시도에 따라 분기
+            if (isSpecialCity(sidoCode)) {
+                prefix = regionCode.substring(0, 5); // 자치구 (11290)
+                suffix = "00";
+
+            } else {
+                prefix = regionCode.substring(0, 4); // 일반 시군구 (4113)
+                suffix = "00000";
+            }
+
         }
+        // 자치구
+        else if (regionCode.endsWith("00000")) {
+            prefix = regionCode.substring(0, 5);
+            suffix = "00";
+        }
+
         /// 읍면동
         else if (regionCode.endsWith("00")) {
             prefix = regionCode.substring(0, 8);
+            suffix = "";
         }
+
         /// 리
         else {
             return List.of();
         }
 
-        return regionPort.loadChildRegionsByPrefix(prefix);
+        return regionPort.loadChildRegionsByPrefix(prefix, suffix);
+    }
+
+    private boolean isSpecialCity(String sidoCode) {
+        // 특별시 및 광역시 목록
+        return List.of("11", "26", "27", "28", "29", "30", "31", "36").contains(sidoCode);
     }
 }
