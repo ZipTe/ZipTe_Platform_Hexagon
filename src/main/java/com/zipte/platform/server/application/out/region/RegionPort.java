@@ -12,4 +12,7 @@ public interface RegionPort {
     /// 법정동의 하위 법정동 목록 조회
     List<Region> loadChildRegionsByPrefix(String prefix, String suffix);
 
+    /// 존재 여부를 체크하는 boolean
+    boolean checkExistCode(String regionCode);
+
 }

@@ -7,15 +7,11 @@ import java.util.List;
 
 public interface FavoriteUseCase {
 
-    // 특정 아파트에 대한 관심목록 저장
+    // 특정 아파트,지역에 대한 관심목록 저장
     Favorite createFavorite(Long userId, FavoriteType type, String code);
 
-    // 특정 아파트에 대한 관심목록 해제
+    // 특정 아파트,지역에 대한 관심목록 해제
     void removeFavorite(Long userId, Long favoriteId);
-
-    // 특정 지역에 대한 관심목록 저장
-
-    // 특정 지역에 대한 관심목록 해제
 
     // 사용자의 관심 목록 조회하기
     List<String> getFavorite(Long userId);

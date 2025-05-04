@@ -39,4 +39,10 @@ public class RegionJpaPersistenceAdapter implements RegionPort {
                 .map(RegionJpaEntity::toDomain)
                 .toList();
     }
+
+    @Override
+    public boolean checkExistCode(String regionCode) {
+        return repository.existsByCode(regionCode);
+    }
+
 }
