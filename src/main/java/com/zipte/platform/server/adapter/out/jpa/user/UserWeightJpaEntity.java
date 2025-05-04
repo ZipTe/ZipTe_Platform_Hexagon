@@ -22,6 +22,8 @@ public class UserWeightJpaEntity extends BaseEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;                      // 아이디
 
+    private Long userId;
+
     private int convenienceWeight;        // 편의시설 (마트, 병원 등 근접성)
 
     private int transportationWeight;     // 교통 (지하철, 버스 정류장까지 소요 시간)
@@ -34,6 +36,7 @@ public class UserWeightJpaEntity extends BaseEntity {
 
     public static UserWeightJpaEntity from(UserWeight userWeight) {
         return UserWeightJpaEntity.builder()
+                .userId(userWeight.getUserId())
                 .convenienceWeight(userWeight.getConvenienceWeight())
                 .transportationWeight(userWeight.getTransportationWeight())
                 .regionPreferenceWeight(userWeight.getRegionPreferenceWeight())
@@ -45,6 +48,7 @@ public class UserWeightJpaEntity extends BaseEntity {
     public UserWeight toDomain() {
         return UserWeight.builder()
                 .id(id)
+                .userId(userId)
                 .convenienceWeight(convenienceWeight)
                 .transportationWeight(transportationWeight)
                 .regionPreferenceWeight(regionPreferenceWeight)

@@ -24,6 +24,9 @@ public enum ErrorCode {
     /// 유저 관련
     NOT_USER(1000, HttpStatus.NOT_FOUND, "해당하는 유저가 존재하지 않습니다."),
 
+    // 가중치 관련
+    NOT_WEIGHT(1050, HttpStatus.NOT_FOUND, "해당하는 가중치 값이 존재하지 않습니다."),
+
     /// 부동산 관련
     NOT_ESTATE(2000, HttpStatus.NOT_FOUND, "해당하는 부동산이 존재하지 않습니다."),
     NOT_ESTATE_IN_YOUR_AREA(2001, HttpStatus.BAD_REQUEST, "1KM 반경 내에 해당 부동산이 존재하지 않습니다."),
