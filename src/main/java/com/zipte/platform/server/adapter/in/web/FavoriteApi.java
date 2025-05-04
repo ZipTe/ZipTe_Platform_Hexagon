@@ -1,9 +1,11 @@
 package com.zipte.platform.server.adapter.in.web;
 
 import com.zipte.platform.core.response.ApiResponse;
+import com.zipte.platform.security.oauth2.domain.PrincipalDetails;
 import com.zipte.platform.server.adapter.in.web.dto.request.FavoriteRequest;
 import com.zipte.platform.server.application.in.favorite.FavoriteUseCase;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -21,6 +23,15 @@ public class FavoriteApi {
         favoriteService.createFavorite(request.getUserId(), request.getType(), request.getCode());
 
         return ApiResponse.ok("즐겨찾기가 정상적으로 추가되었습니다.");
+    }
+
+    /// 관심 목록 해제하기
+    @PostMapping("{/id}")
+    public ApiResponse<String> deleteFavorite(@AuthenticationPrincipal PrincipalDetails principalDetails, @PathVariable Long id) {
+
+        favoriteService.removeFavorite(principalDetails.getId(), id);
+
+        return ApiResponse.ok("즐겨찾기가 정상적으로 삭제되었습니다.");
     }
 
 
