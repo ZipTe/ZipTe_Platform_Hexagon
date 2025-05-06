@@ -19,7 +19,7 @@ public class EstatePrice {
 
     private String kaptAddr;
 
-    private Location location;
+    private int floor;
 
     // 전용 면적 (㎡)
     private double exclusiveArea;
