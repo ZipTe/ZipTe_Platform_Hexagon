@@ -3,7 +3,7 @@ package com.zipte.platform.server.application.service.task;
 import com.zipte.platform.server.application.out.favorite.FavoritePort;
 import com.zipte.platform.server.application.out.notification.property.DeletePropertyNotificationPort;
 import com.zipte.platform.server.application.out.notification.property.SavePropertyNotificationPort;
-import com.zipte.platform.server.domain.PropertyFixtures;
+import com.zipte.platform.server.domain.notification.PropertyFixtures;
 import com.zipte.platform.server.domain.property.Property;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
