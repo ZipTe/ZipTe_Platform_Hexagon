@@ -25,6 +25,10 @@ public class NotificationService implements UserNotificationUseCase {
     @Override
     public boolean checkNewNotification(Long userId) {
         LocalDateTime readAt = timeNotificationPort.getLatestReadAt(userId);
+
+        // 알림 읽음 시간을 현재로 바꾼다.
+        timeNotificationPort.setLatestReadAt(userId);
+
         Notification latest = loadNotificationPort.loadNotificationsAt(userId).orElse(null);
 
         if (latest == null) {
