@@ -14,7 +14,10 @@ import java.time.LocalDateTime;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
 
 @ExtendWith(MockitoExtension.class)
 class NotificationServiceTest {
@@ -108,4 +111,29 @@ class NotificationServiceTest {
         // Then
         assertFalse(result);
     }
+
+    @Test
+    @DisplayName("[happy] 알림센터 호출시, 알림 시간 변동")
+    void changeNewNotificationTime() {
+        // Given
+        Long userId = 1L;
+
+        // 이전에 알림을 조회한 시간이 null (처음 조회하는 경우)
+        given(timeNotificationPort.getLatestReadAt(userId))
+                .willReturn(null);
+
+        // 알림이 존재하는 경우, 알림을 조회할 수 있도록 설정
+        var stub = PropertyNotificationFixtures.stub("kaptCode");
+        given(loadNotificationPort.loadNotificationsAt(userId))
+                .willReturn(Optional.of(stub));
+
+        // When
+        sut.checkNewNotification(userId);
+
+        // Then
+        verify(timeNotificationPort, times(1))
+                .setLatestReadAt(any());
+
+    }
+
 }
