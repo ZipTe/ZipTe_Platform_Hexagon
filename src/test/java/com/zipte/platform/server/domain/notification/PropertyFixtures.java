@@ -1,4 +1,4 @@
-package com.zipte.platform.server.domain;
+package com.zipte.platform.server.domain.notification;
 
 import com.zipte.platform.server.domain.property.Property;
 import com.zipte.platform.server.domain.property.PropertyAddress;
