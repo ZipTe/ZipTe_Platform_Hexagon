@@ -19,4 +19,8 @@ public interface LoadEstatePort {
 
     boolean checkExistingByCode(String kaptCode);
 
+
+    /// 외부에서 활용하는 포트
+    List<Estate> loadEstatesByRegion(String region);
+
 }

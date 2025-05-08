@@ -2,6 +2,8 @@ package com.zipte.platform.server.application.out.region;
 
 import com.zipte.platform.server.domain.region.RegionPrice;
 
+import java.util.Optional;
+
 public interface RegionPricePort {
 
     /// 저장
@@ -9,7 +11,7 @@ public interface RegionPricePort {
 
 
     /// 조회
-    RegionPrice getRegionPriceByCode(String regionCode);
+    Optional<RegionPrice> loadRegionPriceByCode(String regionCode);
 
     /// 삭제
     void deleteRegionPriceByCode(String regionCode);

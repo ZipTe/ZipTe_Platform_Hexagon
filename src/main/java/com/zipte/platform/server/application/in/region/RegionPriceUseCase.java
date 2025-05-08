@@ -12,6 +12,6 @@ public interface RegionPriceUseCase {
      */
 
     /// 추후 어드민에서 사용할..
-    void saveRegionPrice(RegionPrice regionPrice);
+    void saveRegionPrice(String regionCode);
 
 }
