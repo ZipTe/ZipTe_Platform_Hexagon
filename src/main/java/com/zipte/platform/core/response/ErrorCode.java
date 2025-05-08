@@ -28,6 +28,10 @@ public enum ErrorCode {
     NOT_ESTATE(2000, HttpStatus.NOT_FOUND, "해당하는 부동산이 존재하지 않습니다."),
     NOT_ESTATE_IN_YOUR_AREA(2001, HttpStatus.BAD_REQUEST, "1KM 반경 내에 해당하는 부동산이 존재하지 않습니다."),
 
+    /// 지역 관련
+    NOT_REGION(4000, HttpStatus.NOT_FOUND, "해당하는 지역이 존재하지 않습니다."),
+    NOT_REGION_PRICE(4001,HttpStatus.NOT_FOUND, "해당하는 지역의 가격이 존재하지 않습니다."),
+
     /// 리뷰 관련
     NOT_REVIEW(5000, HttpStatus.NOT_FOUND, "해당하는 리뷰가 존재하지 않습니다."),
     BAD_REQUEST_REVIEW(5001, HttpStatus.BAD_REQUEST, "실거주자 인증이 되지 않은 유저입니다.");
