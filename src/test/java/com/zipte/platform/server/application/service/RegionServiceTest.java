@@ -86,6 +86,17 @@ public class RegionServiceTest {
     }
 
     @Test
+    @DisplayName("[error] null 코드가 입력되었을 때 IllegalArgumentException 발생")
+    void loadRegionsByCode_nullCode_test() {
+        // Given
+        String 널코드 = null;
+
+        // When & Then
+        org.junit.jupiter.api.Assertions.assertThrows(IllegalArgumentException.class,
+                () -> sut.loadRegion(널코드));
+    }
+
+    @Test
     @DisplayName("[happy] 서울특별시 종로구 하위 지역 조회")
     void loadChildRegionsByCode_seoul_test() {
         // Given
