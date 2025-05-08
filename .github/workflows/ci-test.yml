@@ -14,8 +14,8 @@ on:
     branches: [ "develop"]
 
 jobs:
-  #1. 빌드
-  build:
+  #1. Test 용
+  test:
 
     runs-on: ubuntu-latest
     permissions:
@@ -64,3 +64,9 @@ jobs:
           min-coverage-changed-files: 0
           min-coverage-overall: 0
           debug-mode: true
+
+      - name: Test 결과 출력
+        uses: EnricoMi/publish-unit-test-result-action@v2
+        if: always()
+        with:
+          junit_files: '**/build/test-results/test/TEST-*.xml'
