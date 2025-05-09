@@ -26,7 +26,7 @@ public enum ErrorCode {
 
     /// 부동산 관련
     NOT_ESTATE(2000, HttpStatus.NOT_FOUND, "해당하는 부동산이 존재하지 않습니다."),
-    NOT_ESTATE_IN_YOUR_AREA(2001, HttpStatus.BAD_REQUEST, "1KM 반경 내에 해당하는 부동산이 존재하지 않습니다."),
+    NOT_ESTATE_IN_YOUR_AREA(2001, HttpStatus.BAD_REQUEST, "1KM 반경 내에 해당 부동산이 존재하지 않습니다."),
 
     /// 지역 관련
     NOT_REGION(4000, HttpStatus.NOT_FOUND, "해당하는 지역이 존재하지 않습니다."),
