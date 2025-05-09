@@ -27,6 +27,8 @@ public enum ErrorCode {
     /// 부동산 관련
     NOT_ESTATE(2000, HttpStatus.NOT_FOUND, "해당하는 부동산이 존재하지 않습니다."),
     NOT_ESTATE_IN_YOUR_AREA(2001, HttpStatus.BAD_REQUEST, "1KM 반경 내에 해당 부동산이 존재하지 않습니다."),
+    NOT_DATE(2002, HttpStatus.BAD_REQUEST, "오늘 이후의 구매 일정은 설정할 수 없습니다."),
+    BAD_REQUEST_ESTATE(400, HttpStatus.BAD_REQUEST, "이미 등록된 아파트를 등록할 수 없습니다,."),
 
     /// 리뷰 관련
     NOT_REVIEW(5000, HttpStatus.NOT_FOUND, "해당하는 리뷰가 존재하지 않습니다."),
