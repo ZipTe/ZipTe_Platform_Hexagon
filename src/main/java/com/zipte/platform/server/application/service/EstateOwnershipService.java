@@ -29,6 +29,10 @@ public class EstateOwnershipService implements EstateOwnershipUseCase {
     private final UserPort loadUserPort;
     private final LoadEstatePort loadEstatePort;
 
+    private final double EARTH_RADIUS_KM = 6373;
+    private final double ONE_KM_IN_RADIANS = 1 / EARTH_RADIUS_KM / 2;
+
+
     @Override
     public EstateOwnership createOwnership(EstateOwnershipRequest request) {
 
@@ -47,9 +51,7 @@ public class EstateOwnershipService implements EstateOwnershipUseCase {
         /// 현 위치와 아파트 위치와의 비교 예외처리
 
         // 현 위치 반경 1KM 조회에 아파트 존재하는지 체크
-        List<Estate> list = loadEstatePort.loadEstatesNearBy(request.getLongitude(), request.getLatitude(), 1 / 6373 / 2);
-
-        log.info("Load estates nearby : {}", list.toString());
+        List<Estate> list = loadEstatePort.loadEstatesNearBy(request.getLongitude(), request.getLatitude(), ONE_KM_IN_RADIANS);
 
         boolean hasKaptCode = list.stream()
                 .anyMatch(f -> f.getKaptCode().equals(request.getKaptCode()));
