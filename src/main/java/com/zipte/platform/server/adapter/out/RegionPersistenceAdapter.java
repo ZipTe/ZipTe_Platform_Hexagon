@@ -11,7 +11,7 @@ import java.util.List;
 
 @Component
 @RequiredArgsConstructor
-public class RegionJpaPersistenceAdapter implements RegionPort {
+public class RegionPersistenceAdapter implements RegionPort {
 
     private final RegionJpaRepository repository;
 
