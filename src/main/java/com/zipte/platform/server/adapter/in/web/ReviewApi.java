@@ -10,6 +10,7 @@ import com.zipte.platform.server.application.in.review.CreateReviewUseCase;
 import com.zipte.platform.server.application.in.review.DeleteReviewUseCase;
 import com.zipte.platform.server.application.in.review.GetReviewUseCase;
 import com.zipte.platform.server.domain.review.Review;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.data.domain.Page;
@@ -31,7 +32,7 @@ public class ReviewApi {
 
     // 리뷰 작성
     @PostMapping
-    public ApiResponse<ReviewDetailResponse> create(@RequestBody ReviewRequest reviewRequest) {
+    public ApiResponse<ReviewDetailResponse> create(@Valid @RequestBody ReviewRequest reviewRequest) {
 
         return ApiResponse.created(ReviewDetailResponse.from(createService.createReview(reviewRequest)));
     }

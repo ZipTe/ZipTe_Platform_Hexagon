@@ -6,17 +6,20 @@ import com.zipte.platform.server.application.in.estateOwnership.EstateOwnershipU
 import com.zipte.platform.server.application.out.estate.LoadEstatePort;
 import com.zipte.platform.server.application.out.estateOwnership.EstateOwnerShipPort;
 import com.zipte.platform.server.application.out.user.UserPort;
+import com.zipte.platform.server.application.service.exception.AlreadyExistingEstateException;
 import com.zipte.platform.server.application.service.exception.NotExistingEstateInYourAreaException;
 import com.zipte.platform.server.domain.estate.Estate;
 import com.zipte.platform.server.domain.estateOwnership.EstateOwnership;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.NoSuchElementException;
-import java.util.stream.Stream;
 
+@Slf4j
 @Service
 @Transactional
 @RequiredArgsConstructor
@@ -27,6 +30,10 @@ public class EstateOwnershipService implements EstateOwnershipUseCase {
     /// 의존성
     private final UserPort loadUserPort;
     private final LoadEstatePort loadEstatePort;
+
+    private final double EARTH_RADIUS_KM = 6373;
+    private final double ONE_KM_IN_RADIANS = 1 / EARTH_RADIUS_KM / 2;
+
 
     @Override
     public EstateOwnership createOwnership(EstateOwnershipRequest request) {
@@ -43,10 +50,20 @@ public class EstateOwnershipService implements EstateOwnershipUseCase {
             throw new NoSuchElementException(ErrorCode.NOT_ESTATE.getMessage());
         }
 
-        /// 현 위치와 아파트 위치와의 비교 예외처리
+        /// 이미 등록했는지 여부 체크
+        boolean existCheck = port.loadOwnershipByUser(request.getUserId(), request.getKaptCode());
+        if (existCheck) {
+            throw new AlreadyExistingEstateException(ErrorCode.BAD_REQUEST_ESTATE.getMessage());
+        }
 
+        /// 구매 날짜 예외처리
+        if (request.getBoughtAt().isAfter(LocalDateTime.now())) {
+            throw new IllegalArgumentException(ErrorCode.NOT_DATE.getMessage());
+        }
+
+        /// 현 위치와 아파트 위치와의 비교 예외처리
         // 현 위치 반경 1KM 조회에 아파트 존재하는지 체크
-        List<Estate> list = loadEstatePort.loadEstatesNearBy(request.getLongitude(), request.getLatitude(), 1);
+        List<Estate> list = loadEstatePort.loadEstatesNearBy(request.getLongitude(), request.getLatitude(), ONE_KM_IN_RADIANS);
 
         boolean hasKaptCode = list.stream()
                 .anyMatch(f -> f.getKaptCode().equals(request.getKaptCode()));

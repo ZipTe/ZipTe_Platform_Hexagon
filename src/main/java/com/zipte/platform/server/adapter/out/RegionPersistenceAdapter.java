@@ -45,5 +45,4 @@ public class RegionPersistenceAdapter implements RegionPort {
     public boolean checkExistCode(String regionCode) {
         return repository.existsByCode(regionCode);
     }
-
 }

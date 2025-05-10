@@ -5,6 +5,7 @@ import com.zipte.platform.server.adapter.in.web.dto.request.ReviewRequest;
 import com.zipte.platform.server.application.in.review.CreateReviewUseCase;
 import com.zipte.platform.server.application.in.review.DeleteReviewUseCase;
 import com.zipte.platform.server.application.in.review.GetReviewUseCase;
+import com.zipte.platform.server.application.out.estate.LoadEstatePort;
 import com.zipte.platform.server.application.out.estateOwnership.EstateOwnerShipPort;
 import com.zipte.platform.server.application.out.review.LoadReviewPort;
 import com.zipte.platform.server.application.out.review.RemoveReviewPort;
@@ -31,6 +32,7 @@ public class ReviewService implements CreateReviewUseCase, GetReviewUseCase, Del
 
     /// 외부 의존성
     private final UserPort loadUserPort;
+    private final LoadEstatePort loadEstatePort;
     private final EstateOwnerShipPort ownerShipPort;
 
     @Override
@@ -40,6 +42,13 @@ public class ReviewService implements CreateReviewUseCase, GetReviewUseCase, Del
         boolean checked = loadUserPort.checkExistingById(request.getUserId());
         if (!checked) {
             throw new NoSuchElementException(ErrorCode.NOT_USER.getMessage());
+        }
+
+
+        ///  아파트 존재 여부 예외처리
+        boolean existingEstate = loadEstatePort.checkExistingByCode(request.getKaptCode());
+        if (!existingEstate) {
+            throw new NoSuchElementException(ErrorCode.NOT_ESTATE.getMessage());
         }
 
         /// 해당 유저가 실거주인인지 체크

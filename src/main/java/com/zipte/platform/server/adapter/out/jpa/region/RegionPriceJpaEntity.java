@@ -1,0 +1,59 @@
+package com.zipte.platform.server.adapter.out.jpa.region;
+
+import com.zipte.platform.server.adapter.out.jpa.BaseEntity;
+import com.zipte.platform.server.domain.region.RegionPrice;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+
+@Entity
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
+@Getter
+public class RegionPriceJpaEntity extends BaseEntity {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    private String regionCode;
+
+    private Double under15;
+
+    private Double between15and20;
+
+    private Double between20and30;
+
+    private Double upper30;
+
+    /// 정적 팩토리 메서드
+    public static RegionPriceJpaEntity from(RegionPrice regionPrice) {
+        return RegionPriceJpaEntity.builder()
+                .regionCode(regionPrice.getRegionCode())
+                .under15(regionPrice.getUnder15())
+                .between15and20(regionPrice.getBetween15and20())
+                .between20and30(regionPrice.getBetween20and30())
+                .upper30(regionPrice.getUpper30())
+                .build();
+    }
+
+    /// toDomain
+    public RegionPrice toDomain(){
+        return RegionPrice.builder()
+                .id(id)
+                .regionCode(regionCode)
+                .under15(under15)
+                .between15and20(between15and20)
+                .between20and30(between20and30)
+                .upper30(upper30)
+                .build();
+    }
+
+
+}
