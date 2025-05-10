@@ -41,13 +41,7 @@ public enum ErrorCode {
     /// 관심목록
     NOT_FAVORITE(6000, HttpStatus.NOT_FOUND, "해당하는 관심목록이 존재하지 않습니다."),
     BAD_REQUEST_ALREADY(6001, HttpStatus.BAD_REQUEST, "이미 관심목록으로 지정된 대상입니다."),
-    NOT_FAVORITE_YOURS(6002, HttpStatus.NOT_FOUND, "해당하는 코드가 유저의 관심목록에 존재하지 않습니다."),
-
-
-    /// 지역 관련
-    NOT_REGION(7000, HttpStatus.NOT_FOUND, "해당하는 지역이 존재하지 않습니다."),
-
-    ;
+    NOT_FAVORITE_YOURS(6002, HttpStatus.NOT_FOUND, "해당하는 코드가 유저의 관심목록에 존재하지 않습니다.");
 
 
     private final Integer code;
