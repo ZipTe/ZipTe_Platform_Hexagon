@@ -1,5 +1,6 @@
 package com.zipte.platform.server.application.service;
 
+import com.zipte.platform.core.response.ErrorCode;
 import com.zipte.platform.server.application.in.region.RegionUseCase;
 import com.zipte.platform.server.application.out.region.RegionPort;
 import com.zipte.platform.server.domain.region.Region;
@@ -8,6 +9,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.NoSuchElementException;
 
 @Service
 @Transactional
@@ -23,7 +25,15 @@ public class RegionService implements RegionUseCase {
 
     @Override
     public Region loadRegion(String regionCode) {
-       return regionPort.loadRegion(regionCode);
+
+        /// 양식 예외처리 하기
+        if (regionCode == null || regionCode.length() != 10) {
+            throw new IllegalArgumentException("유효하지 않은 법정동 코드입니다.");
+        }
+
+        /// 예외처리
+        return regionPort.loadRegion(regionCode)
+                .orElseThrow(() -> new NoSuchElementException(ErrorCode.NOT_REGION.getMessage()));
     }
 
     /*
@@ -52,7 +62,6 @@ public class RegionService implements RegionUseCase {
         if (regionCode == null || regionCode.length() != 10) {
             throw new IllegalArgumentException("유효하지 않은 법정동 코드입니다.");
         }
-
 
         String sidoCode = regionCode.substring(0, 2);  // 시도 코드 추출
 

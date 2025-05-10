@@ -8,6 +8,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
+import java.util.Optional;
 
 @Component
 @RequiredArgsConstructor
@@ -16,9 +17,9 @@ public class RegionPersistenceAdapter implements RegionPort {
     private final RegionJpaRepository repository;
 
     @Override
-    public Region loadRegion(String regionCode) {
+    public Optional<Region> loadRegion(String regionCode) {
         return repository.findByCode(regionCode)
-                .toDomain();
+                .map(RegionJpaEntity::toDomain);
     }
 
     @Override
