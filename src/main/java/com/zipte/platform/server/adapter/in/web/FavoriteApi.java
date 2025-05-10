@@ -37,7 +37,7 @@ public class FavoriteApi {
     }
 
     /// 관심 목록 해제하기
-    @PostMapping("/{id}")
+    @DeleteMapping("/{id}")
     public ApiResponse<String> deleteFavorite(@AuthenticationPrincipal PrincipalDetails principalDetails, @PathVariable Long id) {
 
         favoriteService.removeFavorite(principalDetails.getId(), id);
