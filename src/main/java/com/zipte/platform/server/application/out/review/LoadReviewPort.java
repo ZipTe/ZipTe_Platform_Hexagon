@@ -19,4 +19,9 @@ public interface LoadReviewPort {
 
     // 높은 평점순 리뷰 가져오기
     Page<Review> getReviewsByRating(String aptId, Pageable pageable);
+
+    /// 일치 여부
+    boolean checkReviewByIdAndUserId(Long reviewId, Long userId);
+
+    boolean checkReviewByUserIdAndKaptCode(Long reviewId, String kaptCode);
 }

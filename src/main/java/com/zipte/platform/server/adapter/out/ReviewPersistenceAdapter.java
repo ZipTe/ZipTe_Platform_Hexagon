@@ -59,7 +59,17 @@ public class ReviewPersistenceAdapter implements LoadReviewPort, SaveReviewPort,
     }
 
     @Override
-    public void removeReview(Review review) {
-        repository.deleteById(review.getId());
+    public boolean checkReviewByIdAndUserId(Long reviewId, Long userId) {
+        return repository.existsByIdAndUserId(reviewId, userId);
+    }
+
+    @Override
+    public boolean checkReviewByUserIdAndKaptCode(Long reviewId, String kaptCode) {
+        return repository.existsByUserIdAndKaptCode(reviewId, kaptCode);
+    }
+
+    @Override
+    public void removeReview(Long id) {
+        repository.deleteById(id);
     }
 }
