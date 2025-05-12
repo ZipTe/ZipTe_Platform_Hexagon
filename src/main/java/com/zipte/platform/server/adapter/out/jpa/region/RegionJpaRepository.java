@@ -14,5 +14,6 @@ public interface RegionJpaRepository extends JpaRepository<RegionJpaEntity, Stri
     @Query("SELECT r FROM RegionJpaEntity r WHERE r.code LIKE :pattern")
     List<RegionJpaEntity> findRegionsByPattern(@Param("pattern") String pattern);
 
+    boolean existsByCode(String code);
 
 }

@@ -37,9 +37,13 @@ public enum ErrorCode {
     /// 리뷰 관련
     NOT_REVIEW(5000, HttpStatus.NOT_FOUND, "해당하는 리뷰가 존재하지 않습니다."),
     BAD_REQUEST_DELETE_REVIEW(5001, HttpStatus.BAD_REQUEST, "본인이 등록하지 않은 리뷰를 삭제할 수 없습니다."),
-    BAD_REQUEST_DUPLICATE_REVIEW(5001, HttpStatus.BAD_REQUEST, "이미 존재하는 리뷰가 있습니다. 수정을 진행해주세요"),
-    BAD_REQUEST_REVIEW(5002, HttpStatus.BAD_REQUEST, "실거주자 인증이 되지 않은 유저입니다.");
+    BAD_REQUEST_DUPLICATE_REVIEW(5002, HttpStatus.BAD_REQUEST, "이미 존재하는 리뷰가 있습니다. 수정을 진행해주세요"),
+    BAD_REQUEST_REVIEW(5003, HttpStatus.BAD_REQUEST, "실거주자 인증이 되지 않은 유저입니다."),
 
+    /// 관심목록
+    NOT_FAVORITE(6000, HttpStatus.NOT_FOUND, "해당하는 관심목록이 존재하지 않습니다."),
+    BAD_REQUEST_ALREADY(6001, HttpStatus.BAD_REQUEST, "이미 관심목록으로 지정된 대상입니다."),
+    NOT_FAVORITE_YOURS(6002, HttpStatus.NOT_FOUND, "해당하는 코드가 유저의 관심목록에 존재하지 않습니다.");
 
     private final Integer code;
     private final HttpStatus httpStatus;
