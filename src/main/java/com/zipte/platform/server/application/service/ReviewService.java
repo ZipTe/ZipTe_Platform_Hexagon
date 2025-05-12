@@ -76,6 +76,11 @@ public class ReviewService implements CreateReviewUseCase, GetReviewUseCase, Del
     // 최신순
     @Override
     public Page<Review> getReviews(String aptId, Pageable pageable) {
+        /// 아파트에 대한 예외처리
+        boolean checked = loadEstatePort.checkExistingByCode(aptId);
+        if (!checked) {
+            throw new NoSuchElementException(ErrorCode.NOT_ESTATE.getMessage());
+        }
 
         return loadReviewPort.getReviews(aptId, pageable);
     }

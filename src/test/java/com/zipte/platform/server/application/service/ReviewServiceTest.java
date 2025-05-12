@@ -10,12 +10,16 @@ import com.zipte.platform.server.application.out.user.UserPort;
 import com.zipte.platform.server.domain.review.Review;
 import com.zipte.platform.server.domain.review.ReviewFixtures;
 import org.assertj.core.api.Assertions;
+import org.assertj.core.api.BDDAssertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 
 import java.util.NoSuchElementException;
 
@@ -151,5 +155,48 @@ class ReviewServiceTest {
                 .isInstanceOf(NoSuchElementException.class);
 
     }
+
+    @Test
+    @DisplayName(("[happy] 아파트에 대한 리뷰가 있는 경우, 정상 조회된다."))
+    void loadReviewByCode_happy() {
+
+        // Given
+        String kaptCode = "kaptCode";
+        Pageable pageable = PageRequest.of(0, 10);
+
+        Page<Review> stubs = ReviewFixtures.pagedStubs(pageable);
+
+        given(loadEstatePort.checkExistingByCode(kaptCode))
+                .willReturn(true);
+        given(loadReviewPort.getReviews(kaptCode, pageable))
+                .willReturn(stubs);
+
+        // When
+        Page<Review> reviews = sut.getReviews(kaptCode, pageable);
+
+        // Then
+        BDDAssertions.then(reviews.getContent())
+                .hasSize(2);
+    }
+
+    @Test
+    @DisplayName(("[edge] 아파트에 대한 리뷰가 없는 경우, 0개의 리뷰가 조회된다.."))
+    void loadReviewByCode_bad() {
+
+        // Given
+        String kaptCode = "kaptCode";
+        Pageable pageable = PageRequest.of(0, 10);
+
+        given(loadEstatePort.checkExistingByCode(kaptCode)).willReturn(true);
+        given(loadReviewPort.getReviews(kaptCode, pageable))
+                .willReturn(Page.empty());
+        // When
+        Page<Review> reviews = sut.getReviews(kaptCode, pageable);
+
+        // Then
+        BDDAssertions.then(reviews.getContent())
+                .hasSize(0);
+    }
+
 
 }
