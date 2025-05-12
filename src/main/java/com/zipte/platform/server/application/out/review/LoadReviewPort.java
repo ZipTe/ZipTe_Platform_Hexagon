@@ -23,5 +23,5 @@ public interface LoadReviewPort {
     /// 일치 여부
     boolean checkReviewByIdAndUserId(Long reviewId, Long userId);
 
-    boolean checkReviewByUserIdAndKaptCode(Long reviewId, String kaptCode);
+    boolean checkReviewByUserIdAndKaptCode(Long userId, String kaptCode);
 }

@@ -64,8 +64,8 @@ public class ReviewPersistenceAdapter implements LoadReviewPort, SaveReviewPort,
     }
 
     @Override
-    public boolean checkReviewByUserIdAndKaptCode(Long reviewId, String kaptCode) {
-        return repository.existsByUserIdAndKaptCode(reviewId, kaptCode);
+    public boolean checkReviewByUserIdAndKaptCode(Long userId, String kaptCode) {
+        return repository.existsByUserIdAndKaptCode(userId, kaptCode);
     }
 
     @Override

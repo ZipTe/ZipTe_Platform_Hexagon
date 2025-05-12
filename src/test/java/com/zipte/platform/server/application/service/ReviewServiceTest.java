@@ -26,7 +26,6 @@ import org.springframework.data.domain.Pageable;
 import java.util.NoSuchElementException;
 
 import static org.assertj.core.api.BDDAssertions.then;
-import static org.junit.internal.matchers.ThrowableMessageMatcher.hasMessage;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.verify;
@@ -99,8 +98,10 @@ class ReviewServiceTest {
         @DisplayName("[edge] 동일 유저가 동일 아파트에 이미 리뷰를 작성한 경우 예외 발생")
         void createReviewWhenAlreadyExists() {
             // Given
+            Long userId = 1L;
+
             var reviewRequest = ReviewRequest.builder()
-                    .userId(1L)
+                    .userId(userId)
                     .kaptCode("kaptCode")
                     .title("중복리뷰")
                     .content("이미 작성한 리뷰입니다")
@@ -110,10 +111,10 @@ class ReviewServiceTest {
                     .transport(2)
                     .build();
 
-            given(loadUserPort.checkExistingById(1L)).willReturn(true);
+            given(loadUserPort.checkExistingById(userId)).willReturn(true);
 
             // 이미 작성된 리뷰가 있다고 가정
-            given(loadReviewPort.checkReviewByUserIdAndKaptCode(1L, "kaptCode"))
+            given(loadReviewPort.checkReviewByUserIdAndKaptCode(userId, "kaptCode"))
                     .willReturn(true);
 
 
