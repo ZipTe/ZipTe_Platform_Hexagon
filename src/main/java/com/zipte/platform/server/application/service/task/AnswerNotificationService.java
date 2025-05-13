@@ -27,7 +27,7 @@ public class AnswerNotificationService implements AnswerNotificationTask {
     private final DeleteAnswerNotificationPort deletePort;
 
     /// 의존성
-    private QuestionPort questionPort;
+    private final QuestionPort questionPort;
 
     @Override
     public void createNotification(Answer answer) {

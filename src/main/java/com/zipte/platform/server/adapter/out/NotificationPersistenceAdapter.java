@@ -7,7 +7,8 @@ import com.zipte.platform.server.adapter.out.mongo.notification.answer.AnswerNot
 import com.zipte.platform.server.adapter.out.mongo.notification.property.PropertyDocument;
 import com.zipte.platform.server.adapter.out.mongo.notification.property.PropertyMongoRepository;
 import com.zipte.platform.server.application.out.notification.LoadNotificationPort;
-import com.zipte.platform.server.domain.notification.AnswerNotification;import com.zipte.platform.server.domain.notification.Notification;
+import com.zipte.platform.server.domain.notification.AnswerNotification;
+import com.zipte.platform.server.domain.notification.Notification;
 import com.zipte.platform.server.domain.notification.PropertyNotification;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;

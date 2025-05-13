@@ -1,6 +1,7 @@
 package com.zipte.platform.server.application.out.notification;
 
-import com.zipte.platform.server.domain.notification.AnswerNotification;import com.zipte.platform.server.domain.notification.Notification;
+import com.zipte.platform.server.domain.notification.AnswerNotification;
+import com.zipte.platform.server.domain.notification.Notification;
 import com.zipte.platform.server.domain.notification.PropertyNotification;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;

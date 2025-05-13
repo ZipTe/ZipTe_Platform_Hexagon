@@ -21,7 +21,7 @@ public class ReviewRequest {
     // 리뷰 내용
     private String title;
 
-    @Size(max = 1000, message = "내용은 100자 이하여야 합니다.")
+    @Size(max = 100, message = "내용은 100자 이하여야 합니다.")
     private String content;
 
     // 리뷰 평점 (꼭 있어야 함)
