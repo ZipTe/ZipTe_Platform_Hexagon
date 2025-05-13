@@ -13,7 +13,7 @@ public interface QuestionPort {
 
     /// 조회
     // 상세 조회하기
-    Optional<Question> loadQuestion(String id);
+    Optional<Question> loadQuestion(Long id);
 
     // 아파트 이름별, 질문 목록 조회
     Page<Question> loadQuestionsByKaptCode(String kaptCode, Pageable pageable);
