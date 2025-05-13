@@ -3,28 +3,30 @@ package com.zipte.platform.server.adapter.in.web;
 import com.zipte.platform.core.response.ApiResponse;
 import com.zipte.platform.core.response.pageable.PageRequest;
 import com.zipte.platform.core.response.pageable.PageResponse;
+import com.zipte.platform.security.oauth2.domain.PrincipalDetails;
+import com.zipte.platform.server.adapter.in.web.swagger.NotificationApiSpec;
 import com.zipte.platform.server.application.in.notification.UserNotificationUseCase;
 import com.zipte.platform.server.domain.notification.Notification;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/api/v1/notification")
 @RequiredArgsConstructor
-public class NotificationApi {
+public class NotificationApi implements NotificationApiSpec {
 
     private final UserNotificationUseCase notificationService;
 
-    @GetMapping("/{userId}")
-    public ApiResponse<String> get(@PathVariable Long userId) {
+    @GetMapping()
+    public ApiResponse<String> getNotification(@AuthenticationPrincipal PrincipalDetails principalDetails) {
 
-        boolean checked = notificationService.checkNewNotification(userId);
+        boolean checked = notificationService.checkNewNotification(principalDetails.getId());
         if (checked) {
             return ApiResponse.ok("새로운 알림이 존재합니다.");
         } else {
@@ -32,8 +34,8 @@ public class NotificationApi {
         }
     }
 
-    @GetMapping("/list/{userId}")
-    public ApiResponse<PageResponse<Notification>> list(@PathVariable Long userId,
+    @GetMapping("/list")
+    public ApiResponse<PageResponse<Notification>> list(@AuthenticationPrincipal PrincipalDetails principalDetails,
                                           PageRequest pageRequest) {
 
         Pageable pageable = org.springframework.data.domain.PageRequest.of(
@@ -42,7 +44,7 @@ public class NotificationApi {
                 Sort.by(Sort.Direction.DESC, "createdAt") // 최신순 정렬
         );
 
-        Page<Notification> result = notificationService.loadAllByUserId(userId, pageable);
+        Page<Notification> result = notificationService.loadAllByUserId(principalDetails.getId(), pageable);
 
         return ApiResponse.ok(new PageResponse<>(result.getContent(), pageRequest, result.getTotalElements()));
     }

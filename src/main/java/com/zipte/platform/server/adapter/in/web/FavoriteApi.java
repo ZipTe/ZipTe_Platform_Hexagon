@@ -6,6 +6,7 @@ import com.zipte.platform.core.response.pageable.PageResponse;
 import com.zipte.platform.security.oauth2.domain.PrincipalDetails;
 import com.zipte.platform.server.adapter.in.web.dto.request.FavoriteRequest;
 import com.zipte.platform.server.adapter.in.web.dto.response.FavoriteResponse;
+import com.zipte.platform.server.adapter.in.web.swagger.FavoriteApiSpec;
 import com.zipte.platform.server.application.in.favorite.FavoriteUseCase;
 import com.zipte.platform.server.domain.favorite.Favorite;
 import com.zipte.platform.server.domain.favorite.FavoriteType;
@@ -22,13 +23,15 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/v1/favorite")
 @RequiredArgsConstructor
-public class FavoriteApi {
+public class FavoriteApi implements FavoriteApiSpec {
 
     private final FavoriteUseCase favoriteService;
 
     /// 관심 목록 추가하기
     @PostMapping()
-    public ApiResponse<String> createFavorite(@RequestBody @Valid FavoriteRequest request) {
+    public ApiResponse<String> createFavorite(@AuthenticationPrincipal PrincipalDetails principalDetails, @RequestBody @Valid FavoriteRequest request) {
+
+        request.setUserId(principalDetails.getId());
 
         /// 객체 생성
         favoriteService.createFavorite(request);
