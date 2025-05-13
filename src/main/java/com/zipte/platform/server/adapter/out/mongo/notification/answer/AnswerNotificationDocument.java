@@ -1,7 +1,7 @@
-package com.zipte.platform.server.adapter.out.mongo.notification.comment;
+package com.zipte.platform.server.adapter.out.mongo.notification.answer;
 
 import com.zipte.platform.server.adapter.out.mongo.notification.base.NotificationDocument;
-import com.zipte.platform.server.domain.notification.CommentNotification;
+import com.zipte.platform.server.domain.notification.AnswerNotification;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -9,20 +9,20 @@ import lombok.experimental.SuperBuilder;
 import org.springframework.data.annotation.TypeAlias;
 
 @Getter
-@TypeAlias("comment_notification")
+@TypeAlias("answer_notification")
 @NoArgsConstructor
 @AllArgsConstructor
 @SuperBuilder
-public class CommentDocument extends NotificationDocument {
+public class AnswerNotificationDocument extends NotificationDocument {
 
-    private Long postId;
+    private Long questionId;
     private Long writerId;
-    private Long commentId;
-    private String comment;
+    private Long answerId;
+    private String content;
 
     // from
-    public static CommentDocument from(CommentNotification notification) {
-        return CommentDocument.builder()
+    public static AnswerNotificationDocument from(AnswerNotification notification) {
+        return AnswerNotificationDocument.builder()
                 .id(notification.getId())
                 .userId(notification.getUserId())
                 .type(notification.getType())
@@ -30,16 +30,16 @@ public class CommentDocument extends NotificationDocument {
                 .createdAt(notification.getCreatedAt())
                 .lastUpdatedAt(notification.getLastUpdatedAt())
                 .deletedAt(notification.getDeleteAt())
-                .postId(notification.getPostId())
+                .questionId(notification.getQuestionId())
                 .writerId(notification.getWriterId())
-                .commentId(notification.getCommentId())
-                .comment(notification.getComment())
+                .answerId(notification.getAnswerId())
+                .content(notification.getContent())
                 .build();
     }
 
     // toDomain
-    public CommentNotification toDomain() {
-        return CommentNotification.builder()
+    public AnswerNotification toDomain() {
+        return AnswerNotification.builder()
                 .id(getId())
                 .userId(getUserId())
                 .type(getType())
@@ -47,10 +47,10 @@ public class CommentDocument extends NotificationDocument {
                 .createdAt(getCreatedAt())
                 .lastUpdatedAt(getLastUpdatedAt())
                 .deleteAt(getDeletedAt())
-                .postId(this.postId)
-                .writerId(this.writerId)
-                .commentId(this.commentId)
-                .comment(this.comment)
+                .questionId(questionId)
+                .writerId(writerId)
+                .answerId(answerId)
+                .content(content)
                 .build();
     }
 }

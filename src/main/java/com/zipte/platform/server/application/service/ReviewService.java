@@ -44,6 +44,11 @@ public class ReviewService implements CreateReviewUseCase, GetReviewUseCase, Del
             throw new NoSuchElementException(ErrorCode.NOT_USER.getMessage());
         }
 
+        /// 이미 작성한 리뷰가 있는 지 체크
+        boolean checkedDuplicate = loadReviewPort.checkReviewByUserIdAndKaptCode(request.getUserId(), request.getKaptCode());
+        if (checkedDuplicate) {
+            throw new IllegalStateException(ErrorCode.BAD_REQUEST_DUPLICATE_REVIEW.getMessage());
+        }
 
         ///  아파트 존재 여부 예외처리
         boolean existingEstate = loadEstatePort.checkExistingByCode(request.getKaptCode());
@@ -76,6 +81,11 @@ public class ReviewService implements CreateReviewUseCase, GetReviewUseCase, Del
     // 최신순
     @Override
     public Page<Review> getReviews(String aptId, Pageable pageable) {
+        /// 아파트에 대한 예외처리
+        boolean checked = loadEstatePort.checkExistingByCode(aptId);
+        if (!checked) {
+            throw new NoSuchElementException(ErrorCode.NOT_ESTATE.getMessage());
+        }
 
         return loadReviewPort.getReviews(aptId, pageable);
     }
@@ -83,6 +93,12 @@ public class ReviewService implements CreateReviewUseCase, GetReviewUseCase, Del
     // 높은 점수별
     @Override
     public Page<Review> getReviewsByRating(String aptId, Pageable pageable) {
+
+        /// 아파트에 대한 예외처리
+        boolean checked = loadEstatePort.checkExistingByCode(aptId);
+        if (!checked) {
+            throw new NoSuchElementException(ErrorCode.NOT_ESTATE.getMessage());
+        }
 
         return loadReviewPort.getReviewsByRating(aptId, pageable);
     }
@@ -95,9 +111,21 @@ public class ReviewService implements CreateReviewUseCase, GetReviewUseCase, Del
     }
 
     @Override
-    public void removeReview(Review review) {
+    public void removeReview(Long reviewId, Long userId) {
 
-        removeReviewPort.removeReview(review);
+        /// 유저 예외처리
+        boolean checked = loadUserPort.checkExistingById(userId);
+        if (!checked) {
+            throw new NoSuchElementException(ErrorCode.NOT_USER.getMessage());
+        }
+
+        /// 해당 유저와 리뷰가 일치하는지 테스트
+        boolean checked2 = loadReviewPort.checkReviewByIdAndUserId(reviewId, userId);
+        if (!checked2) {
+            throw new IllegalStateException(ErrorCode.BAD_REQUEST_DELETE_REVIEW.getMessage());
+        }
+
+        removeReviewPort.removeReview(reviewId);
     }
 
 

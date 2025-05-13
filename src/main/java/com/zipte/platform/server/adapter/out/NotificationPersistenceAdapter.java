@@ -2,12 +2,13 @@ package com.zipte.platform.server.adapter.out;
 
 import com.zipte.platform.server.adapter.out.mongo.notification.base.NotificationDocument;
 import com.zipte.platform.server.adapter.out.mongo.notification.base.NotificationMongoRepository;
-import com.zipte.platform.server.adapter.out.mongo.notification.comment.CommentDocument;
-import com.zipte.platform.server.adapter.out.mongo.notification.comment.CommentMongoRepository;
+import com.zipte.platform.server.adapter.out.mongo.notification.answer.AnswerNotificationDocument;
+import com.zipte.platform.server.adapter.out.mongo.notification.answer.AnswerNotificationMongoRepository;
 import com.zipte.platform.server.adapter.out.mongo.notification.property.PropertyDocument;
 import com.zipte.platform.server.adapter.out.mongo.notification.property.PropertyMongoRepository;
 import com.zipte.platform.server.application.out.notification.LoadNotificationPort;
-import com.zipte.platform.server.domain.notification.CommentNotification;import com.zipte.platform.server.domain.notification.Notification;
+import com.zipte.platform.server.domain.notification.AnswerNotification;
+import com.zipte.platform.server.domain.notification.Notification;
 import com.zipte.platform.server.domain.notification.PropertyNotification;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -25,7 +26,7 @@ public class NotificationPersistenceAdapter implements LoadNotificationPort {
      */
 
     private final NotificationMongoRepository<NotificationDocument, String> repository;
-    private final CommentMongoRepository commentRepository;
+    private final AnswerNotificationMongoRepository answerRepository;
     private final PropertyMongoRepository propertyRepository;
 
     @Override
@@ -42,10 +43,10 @@ public class NotificationPersistenceAdapter implements LoadNotificationPort {
     }
 
     @Override
-    public Optional<CommentNotification> loadCommentNotification(Long commentId) {
+    public Optional<AnswerNotification> loadAnswerNotification(Long answerId) {
 
-        return commentRepository.findByCommentId(commentId)
-                .map(CommentDocument::toDomain);
+        return answerRepository.findByAnswerId(answerId)
+                .map(AnswerNotificationDocument::toDomain);
     }
 
     @Override

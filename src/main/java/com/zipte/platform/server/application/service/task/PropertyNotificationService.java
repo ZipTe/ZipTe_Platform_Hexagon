@@ -54,7 +54,7 @@ public class PropertyNotificationService implements PropertyNotificationTask {
     public void removeNotification(Property property) {
 
         // 매물 삭제로 인한 알림 삭제
-        deletePort.deleteCommentNotification(property.getKaptCode());
+        deletePort.deletePropertyNotification(property.getKaptCode());
     }
 
     private PropertyNotification createNotification(Property property, LocalDateTime now, Long userId) {
