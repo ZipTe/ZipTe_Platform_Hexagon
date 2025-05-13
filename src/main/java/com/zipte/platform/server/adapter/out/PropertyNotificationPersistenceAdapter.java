@@ -27,7 +27,7 @@ public class PropertyNotificationPersistenceAdapter implements SavePropertyNotif
     }
 
     @Override
-    public void deleteCommentNotification(String complexCode) {
+    public void deletePropertyNotifcation(String complexCode) {
         repository.deleteById(complexCode);
     }
 }

@@ -1,6 +1,6 @@
 package com.zipte.platform.server.application.out.notification;
 
-import com.zipte.platform.server.domain.notification.CommentNotification;import com.zipte.platform.server.domain.notification.Notification;
+import com.zipte.platform.server.domain.notification.AnswerNotification;import com.zipte.platform.server.domain.notification.Notification;
 import com.zipte.platform.server.domain.notification.PropertyNotification;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -15,8 +15,8 @@ public interface LoadNotificationPort {
     // 최신 알람의 시간
     Optional<Notification> loadNotificationsAt(Long userId);
 
-    // 댓글 알림 상세 조회
-    Optional<CommentNotification> loadCommentNotification(Long commentId);
+    // 답글 알림 상세 조회
+    Optional<AnswerNotification> loadAnswerNotification(Long answerId);
 
     // 매물 알림 상세 조회
     Optional<PropertyNotification> loadPropertyNotification(String complexCode);

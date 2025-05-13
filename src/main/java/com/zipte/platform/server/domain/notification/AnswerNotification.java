@@ -8,23 +8,23 @@ import java.time.LocalDateTime;
 
 @Getter
 @SuperBuilder
-public class CommentNotification extends Notification {
+public class AnswerNotification extends Notification {
 
-    private Long postId;
+    private Long questionId;
     private Long writerId;
-    private Long commentId;
-    private String comment;
+    private Long answerId;
+    private String content;
 
     /// 생성잔
-    public static CommentNotification of(String id, Long userId, NotificationType type, LocalDateTime occurredAt, LocalDateTime createdAt, LocalDateTime lastUpdatedAt, LocalDateTime deleteAt, Long postId, Long writerId, Long commentId, String comment){
-        return CommentNotification.builder()
+    public static AnswerNotification of(String id, Long userId, NotificationType type, LocalDateTime occurredAt, LocalDateTime createdAt, LocalDateTime lastUpdatedAt, LocalDateTime deleteAt, Long questionId, Long writerId, Long answerId, String content){
+        return AnswerNotification.builder()
                 .id(id)
                 .userId(userId)
                 .type(type)
-                .postId(postId)
+                .questionId(questionId)
                 .writerId(writerId)
-                .commentId(commentId)
-                .comment(comment)
+                .answerId(answerId)
+                .content(content)
                 .createdAt(createdAt)
                 .occurredAt(occurredAt)
                 .deleteAt(deleteAt)
