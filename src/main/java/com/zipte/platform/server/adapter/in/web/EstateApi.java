@@ -5,6 +5,7 @@ import com.zipte.platform.core.response.pageable.PageRequest;
 import com.zipte.platform.core.response.pageable.PageResponse;
 import com.zipte.platform.server.adapter.in.web.dto.response.EstateDetailResponse;
 import com.zipte.platform.server.adapter.in.web.dto.response.EstateListResponse;
+import com.zipte.platform.server.adapter.in.web.swagger.EstateApiSpec;
 import com.zipte.platform.server.application.in.estate.GetEstateUseCase;
 import com.zipte.platform.server.domain.estate.Estate;
 import jakarta.persistence.EntityNotFoundException;
@@ -19,7 +20,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/v1/estate")
 @RequiredArgsConstructor
-public class EstateApi {
+public class EstateApi implements EstateApiSpec {
 
     private final GetEstateUseCase getService;
 
