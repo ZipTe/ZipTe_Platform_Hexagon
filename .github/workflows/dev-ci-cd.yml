@@ -95,7 +95,7 @@ jobs:
           username: ${{ secrets.SSH_USER }}
           key: ${{ secrets.EC2_PRIVATE_KEY }}
           source: ".env"  # 방금 생성한 .env 파일
-          target: "/home/ubuntu/app/docker/"
+          target: "/home/ubuntu/app/compose/"
 
       - name: 3. docker-compose.yml 전달
         uses: appleboy/scp-action@master
@@ -114,9 +114,9 @@ jobs:
           key: ${{ secrets.EC2_PRIVATE_KEY }}
           script: |
             # docker-compose 명령어 실행
-            cd /home/ubuntu/app/docker/
-            docker compose pull spring
-            docker compose up -d spring
+            cd /home/ubuntu/app/compose/
+            docker-compose pull spring
+            docker-compose up -d spring
 
 
 
