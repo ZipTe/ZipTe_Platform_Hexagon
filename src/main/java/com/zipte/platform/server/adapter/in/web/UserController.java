@@ -1,4 +1,4 @@
-package com.zipte.platform.server.adapter.in.web.user;
+package com.zipte.platform.server.adapter.in.web;
 
 import com.zipte.platform.core.response.ApiResponse;
 import com.zipte.platform.security.oauth2.domain.PrincipalDetails;
