@@ -5,6 +5,7 @@ import com.zipte.platform.security.jwt.service.JwtTokenUseCase;
 import com.zipte.platform.security.oauth2.domain.OAuth2UserInfo;
 import com.zipte.platform.server.adapter.in.web.dto.request.UserRegisterRequest;
 import com.zipte.platform.server.adapter.in.web.dto.response.OAuth2UserInfoResponse;
+import com.zipte.platform.server.adapter.in.web.swagger.AuthAPiSpec;
 import com.zipte.platform.server.application.in.auth.AuthUserUseCase;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -16,9 +17,9 @@ import org.springframework.web.bind.annotation.*;
 
 @Slf4j
 @RestController
-@RequestMapping("/oauth2")
+@RequestMapping("/api/v1/oauth2")
 @RequiredArgsConstructor
-public class AuthController {
+public class AuthController implements AuthAPiSpec {
 
     // 토큰 재발급
     private final AuthUserUseCase authService;
