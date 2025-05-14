@@ -19,20 +19,18 @@ import static org.springframework.http.HttpMethod.POST;
 public class RequestMatcherHolder {
 
     private static final List<RequestInfo> REQUEST_INFO_LIST = List.of(
-            // 개발 모드
-            new RequestInfo(GET, "/**", null),
-            new RequestInfo(POST, "/oauth2", null),
 
             // auth
-            new RequestInfo(POST, "/login/**", null),
             new RequestInfo(GET, "/", null),
-            new RequestInfo(GET, "/oauth2/session-user", null),
-            new RequestInfo(POST, "/oauth2", null),
-            new RequestInfo(POST, "/reissue", UserRole.MEMBER),
+            new RequestInfo(POST, "/login/**", null),
+            new RequestInfo(GET, "/api/v1/oauth2/session-user", null),
+            new RequestInfo(POST, "/api/v1/oauth2", null),
+            new RequestInfo(POST, "/api/v1/reissue", UserRole.MEMBER),
 
             // user
+            new RequestInfo(POST, "/api/v1/signup", null),
+            new RequestInfo(GET, "/api/v1/users/**", UserRole.MEMBER),
             new RequestInfo(POST, "/signup", null),
-            new RequestInfo(GET, "/users/**", UserRole.MEMBER),
 
             // admin
             new RequestInfo(GET, "/api/member/**", UserRole.MEMBER),
