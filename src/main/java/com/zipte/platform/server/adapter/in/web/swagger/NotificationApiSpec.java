@@ -27,7 +27,8 @@ public interface NotificationApiSpec {
 
     @Operation(
             summary = "나의 알림 센터 알림 목록 조회",
-            description = "JWT 를 통해서 나의 알림 목록을 조회합니다."
+            description = "JWT 를 통해서 나의 알림 목록을 조회합니다.",
+            security = @SecurityRequirement(name = "JWT")
     )
     ApiResponse<PageResponse<Notification>> list(
             @AuthenticationPrincipal PrincipalDetails principalDetails,
