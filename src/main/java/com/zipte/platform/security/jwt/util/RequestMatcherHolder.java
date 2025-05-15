@@ -12,20 +12,21 @@ import java.util.List;
 import java.util.Objects;
 import java.util.concurrent.ConcurrentHashMap;
 
-import static org.springframework.http.HttpMethod.GET;
-import static org.springframework.http.HttpMethod.POST;
+import static org.springframework.http.HttpMethod.*;
 
 @Component
 public class RequestMatcherHolder {
 
     private static final List<RequestInfo> REQUEST_INFO_LIST = List.of(
 
-            // auth
+            // 공통
+            new RequestInfo(OPTIONS, "/**", null),
             new RequestInfo(GET, "/", null),
-            new RequestInfo(POST, "/login/**", null),
+
+            // auth
             new RequestInfo(POST, "/api/v1/oauth2", null),
             new RequestInfo(GET, "/api/v1/oauth2/temp-user/**", null),
-            new RequestInfo(POST, "/api/v1/signup/", null),
+            new RequestInfo(GET, "/api/v1/oauth2/reissue", null),
 
             // user
             new RequestInfo(POST, "/api/v1/reissue/", UserRole.MEMBER),
@@ -34,6 +35,36 @@ public class RequestMatcherHolder {
             // admin
             new RequestInfo(GET, "/api/member/**", UserRole.MEMBER),
             new RequestInfo(POST, "/api/admin/**", UserRole.ADMIN),
+
+            // estate
+            new RequestInfo(GET, "/api/v1/estate/**", null),
+            new RequestInfo(GET, "/api/v1/estate/price/**", null),
+
+            // 지역
+            new RequestInfo(GET, "/api/v1/region/**", null),
+            new RequestInfo(GET, "/api/v1/region/price/**", null),
+            new RequestInfo(POST, "/api/v1/region/price/**", UserRole.MEMBER),
+
+            // 매물
+            new RequestInfo(POST, "/api/v1/property/**", null),
+            new RequestInfo(GET, "/api/v1/property/**", null),
+            new RequestInfo(DELETE, "/api/v1/property/**", null),
+
+            // 거주지
+            new RequestInfo(GET, "/api/v1/ownership/**", UserRole.MEMBER),
+
+            // 관심모록
+            new RequestInfo(GET, "/api/v1/favorite/**", UserRole.MEMBER),
+            new RequestInfo(POST, "/api/v1/favorite/**", UserRole.MEMBER),
+            new RequestInfo(DELETE, "/api/v1/favorite/**", UserRole.MEMBER),
+
+            // 알림
+            new RequestInfo(GET, "/api/v1/notification/**", UserRole.MEMBER),
+
+            // review
+            new RequestInfo(POST, "/api/v1/review/**", UserRole.MEMBER),
+            new RequestInfo(GET, "/api/v1/review/**", null),
+
 
             // static resources
             new RequestInfo(GET, "/docs/**", null),
@@ -53,6 +84,7 @@ public class RequestMatcherHolder {
             new RequestInfo(GET, "/apple-touch-icon.png", null)
 
     );
+
 
     private final ConcurrentHashMap<String, RequestMatcher> reqMatcherCacheMap = new ConcurrentHashMap<>();
 
