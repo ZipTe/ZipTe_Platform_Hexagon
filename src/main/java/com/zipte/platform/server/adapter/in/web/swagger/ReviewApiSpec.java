@@ -47,7 +47,7 @@ public interface ReviewApiSpec {
     )
     ApiResponse<PageResponse<ReviewListResponse>> getReviewByMemberId(
 
-            @Parameter(description = "조회할 회원 Id", required = true, example = "1L")
+            @Parameter(description = "조회할 회원 Id", required = true, example = "1")
             @PathVariable("memberId") Long memberId,
             @ParameterObject PageRequest pageRequest);
 
@@ -75,7 +75,7 @@ public interface ReviewApiSpec {
     )
     ApiResponse<ReviewDetailResponse> getReviewsWithComments(
 
-            @Parameter(description = "조회할 리뷰 Id", required = true, example = "1L")
+            @Parameter(description = "조회할 리뷰 Id", required = true, example = "1")
             @PathVariable("reviewId") Long reviewId);
 
 

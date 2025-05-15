@@ -1,7 +1,5 @@
-package com.zipte.platform.core.config;
+package com.zipte.platform.core.config.local;
 
-import io.swagger.v3.oas.annotations.OpenAPIDefinition;
-import io.swagger.v3.oas.annotations.servers.Server;
 import io.swagger.v3.oas.models.Components;
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.info.Info;
@@ -12,9 +10,8 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
 
 @Configuration
-@Profile("dev")
-@OpenAPIDefinition(servers = {@Server(url = "https://www.zipte-dev.store", description = "집터 개발 서버")})
-public class SwaggerConfig {
+@Profile("local")
+public class LocalSwaggerConfig {
 
     @Bean
     public OpenAPI openAPI() {
@@ -36,6 +33,6 @@ public class SwaggerConfig {
         return new Info()
                 .version("1.0")
                 .title("집터 API")
-                .description("집터 개발 서버의 API 입니다");
+                .description("집터 로컬 서버의 API 입니다");
     }
 }
