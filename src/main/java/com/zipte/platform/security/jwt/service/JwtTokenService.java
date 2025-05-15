@@ -68,7 +68,7 @@ public class JwtTokenService implements JwtTokenUseCase {
                 .orElseThrow(() -> new NoSuchElementException("쿠키에 RefreshToken 존재하지 않습니다."));
 
         // 쿠키 validate 진행한다.
-        if (provider.validateToken(refreshToken)) {
+        if (!provider.validateToken(refreshToken)) {
             throw new SecurityException("유효하지 않은 토큰입니다.");
         };
 
@@ -101,7 +101,7 @@ public class JwtTokenService implements JwtTokenUseCase {
     private void setRefreshTokenInCookie(HttpServletResponse response, String refreshToken) {
         Cookie cookie = new Cookie("refreshToken", refreshToken);
         cookie.setHttpOnly(true);
-        cookie.setSecure(false);
+        cookie.setSecure(true);
         cookie.setPath("/");
         cookie.setMaxAge((int) REFRESH_TOKEN_EXPIRATION_TIME);
         response.addCookie(cookie);

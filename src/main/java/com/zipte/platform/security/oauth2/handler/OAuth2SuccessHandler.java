@@ -2,7 +2,7 @@ package com.zipte.platform.security.oauth2.handler;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.zipte.platform.core.response.ApiResponse;
-import com.zipte.platform.security.jwt.service.JwtTokenService;
+import com.zipte.platform.security.jwt.service.JwtTokenUseCase;
 import com.zipte.platform.security.oauth2.domain.PrincipalDetails;
 import com.zipte.platform.server.adapter.in.web.dto.response.UserLoginResponse;
 import com.zipte.platform.server.domain.user.User;
@@ -22,7 +22,7 @@ import java.io.IOException;
 @RequiredArgsConstructor
 public class OAuth2SuccessHandler extends SimpleUrlAuthenticationSuccessHandler {
 
-    private final JwtTokenService tokenService;
+    private final JwtTokenUseCase tokenService;
     private final ObjectMapper objectMapper;
 
     /*
