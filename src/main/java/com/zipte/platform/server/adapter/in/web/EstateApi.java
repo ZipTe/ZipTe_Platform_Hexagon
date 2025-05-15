@@ -7,6 +7,7 @@ import com.zipte.platform.server.adapter.in.web.dto.response.EstateDetailRespons
 import com.zipte.platform.server.adapter.in.web.dto.response.EstateListResponse;
 import com.zipte.platform.server.adapter.in.web.swagger.EstateApiSpec;
 import com.zipte.platform.server.application.in.estate.GetEstateUseCase;
+import com.zipte.platform.server.application.in.external.OpenAiUseCase;
 import com.zipte.platform.server.domain.estate.Estate;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
@@ -23,6 +24,9 @@ import java.util.List;
 public class EstateApi implements EstateApiSpec {
 
     private final GetEstateUseCase getService;
+
+    /// AI 의존성
+    private final OpenAiUseCase openAiService;
 
     // 상세 정보 조회
     @GetMapping
@@ -67,9 +71,9 @@ public class EstateApi implements EstateApiSpec {
     // 특정 좌표 근처의 아파트 목록 조회
     @GetMapping("/list/location")
     public ApiResponse<List<EstateListResponse>> getEstateByLocation(
-            @RequestParam (value = "longitude") double longitude,
-            @RequestParam (value = "latitude") double latitude,
-            @RequestParam (value = "radius") double radius) {
+            @RequestParam(value = "longitude") double longitude,
+            @RequestParam(value = "latitude") double latitude,
+            @RequestParam(value = "radius") double radius) {
         List<Estate> list = getService.loadEstatesNearBy(longitude, latitude, radius);
 
         return ApiResponse.ok(EstateListResponse.from(list));
@@ -79,9 +83,9 @@ public class EstateApi implements EstateApiSpec {
     // 특정 좌표 근처의 아파트 및 매물 목록 조회
     @GetMapping("/list/location/property")
     public ApiResponse<List<EstateListResponse>> getEstateByLocationByKaptCode(
-            @RequestParam (value = "longitude") double longitude,
-            @RequestParam (value = "latitude") double latitude,
-            @RequestParam (value = "radius") double radius) {
+            @RequestParam(value = "longitude") double longitude,
+            @RequestParam(value = "latitude") double latitude,
+            @RequestParam(value = "radius") double radius) {
 
         List<EstateListResponse> list = getService.loadEstatesNearByProperty(longitude, latitude, radius);
 
@@ -89,4 +93,12 @@ public class EstateApi implements EstateApiSpec {
 
     }
 
+
+    /// AI 기반 특징 요약
+    @GetMapping("/ai/{kaptCode}")
+    public ApiResponse<String> getEstateDetail(@PathVariable String kaptCode) {
+        String result = openAiService.getKaptCharacteristic(kaptCode);
+
+        return ApiResponse.ok(result);
+    }
 }
