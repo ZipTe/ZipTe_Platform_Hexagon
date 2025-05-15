@@ -11,7 +11,6 @@ import lombok.Data;
 public class ReviewRequest {
 
     // 멤버 관리
-    @NotNull(message = "유저 아이디를 입력해주세요.")
     private Long userId;
 
     // 원하는 아파트 관리

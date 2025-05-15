@@ -25,6 +25,9 @@ public class RequestMatcherHolder {
             new RequestInfo(GET, "/login", null),
             new RequestInfo(POST, "/error", null),
 
+            // 개발용
+            new RequestInfo(POST, "/api/v1/auth/dev-login", null),
+
             // auth
             new RequestInfo(POST, "/api/v1/oauth2", null),
             new RequestInfo(GET, "/api/v1/oauth2/temp-user/**", null),
@@ -54,7 +57,7 @@ public class RequestMatcherHolder {
             // 거주지
             new RequestInfo(GET, "/api/v1/ownership/**", UserRole.MEMBER),
 
-            // 관심모록
+            // 관심목록
             new RequestInfo(GET, "/api/v1/favorite/**", UserRole.MEMBER),
             new RequestInfo(POST, "/api/v1/favorite/**", UserRole.MEMBER),
             new RequestInfo(DELETE, "/api/v1/favorite/**", UserRole.MEMBER),
@@ -65,7 +68,6 @@ public class RequestMatcherHolder {
             // review
             new RequestInfo(POST, "/api/v1/review/**", UserRole.MEMBER),
             new RequestInfo(GET, "/api/v1/review/**", null),
-
 
             // static resources
             new RequestInfo(GET, "/docs/**", null),
@@ -86,7 +88,6 @@ public class RequestMatcherHolder {
 
     );
 
-
     private final ConcurrentHashMap<String, RequestMatcher> reqMatcherCacheMap = new ConcurrentHashMap<>();
 
     /**
@@ -98,18 +99,22 @@ public class RequestMatcherHolder {
         var key = getKeyByRole(minRole);
         return reqMatcherCacheMap.computeIfAbsent(key, k ->
                 new OrRequestMatcher(REQUEST_INFO_LIST.stream()
-                        .filter(reqInfo -> Objects.equals(reqInfo.minRole(), minRole))
+                        .filter(reqInfo -> isAccessible(reqInfo.minRole(), minRole))
                         .map(reqInfo -> new AntPathRequestMatcher(reqInfo.pattern(),
                                 reqInfo.method().name()))
                         .toArray(AntPathRequestMatcher[]::new)));
+    }
+
+    private boolean isAccessible(@Nullable UserRole requiredRole, @Nullable UserRole currentUserRole) {
+        if (requiredRole == null) return true; // 누구나 접근 가능
+        if (currentUserRole == null) return false; // 권한 없음
+        return currentUserRole.ordinal() >= requiredRole.ordinal(); // ADMIN이면 MEMBER 포함
     }
 
     private String getKeyByRole(@Nullable UserRole minRole) {
         return minRole == null ? "VISITOR" : minRole.name();
     }
 
-    private record RequestInfo(HttpMethod method, String pattern, UserRole minRole) {
-
-    }
+    private record RequestInfo(HttpMethod method, String pattern, UserRole minRole) {}
 
 }

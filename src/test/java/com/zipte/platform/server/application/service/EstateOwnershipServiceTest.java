@@ -31,7 +31,7 @@ import static org.mockito.BDDMockito.given;
 class EstateOwnershipServiceTest {
 
     private final double EARTH_RADIUS_KM = 6373;
-    private final double ONE_KM_IN_RADIANS = 1 / EARTH_RADIUS_KM / 2;
+    private final double ONE_KM_IN_RADIANS = 1 / EARTH_RADIUS_KM;
 
     @Mock
     private EstateOwnerShipPort port;

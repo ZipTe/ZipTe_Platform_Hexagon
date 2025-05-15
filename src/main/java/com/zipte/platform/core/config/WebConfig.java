@@ -8,8 +8,11 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 @Configuration
 public class WebConfig implements WebMvcConfigurer {
 
-    @Value("${zipte.domain}")
-    private String domain;
+    @Value("${zipte.prod_domain}")
+    private String prodDomain;
+
+    @Value("${zipte.dev_domain_}")
+    private String devDomain;
 
     @Value("${zipte.front}")
     private String host;
@@ -17,7 +20,7 @@ public class WebConfig implements WebMvcConfigurer {
     @Override
     public void addCorsMappings(CorsRegistry registry) {
         registry.addMapping("/**")
-                .allowedOrigins(domain, host) // 둘 다 한 번에 등록
+                .allowedOrigins(prodDomain, devDomain, host) // 둘 다 한 번에 등록
                 .allowedMethods("*")
                 .allowCredentials(true);
     }

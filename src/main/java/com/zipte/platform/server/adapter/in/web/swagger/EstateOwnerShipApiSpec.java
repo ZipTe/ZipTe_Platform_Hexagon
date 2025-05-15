@@ -34,10 +34,18 @@ public interface EstateOwnerShipApiSpec {
 
             @RequestBody EstateOwnershipRequest request);
 
-
     String SUCCESS_PAYLOAD = """
             {
-               "kaptCode": "A44677015",
+              "kaptCode": "A46378823",
+              "longitude": 127.127505625045,
+              "latitude": 37.4154794825084,
+              "boughtAt": "2023-10-15T14:30:00"
+            }
+            """;
+
+    String FAIL_PAYLOAD = """
+            {
+               "kaptCode": "A46378823",
                "longitude": 130.9784,
                "latitude": 40.5665,
                "boughtAt": "2023-10-15T14:30:00"
@@ -46,12 +54,4 @@ public interface EstateOwnerShipApiSpec {
 
 
 
-    String FAIL_PAYLOAD = """
-        {
-               "kaptCode": "A44677015",
-               "longitude": 126.9784,
-               "latitude": 37.5665,
-               "boughtAt": "2023-10-15T14:30:00"
-            }
-            """;
 }
