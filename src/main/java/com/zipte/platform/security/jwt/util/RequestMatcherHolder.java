@@ -23,14 +23,13 @@ public class RequestMatcherHolder {
             // auth
             new RequestInfo(GET, "/", null),
             new RequestInfo(POST, "/login/**", null),
-            new RequestInfo(GET, "/api/v1/oauth2/session-user", null),
             new RequestInfo(POST, "/api/v1/oauth2", null),
-            new RequestInfo(POST, "/api/v1/reissue", UserRole.MEMBER),
+            new RequestInfo(GET, "/api/v1/oauth2/temp-user/**", null),
+            new RequestInfo(POST, "/api/v1/signup/", null),
 
             // user
-            new RequestInfo(POST, "/api/v1/signup", null),
+            new RequestInfo(POST, "/api/v1/reissue/", UserRole.MEMBER),
             new RequestInfo(GET, "/api/v1/users/**", UserRole.MEMBER),
-            new RequestInfo(POST, "/signup", null),
 
             // admin
             new RequestInfo(GET, "/api/member/**", UserRole.MEMBER),
@@ -40,8 +39,21 @@ public class RequestMatcherHolder {
             new RequestInfo(GET, "/docs/**", null),
             new RequestInfo(GET, "/*.ico", null),
             new RequestInfo(GET, "/resources/**", null),
-            new RequestInfo(GET, "/error", null)
+            new RequestInfo(GET, "/index.html", null),
+            new RequestInfo(GET, "/error", null),
+
+            // Swagger UI 및 API 문서 관련 요청
+            new RequestInfo(GET, "/swagger-ui/**", null),
+            new RequestInfo(GET, "/v3/api-docs/**", null),
+            new RequestInfo(GET, "/swagger-resources/**", null),
+            new RequestInfo(GET, "/webjars/**", null),
+
+            // 정적 아이콘 요청
+            new RequestInfo(GET, "/favicon.ico", null),
+            new RequestInfo(GET, "/apple-touch-icon.png", null)
+
     );
+
     private final ConcurrentHashMap<String, RequestMatcher> reqMatcherCacheMap = new ConcurrentHashMap<>();
 
     /**

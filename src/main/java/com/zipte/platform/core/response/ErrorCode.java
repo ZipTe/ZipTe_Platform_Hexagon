@@ -23,6 +23,7 @@ public enum ErrorCode {
 
     /// 유저 관련
     NOT_USER(1000, HttpStatus.NOT_FOUND, "해당하는 유저가 존재하지 않습니다."),
+    FIRST_LOGIN(1200,HttpStatus.NOT_FOUND,"최초 로그인유저이기에 추가정보기입이 필요합니다."),
 
     /// 부동산 관련
     NOT_ESTATE(2000, HttpStatus.NOT_FOUND, "해당하는 부동산이 존재하지 않습니다."),

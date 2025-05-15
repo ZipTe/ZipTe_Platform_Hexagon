@@ -1,5 +1,6 @@
 package com.zipte.platform.server.adapter.in.web.swagger;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.zipte.platform.core.response.ApiResponse;
 import com.zipte.platform.server.adapter.in.web.dto.request.UserRegisterRequest;
 import com.zipte.platform.server.adapter.in.web.dto.response.OAuth2UserInfoResponse;
@@ -10,9 +11,9 @@ import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 import org.springframework.http.MediaType;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 
 @Tag(name = "유저 인증/인가 API", description = "유저 로그인/회원가입 관련 API")
@@ -40,7 +41,9 @@ public interface AuthAPiSpec {
             summary = "최초 회원가입 유저 조회",
             description = "세션을 통해 최초 회원가입 유저의 소셜로그인 정보를 조회합니다."
     )
-    ApiResponse<OAuth2UserInfoResponse> getSessionUser(HttpSession session);
+    ApiResponse<OAuth2UserInfoResponse> getTempUser(
+
+            @PathVariable String state) throws JsonProcessingException;
 
     @Operation(
             summary = "Jwt 토큰 재발급",
