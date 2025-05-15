@@ -22,6 +22,8 @@ public class RequestMatcherHolder {
             // 공통
             new RequestInfo(OPTIONS, "/**", null),
             new RequestInfo(GET, "/", null),
+            new RequestInfo(GET, "/login", null),
+            new RequestInfo(POST, "/error", null),
 
             // auth
             new RequestInfo(POST, "/api/v1/oauth2", null),
