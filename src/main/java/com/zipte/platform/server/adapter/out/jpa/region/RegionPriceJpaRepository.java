@@ -8,4 +8,5 @@ public interface RegionPriceJpaRepository extends JpaRepository<RegionPriceJpaEn
 
     Optional<RegionPriceJpaEntity> findByRegionCode(String regionCode);
 
+    boolean existsByRegionCode(String regionCode);
 }

@@ -7,6 +7,7 @@ import com.zipte.platform.server.domain.region.RegionPrice;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
+import java.util.NoSuchElementException;
 import java.util.Optional;
 
 @Component
@@ -18,22 +19,23 @@ public class RegionPricePersistenceAdapter implements RegionPricePort {
 
     @Override
     public RegionPrice saveRegionPrice(RegionPrice regionPrice) {
-        RegionPriceJpaEntity entity;
+        var entity = RegionPriceJpaEntity.from(regionPrice);
 
-        // 기존 엔티티 존재 시 createdAt 유지
-        var existing = repository.findByRegionCode(regionPrice.getRegionCode());
-        if (existing.isPresent()) {
-            var existingEntity = existing.get();
-
-            entity = RegionPriceJpaEntity.from(regionPrice);
-            // createdAt만 복사
-            entity.setCreatedAt(existingEntity.getCreatedAt());
-        } else {
-            entity = RegionPriceJpaEntity.from(regionPrice);
-        }
-
-        return repository.save(entity).toDomain();
+        return repository.save(entity)
+                .toDomain();
     }
+
+    @Override
+    public void updateRegionPrice(RegionPrice newRegionPrice) {
+        RegionPriceJpaEntity jpa = repository.findByRegionCode(newRegionPrice.getRegionCode())
+                .orElseThrow(() -> new NoSuchElementException("RegionPrice not found"));
+
+        jpa.updateFromDomain(newRegionPrice);
+
+        repository.save(jpa);
+
+    }
+
 
 
     @Override
@@ -41,6 +43,11 @@ public class RegionPricePersistenceAdapter implements RegionPricePort {
 
         return repository.findByRegionCode(regionCode)
                 .map(RegionPriceJpaEntity::toDomain);
+    }
+
+    @Override
+    public boolean checkRegionPriceExist(String regionCode) {
+        return repository.existsByRegionCode(regionCode);
     }
 
     @Override
