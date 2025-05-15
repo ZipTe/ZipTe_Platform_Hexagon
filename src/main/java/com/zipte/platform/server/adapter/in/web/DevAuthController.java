@@ -21,7 +21,7 @@ import java.util.List;
 
 import static com.zipte.platform.security.jwt.util.JwtTokenKey.ACCESS_TOKEN_EXPIRATION_TIME;
 
-@Profile("local")  // dev 환경에서만 활성화
+@Profile("dev")  // dev 환경에서만 활성화
 @RestController
 @RequestMapping("/api/v1/auth")
 @RequiredArgsConstructor
