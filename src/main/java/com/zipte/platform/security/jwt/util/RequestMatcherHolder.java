@@ -22,14 +22,15 @@ public class RequestMatcherHolder {
             // 공통
             new RequestInfo(OPTIONS, "/**", null),
             new RequestInfo(GET, "/", null),
+            new RequestInfo(GET, "/login", null),
+            new RequestInfo(POST, "/error", null),
 
             // auth
             new RequestInfo(POST, "/api/v1/oauth2", null),
             new RequestInfo(GET, "/api/v1/oauth2/temp-user/**", null),
-            new RequestInfo(GET, "/api/v1/oauth2/reissue", null),
+            new RequestInfo(POST, "/api/v1/oauth2/reissue", UserRole.MEMBER),
 
             // user
-            new RequestInfo(POST, "/api/v1/reissue/", UserRole.MEMBER),
             new RequestInfo(GET, "/api/v1/users/**", UserRole.MEMBER),
 
             // admin

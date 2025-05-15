@@ -16,7 +16,7 @@ public class LogoutService implements LogoutUserUseCase {
     private final JwtTokenUseCase tokenService;
 
     /// 생성자
-    public LogoutService(JwtTokenService tokenService) {
+    public LogoutService(JwtTokenUseCase tokenService) {
         this.tokenService = tokenService;
     }
 
