@@ -38,7 +38,9 @@ jobs:
           echo "${{ secrets.APPLICATION_YML }}" > ./src/main/resources/application.yml
           echo "${{ secrets.APPLICATION_DEV_YML }}" > ./src/main/resources/application-dev.yml
           echo "${{ secrets.APPLICATION_OAUTH2_DEV_YML }}" > ./src/main/resources/application-oauth2-dev.yml
+          echo "${{ secrets.DATA_SQL }}" > ./src/main/resources/data.sql
           
+            
           mkdir -p src/test/resources
           echo "${{ secrets.TEST_APPLICATION_YML }}" > ./src/test/resources/application.yml
 
