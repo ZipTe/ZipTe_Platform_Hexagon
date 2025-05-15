@@ -9,6 +9,7 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springdoc.core.annotations.ParameterObject;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
@@ -68,4 +69,12 @@ public interface EstateApiSpec {
             @Parameter(description = "반경 (km 단위)", required = true, example = "1.0")
             @RequestParam(value = "radius") double radius
     );
+
+    @Operation(
+            summary = "AI를 통한 아파트 정보 요약 조회",
+            description = "Gemini를 바탕으로 아파트의 특징를 요약하여 조회합니다."
+    )
+    ApiResponse<String> getEstateDetail(
+            @Parameter(description = "아파트 코드", required = true, example = "A46378823")
+            @PathVariable String kaptCode);
 }
