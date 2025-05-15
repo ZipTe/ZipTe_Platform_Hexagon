@@ -15,8 +15,8 @@ public interface EstatePriceApiSpec {
 
 
     @Operation(
-            summary = "지역 가격 정보 조회",
-            description = "지역 코드를 통해 가격 정보를 조회합니다."
+            summary = "아파트 가격 정보 조회",
+            description = "아파트 코드를 통해 가격 정보를 조회합니다."
     )
     ApiResponse<List<EstatePriceListResponse>> getPrice(
             @Parameter(description = "아파트 코드", required = true, example = "A46392821")
@@ -24,8 +24,8 @@ public interface EstatePriceApiSpec {
 
 
     @Operation(
-            summary = "지역 가격 정보 조회",
-            description = "지역 코드와 평수를 통해 가격 정보를 조회합니다."
+            summary = "아파트 가격 정보 조회",
+            description = "아파트 코드와 평수를 통해 가격 정보를 조회합니다."
     )
     ApiResponse<List<EstatePriceListResponse>> getPriceByCodeAndArea(
             @Parameter(description = "아파트 코드", required = true, example = "A46392821")
@@ -35,3 +35,4 @@ public interface EstatePriceApiSpec {
             @RequestParam double area);
 
 }
+

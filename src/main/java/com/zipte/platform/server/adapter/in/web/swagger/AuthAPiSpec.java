@@ -16,7 +16,7 @@ import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 
-@Tag(name = "유저 인증/인가 API", description = "유저 로그인/회원가입 관련 API")
+@Tag(name = "유저 인증/인가 API", description = "유저 로그인/회원가입 관련 API / 스웨거보단 로컬에서 직접 테스트 해야한다.")
 public interface AuthAPiSpec {
 
     @Operation(
@@ -95,3 +95,4 @@ public interface AuthAPiSpec {
 
 
 }
+
