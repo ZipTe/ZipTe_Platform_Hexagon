@@ -10,8 +10,6 @@ import java.util.Map;
 @Getter
 public class RegionPrice extends BaseDomain {
 
-    private Long id;
-
     private String regionCode;
 
     private Double under15;

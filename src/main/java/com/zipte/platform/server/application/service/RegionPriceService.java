@@ -100,8 +100,14 @@ public class RegionPriceService implements RegionPriceUseCase {
 
         RegionPrice regionPrice = RegionPrice.of(regionCode, averagePrices);
 
-        /// 저장하기
-        regionPricePort.saveRegionPrice(regionPrice);
+        /// upsert
+        if (regionPricePort.checkRegionPriceExist(regionCode)) {
+            // 기존에 있었다면 업데이트
+            regionPricePort.updateRegionPrice(regionPrice);
+        } else {
+            // 기존에 없었다면 새로 추가
+            regionPricePort.saveRegionPrice(regionPrice);
+        }
 
     }
 

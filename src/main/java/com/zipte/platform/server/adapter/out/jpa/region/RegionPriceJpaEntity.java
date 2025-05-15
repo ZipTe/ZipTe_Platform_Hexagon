@@ -2,10 +2,7 @@ package com.zipte.platform.server.adapter.out.jpa.region;
 
 import com.zipte.platform.server.adapter.out.jpa.BaseEntity;
 import com.zipte.platform.server.domain.region.RegionPrice;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -19,9 +16,6 @@ import lombok.NoArgsConstructor;
 public class RegionPriceJpaEntity extends BaseEntity {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-
     private String regionCode;
 
     private Double under15;
@@ -46,7 +40,6 @@ public class RegionPriceJpaEntity extends BaseEntity {
     /// toDomain
     public RegionPrice toDomain(){
         return RegionPrice.builder()
-                .id(id)
                 .regionCode(regionCode)
                 .under15(under15)
                 .between15and20(between15and20)
@@ -54,6 +47,17 @@ public class RegionPriceJpaEntity extends BaseEntity {
                 .upper30(upper30)
                 .build();
     }
+
+
+    /// 수정을 위한 메서드
+    public void updateFromDomain(RegionPrice domain) {
+        this.regionCode = domain.getRegionCode();
+        this.under15 = domain.getUnder15();
+        this.between15and20 = domain.getBetween15and20();
+        this.between20and30 = domain.getBetween20and30();
+        this.upper30 = domain.getUpper30();
+    }
+
 
 
 }
