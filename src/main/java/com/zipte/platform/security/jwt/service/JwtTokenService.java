@@ -101,7 +101,7 @@ public class JwtTokenService implements JwtTokenUseCase {
     private void setRefreshTokenInCookie(HttpServletResponse response, String refreshToken) {
         Cookie cookie = new Cookie("refreshToken", refreshToken);
         cookie.setHttpOnly(true);
-        cookie.setSecure(true);
+        cookie.setSecure(false);
         cookie.setPath("/");
         cookie.setMaxAge((int) REFRESH_TOKEN_EXPIRATION_TIME);
         response.addCookie(cookie);
