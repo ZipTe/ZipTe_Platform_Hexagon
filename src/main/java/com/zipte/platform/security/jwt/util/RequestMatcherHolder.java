@@ -26,7 +26,7 @@ public class RequestMatcherHolder {
             // auth
             new RequestInfo(POST, "/api/v1/oauth2", null),
             new RequestInfo(GET, "/api/v1/oauth2/temp-user/**", null),
-            new RequestInfo(GET, "/api/v1/oauth2/reissue", null),
+            new RequestInfo(POST, "/api/v1/oauth2/reissue", null),
 
             // user
             new RequestInfo(POST, "/api/v1/reissue/", UserRole.MEMBER),
