@@ -18,11 +18,23 @@ public class RegionPricePersistenceAdapter implements RegionPricePort {
 
     @Override
     public RegionPrice saveRegionPrice(RegionPrice regionPrice) {
-        var entity = RegionPriceJpaEntity.from(regionPrice);
+        RegionPriceJpaEntity entity;
 
-        return repository.save(entity)
-                .toDomain();
+        // 기존 엔티티 존재 시 createdAt 유지
+        var existing = repository.findByRegionCode(regionPrice.getRegionCode());
+        if (existing.isPresent()) {
+            var existingEntity = existing.get();
+
+            entity = RegionPriceJpaEntity.from(regionPrice);
+            // createdAt만 복사
+            entity.setCreatedAt(existingEntity.getCreatedAt());
+        } else {
+            entity = RegionPriceJpaEntity.from(regionPrice);
+        }
+
+        return repository.save(entity).toDomain();
     }
+
 
     @Override
     public Optional<RegionPrice> loadRegionPriceByCode(String regionCode) {

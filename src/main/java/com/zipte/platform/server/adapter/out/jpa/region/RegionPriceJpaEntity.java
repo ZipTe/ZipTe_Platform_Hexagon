@@ -19,9 +19,6 @@ import lombok.NoArgsConstructor;
 public class RegionPriceJpaEntity extends BaseEntity {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-
     private String regionCode;
 
     private Double under15;
@@ -46,7 +43,6 @@ public class RegionPriceJpaEntity extends BaseEntity {
     /// toDomain
     public RegionPrice toDomain(){
         return RegionPrice.builder()
-                .id(id)
                 .regionCode(regionCode)
                 .under15(under15)
                 .between15and20(between15and20)
