@@ -31,12 +31,6 @@ public class SecurityConfig {
     private final RequestMatcherHolder requestMatcherHolder;
 
     @Bean
-    public WebSecurityCustomizer webSecurityCustomizer() {
-        return web -> web.ignoring()
-                .requestMatchers("/login?error", "/error", "/favicon.ico");
-    }
-
-    @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
                 // rest api 설정
@@ -47,7 +41,7 @@ public class SecurityConfig {
                 .headers(c -> c.frameOptions(
                         HeadersConfigurer.FrameOptionsConfig::disable).disable()) // X-Frame-Options 비활성화
                 .sessionManagement(c ->
-                        c.sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED)) // 세션 필요한 경우 사용
+                        c.sessionCreationPolicy(SessionCreationPolicy.STATELESS)) // 세션 필요한 경우 사용
 
                 // request 인증, 인가 설정
                 .authorizeHttpRequests(request -> request
@@ -57,7 +51,7 @@ public class SecurityConfig {
                         .hasAnyAuthority(MEMBER.getRole(), ADMIN.getRole())
                         .requestMatchers(requestMatcherHolder.getRequestMatchersByMinRole(ADMIN))
                         .hasAnyAuthority(ADMIN.getRole())
-                        .anyRequest().permitAll()
+                        .anyRequest().authenticated()
                 )
 
                 // oauth2 설정

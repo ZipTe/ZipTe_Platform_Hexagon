@@ -64,8 +64,12 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
     @Override
     protected boolean shouldNotFilter(HttpServletRequest request) {
 
-        return requestMatcherHolder.getRequestMatchersByMinRole(null)
+        boolean shouldSkip = requestMatcherHolder.getRequestMatchersByMinRole(null)
                 .matches(request);
+
+        log.info("요청 URL: {} | 필터 생략 여부: {}", request.getRequestURI(), shouldSkip);
+
+        return shouldSkip;
     }
 
 }
