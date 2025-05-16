@@ -21,4 +21,9 @@ public interface QuestionPort {
     /// 삭제
     void deleteQuestionById(Long id);
 
+
+
+
+    /// 외부 의존성
+    boolean checkExistQuestion(Long questionId);
 }

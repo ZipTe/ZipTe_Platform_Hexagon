@@ -2,6 +2,7 @@ package com.zipte.platform.server.application.out.community;
 
 import com.zipte.platform.server.domain.community.Answer;
 
+import java.util.*;
 import java.util.Optional;
 
 public interface AnswerPort {
@@ -11,7 +12,10 @@ public interface AnswerPort {
 
     /// 조회
     // 답변 조회하기
-    Optional<Answer> loadAnswerById(String id);
+    Optional<Answer> loadAnswerById(Long id);
+
+    // 질문에 따른 답변 목록 가져오기
+    List<Answer> loadAnswerByQuestionId(Long questionId);
 
     /// 삭제
     void deleteAnswerById(Long id);

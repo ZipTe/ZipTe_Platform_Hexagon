@@ -1,34 +1,69 @@
 package com.zipte.platform.server.application.service;
 
+import com.zipte.platform.core.response.ErrorCode;
 import com.zipte.platform.server.adapter.in.web.dto.request.QuestionAnswerResponse;
 import com.zipte.platform.server.adapter.in.web.dto.request.QuestionRequest;
 import com.zipte.platform.server.application.in.community.QuestionUseCase;
 import com.zipte.platform.server.application.out.community.AnswerPort;
 import com.zipte.platform.server.application.out.community.QuestionPort;
+import com.zipte.platform.server.application.out.estate.LoadEstatePort;
+import com.zipte.platform.server.application.out.user.UserPort;
+import com.zipte.platform.server.domain.community.Answer;
 import com.zipte.platform.server.domain.community.Question;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
+import java.util.NoSuchElementException;
 
 @Service
 @Transactional
 @RequiredArgsConstructor
 public class QuestionService implements QuestionUseCase {
 
-    private QuestionPort questionPort;
+    private final QuestionPort questionPort;
 
     /// 외부 의존성
-    private AnswerPort answerPort;
+    private final UserPort userPort;
+    private final LoadEstatePort loadEstatePort;
+
+    private final AnswerPort answerPort;
 
     @Override
     public Question createQuestion(QuestionRequest request) {
-        return null;
+
+        /// 유저 예외 처리
+        boolean userChecked = userPort.checkExistingById(request.getUserId());
+        if (!userChecked) {
+            throw new NoSuchElementException(ErrorCode.NOT_USER.getMessage());
+        }
+
+        /// 아파트 예외처리
+        boolean estateChecked = loadEstatePort.checkExistingByCode(request.getKaptCode());
+        if (!estateChecked) {
+            throw new NoSuchElementException(ErrorCode.NOT_ESTATE.getMessage());
+        }
+
+        /// 객체 생성
+        Question question = Question.of(request.getUserId(), request.getKaptCode(), request.getTitle(), request.getContent());
+
+        return questionPort.save(question);
     }
 
     @Override
     public QuestionAnswerResponse loadQuestion(Long questionId) {
-        return null;
-    }
 
+        /// 질문
+        // 예외처리하기
+        Question question = questionPort.loadQuestion(questionId)
+                .orElseThrow(() -> new NoSuchElementException(ErrorCode.NOT_QUESTION.getMessage()));
+
+        /// 답변
+        List<Answer> answers = answerPort.loadAnswerByQuestionId(questionId);
+
+        /// DTO 변환
+        return QuestionAnswerResponse.from(question, answers);
+    }
 
 }

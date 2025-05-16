@@ -24,4 +24,18 @@ public class Question extends BaseDomain {
 
     private QuestionStatistics statistics;
 
+    /// 정적 팩토리 메서드
+    public static Question of(Long userId, String kaptCode, String title, String content) {
+        return Question.builder()
+                .userId(userId)
+                .kaptCode(kaptCode)
+                .title(title)
+                .content(content)
+                .build();
+    }
+
+    /// 비즈니스 로직
+
+
+
 }

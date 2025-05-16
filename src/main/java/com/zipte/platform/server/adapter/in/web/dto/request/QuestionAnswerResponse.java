@@ -6,17 +6,19 @@ import com.zipte.platform.server.domain.community.Answer;
 import com.zipte.platform.server.domain.community.Question;
 import lombok.Builder;
 
+import java.util.List;
+
 @Builder
 public record QuestionAnswerResponse(
         QuestionResponse question,
-        AnswerResponse answer
+        List<AnswerResponse> answer
 ) {
 
     /// 정적 팩토리 메서드
-    public static QuestionAnswerResponse from(Question question, Answer answer) {
+    public static QuestionAnswerResponse from(Question question, List<Answer> answers) {
         return QuestionAnswerResponse.builder()
                 .question(QuestionResponse.from(question))
-                .answer(AnswerResponse.from(answer))
+                .answer(AnswerResponse.from(answers))
                 .build();
     }
 
