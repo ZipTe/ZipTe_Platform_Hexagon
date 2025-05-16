@@ -23,5 +23,15 @@ public record AnswerResponse
                 .toList();
     }
 
+    /// null값
+    public static AnswerResponse from() {
+        return AnswerResponse.builder()
+                .id(null)
+                .userId(null)
+                .content(null)
+                .build();
+
+    }
+
 }
 

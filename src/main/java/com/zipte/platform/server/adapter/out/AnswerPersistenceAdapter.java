@@ -31,6 +31,12 @@ public class AnswerPersistenceAdapter implements AnswerPort {
     }
 
     @Override
+    public Optional<Answer> loadAnswerByQuestionIdFirst(Long questionId) {
+        return repository.findTop1ByQuestionIdOrderByCreatedAtAsc(questionId)
+                .map(AnswerJpaEntity::toDomain);
+    }
+
+    @Override
     public List<Answer> loadAnswerByQuestionId(Long questionId) {
         return repository.findByQuestionId(questionId).stream()
                 .map(AnswerJpaEntity::toDomain)
