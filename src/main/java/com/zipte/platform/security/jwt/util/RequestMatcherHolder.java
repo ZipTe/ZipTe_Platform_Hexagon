@@ -69,6 +69,14 @@ public class RequestMatcherHolder {
             new RequestInfo(POST, "/api/v1/review/**", UserRole.MEMBER),
             new RequestInfo(GET, "/api/v1/review/**", null),
 
+            // q&a
+            new RequestInfo(POST, "/api/v1/question/**", UserRole.MEMBER),
+            new RequestInfo(GET, "/api/v1/question/**", null),
+            new RequestInfo(DELETE, "/api/v1/question/**", UserRole.MEMBER),
+            new RequestInfo(POST, "/api/v1/answer/**", UserRole.MEMBER),
+            new RequestInfo(DELETE, "/api/v1/answer/**", UserRole.MEMBER),
+
+
             // static resources
             new RequestInfo(GET, "/docs/**", null),
             new RequestInfo(GET, "/*.ico", null),
