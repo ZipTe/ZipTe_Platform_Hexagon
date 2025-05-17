@@ -8,7 +8,12 @@ import java.util.*;
 public record AnswerResponse
         (Long id, Long userId,String content) {
 
-    /// 정적 팩토리 메서드
+    /**
+     * Creates an {@code AnswerResponse} from the given {@code Answer} domain object.
+     *
+     * @param answer the domain object to convert
+     * @return a new {@code AnswerResponse} with values copied from the provided {@code Answer}
+     */
     public static AnswerResponse from(Answer answer) {
         return AnswerResponse.builder()
                 .id(answer.getId())
@@ -17,13 +22,23 @@ public record AnswerResponse
                 .build();
     }
 
+    /**
+     * Converts a list of Answer objects into a list of AnswerResponse instances.
+     *
+     * @param answers the list of Answer domain objects to convert
+     * @return a list of AnswerResponse objects corresponding to the input answers
+     */
     public static List<AnswerResponse> from(List<Answer> answers) {
         return answers.stream()
                 .map(AnswerResponse::from)
                 .toList();
     }
 
-    /// null값
+    /**
+     * Creates an {@code AnswerResponse} instance with all fields set to {@code null}.
+     *
+     * @return an {@code AnswerResponse} with {@code id}, {@code userId}, and {@code content} as {@code null}
+     */
     public static AnswerResponse from() {
         return AnswerResponse.builder()
                 .id(null)

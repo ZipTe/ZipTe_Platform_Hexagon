@@ -14,7 +14,15 @@ public record QuestionAnswerDetailResponse(
         List<AnswerResponse> answer
 ) {
 
-    /// 정적 팩토리 메서드
+    /****
+     * Creates a {@code QuestionAnswerDetailResponse} from a {@code Question} and a list of {@code Answer} objects.
+     *
+     * Converts the given domain objects into their corresponding response DTOs and assembles them into a detailed response.
+     *
+     * @param question the question domain object to convert
+     * @param answers the list of answer domain objects to convert
+     * @return a {@code QuestionAnswerDetailResponse} containing the converted question and answers
+     */
     public static QuestionAnswerDetailResponse from(Question question, List<Answer> answers) {
         return QuestionAnswerDetailResponse.builder()
                 .question(QuestionResponse.from(question))

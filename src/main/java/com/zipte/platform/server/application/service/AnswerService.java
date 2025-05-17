@@ -24,6 +24,13 @@ public class AnswerService implements AnswerUseCase {
     private final UserPort userPort;
     private final QuestionPort questionPort;
 
+    /**
+     * Creates and saves an answer comment after validating the existence of the user and question.
+     *
+     * @param request the answer creation request containing user ID, question ID, and content
+     * @return the saved Answer entity
+     * @throws NoSuchElementException if the user or question does not exist
+     */
     @Override
     public Answer createComment(AnswerRequest request) {
 

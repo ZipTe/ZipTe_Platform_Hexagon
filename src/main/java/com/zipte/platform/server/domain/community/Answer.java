@@ -20,7 +20,14 @@ public class Answer extends BaseDomain {
 
     private String content;
 
-    /// 정적 팩토리 메서드
+    /**
+     * Creates a new Answer instance with the specified user ID, question ID, and content.
+     *
+     * @param userId the ID of the user providing the answer
+     * @param questionId the ID of the question being answered
+     * @param content the content of the answer
+     * @return a new Answer object with the given user ID, question ID, and content
+     */
     public static Answer of(Long userId, Long questionId, String content) {
         return Answer.builder()
                 .userId(userId)

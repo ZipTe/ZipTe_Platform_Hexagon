@@ -36,6 +36,13 @@ public class QuestionService implements QuestionUseCase {
 
     private final AnswerPort answerPort;
 
+    /**
+     * Creates and saves a new question after validating the existence of the user and estate.
+     *
+     * @param request the question creation request containing user ID, estate code, title, and content
+     * @return the saved Question entity
+     * @throws NoSuchElementException if the user or estate does not exist
+     */
     @Override
     public Question createQuestion(QuestionRequest request) {
 
@@ -57,6 +64,13 @@ public class QuestionService implements QuestionUseCase {
         return questionPort.save(question);
     }
 
+    /**
+     * Retrieves detailed information for a specific question, including all associated answers.
+     *
+     * @param questionId the unique identifier of the question to retrieve
+     * @return a response DTO containing the question and its answers
+     * @throws NoSuchElementException if the question does not exist
+     */
     @Override
     public QuestionAnswerDetailResponse loadQuestion(Long questionId) {
 
@@ -72,6 +86,14 @@ public class QuestionService implements QuestionUseCase {
         return QuestionAnswerDetailResponse.from(question, answers);
     }
 
+    /**
+     * Retrieves a paginated list of questions for a given estate code, each paired with its first associated answer if available.
+     *
+     * @param kaptCode the estate code to filter questions by
+     * @param pageable pagination information
+     * @return a page of question and answer summary response DTOs
+     * @throws NoSuchElementException if the estate with the given code does not exist
+     */
     @Override
     public Page<QuestionAnswerListResponse> loadQuestions(String kaptCode, Pageable pageable) {
 

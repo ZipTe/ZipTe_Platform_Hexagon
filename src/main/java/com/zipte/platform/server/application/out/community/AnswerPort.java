@@ -11,16 +11,35 @@ public interface AnswerPort {
     Answer saveAnswer(Answer answer);
 
     /// 조회
-    // 답변 조회하기
+    /****
+ * Retrieves an answer by its unique identifier.
+ *
+ * @param id the unique identifier of the answer
+ * @return an {@code Optional} containing the found answer, or empty if not found
+ */
     Optional<Answer> loadAnswerById(Long id);
 
-    // 대표 답변 조회
+    /**
+ * Retrieves the primary or first answer associated with the specified question ID.
+ *
+ * @param questionId the unique identifier of the question
+ * @return an {@code Optional} containing the first or representative {@code Answer}, or empty if none exists
+ */
     Optional<Answer> loadAnswerByQuestionIdFirst(Long questionId);
 
-    // 질문에 따른 답변 목록 가져오기
+    /**
+ * Retrieves all answers associated with the specified question ID.
+ *
+ * @param questionId the unique identifier of the question
+ * @return a list of answers linked to the given question ID; the list may be empty if no answers exist
+ */
     List<Answer> loadAnswerByQuestionId(Long questionId);
 
-    /// 삭제
+    /****
+ * Deletes the answer identified by the given ID.
+ *
+ * @param id the unique identifier of the answer to delete
+ */
     void deleteAnswerById(Long id);
 
 }

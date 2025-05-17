@@ -32,6 +32,12 @@ public class QuestionAPi {
     /// 답변
     private final AnswerUseCase answerService;
 
+    /**
+     * Creates a new question based on the provided request data.
+     *
+     * @param request the question details to be created
+     * @return an ApiResponse containing a success message upon successful creation
+     */
     @PostMapping("/question")
     public ApiResponse<String> createQuestion(@RequestBody QuestionRequest request) {
 
@@ -42,6 +48,13 @@ public class QuestionAPi {
 
     }
 
+    /**
+     * Retrieves a paginated list of questions filtered by the specified kaptCode.
+     *
+     * @param kaptCode the code used to filter questions
+     * @param pageRequest pagination and page size information
+     * @return an ApiResponse containing a PageResponse with the list of questions and pagination details
+     */
     @GetMapping("/question/{kaptCode}")
     public ApiResponse<PageResponse<QuestionAnswerListResponse>> getQuestions(
             @PathVariable String kaptCode,
@@ -61,6 +74,12 @@ public class QuestionAPi {
         return ApiResponse.ok(new PageResponse<>(dtolist, pageRequest, result.getTotalElements()));
     }
 
+    /**
+     * Retrieves detailed information for a specific question by its ID.
+     *
+     * @param questionId the unique identifier of the question to retrieve
+     * @return an ApiResponse containing the detailed question and its answers
+     */
     @GetMapping("/question/detail/{questionId}")
     public ApiResponse<QuestionAnswerDetailResponse> getQuestion(
             @PathVariable Long questionId) {
@@ -72,6 +91,12 @@ public class QuestionAPi {
 
 
 
+    /**
+     * Creates a new answer based on the provided request data.
+     *
+     * @param request the answer creation request payload
+     * @return an ApiResponse containing a success message upon successful answer creation
+     */
     @PostMapping("/answer")
     public ApiResponse<String> createAnswer(@RequestBody AnswerRequest request) {
 

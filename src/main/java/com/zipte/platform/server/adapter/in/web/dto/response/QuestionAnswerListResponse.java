@@ -12,7 +12,15 @@ public record QuestionAnswerListResponse(
         AnswerResponse answer
 ) {
 
-    /// 정적 팩토리 메서드
+    /**
+     * Creates a {@code QuestionAnswerListResponse} from a {@code Question} and an optional {@code Answer}.
+     *
+     * If the {@code Answer} is present, it is converted to an {@code AnswerResponse}; otherwise, a default {@code AnswerResponse} is used.
+     *
+     * @param question the question to include in the response
+     * @param answer an optional answer associated with the question
+     * @return a {@code QuestionAnswerListResponse} containing the question and corresponding answer response
+     */
     public static QuestionAnswerListResponse from(Question question, Optional<Answer> answer) {
         return QuestionAnswerListResponse.builder()
                 .question(QuestionResponse.from(question))

@@ -18,12 +18,21 @@ public interface QuestionPort {
     // 아파트 이름별, 질문 목록 조회
     Page<Question> loadQuestionsByKaptCode(String kaptCode, Pageable pageable);
 
-    /// 삭제
+    /**
+ * Deletes the question identified by the given ID.
+ *
+ * @param id the unique identifier of the question to delete
+ */
     void deleteQuestionById(Long id);
 
 
 
 
-    /// 외부 의존성
+    /****
+ * Determines whether a question with the specified ID exists.
+ *
+ * @param questionId the unique identifier of the question to check
+ * @return true if a question with the given ID exists; false otherwise
+ */
     boolean checkExistQuestion(Long questionId);
 }

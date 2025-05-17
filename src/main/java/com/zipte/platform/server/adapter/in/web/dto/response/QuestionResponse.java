@@ -7,7 +7,12 @@ import lombok.Builder;
 public record QuestionResponse
         (Long id, String kaptCode, String title, String content) {
 
-    /// 정적 팩토리 메서드
+    /**
+     * Creates a {@code QuestionResponse} from a {@code Question} domain object.
+     *
+     * @param question the source {@code Question} entity
+     * @return a {@code QuestionResponse} containing the id, title, kaptCode, and content from the given {@code Question}
+     */
     public static QuestionResponse from(Question question) {
         return QuestionResponse.builder()
                 .id(question.getId())

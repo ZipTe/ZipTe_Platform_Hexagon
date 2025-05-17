@@ -14,13 +14,29 @@ public interface QuestionUseCase {
      */
 
 
-    /// 아파트에 대한 질문 하기
+    /**
+ * Creates a new question related to an apartment complex.
+ *
+ * @param request the details of the question to be created
+ * @return the created Question entity
+ */
     Question createQuestion(QuestionRequest request);
 
-    /// 답변과 함께 조회 하기
+    /**
+ * Retrieves detailed information about a question and its answers by question ID.
+ *
+ * @param questionId the unique identifier of the question to retrieve
+ * @return a detailed response containing the question and its associated answers
+ */
     QuestionAnswerDetailResponse loadQuestion(Long questionId);
 
-    /// 질문 목록 조회하기
+    /**
+ * Retrieves a paginated list of questions for a specified apartment complex.
+ *
+ * @param kaptCode the unique code identifying the apartment complex
+ * @param pageable pagination information for the result set
+ * @return a page of questions and their associated answers
+ */
     Page<QuestionAnswerListResponse> loadQuestions(String kaptCode, Pageable pageable);
 
 }
