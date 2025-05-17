@@ -1,6 +1,7 @@
 package com.zipte.platform.server.application.service;
 
 import com.zipte.platform.server.adapter.in.web.dto.request.AnswerRequest;
+import com.zipte.platform.server.application.in.task.AnswerNotificationTask;
 import com.zipte.platform.server.application.out.community.AnswerPort;
 import com.zipte.platform.server.application.out.community.QuestionPort;
 import com.zipte.platform.server.application.out.user.UserPort;
@@ -32,6 +33,9 @@ class AnswerServiceTest {
 
     @Mock
     private QuestionPort questionPort;
+
+    @Mock
+    private AnswerNotificationTask answerNotificationTask;
 
     @InjectMocks
     private AnswerService sut;
@@ -71,6 +75,9 @@ class AnswerServiceTest {
                     .isNotNull()
                     .hasFieldOrPropertyWithValue("userId", userId)
                     .hasFieldOrPropertyWithValue("questionId", questionId);
+
+            verify(answerNotificationTask).createNotification(result);
+
         }
 
 
@@ -140,6 +147,8 @@ class AnswerServiceTest {
 
             // Then
             verify(answerPort).deleteAnswerById(answerId);
+            verify(answerNotificationTask).removeNotification(answerId);
+
         }
 
         @Test
