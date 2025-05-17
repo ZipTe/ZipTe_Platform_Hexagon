@@ -26,7 +26,8 @@ public class RequestMatcherHolder {
             new RequestInfo(POST, "/error", null),
 
             // 개발용
-            new RequestInfo(POST, "/api/v1/auth/dev-login", null),
+            new RequestInfo(POST, "/api/v1/auth/dev-login-1", null),
+            new RequestInfo(POST, "/api/v1/auth/dev-login-2", null),
 
             // auth
             new RequestInfo(POST, "/api/v1/oauth2", null),
