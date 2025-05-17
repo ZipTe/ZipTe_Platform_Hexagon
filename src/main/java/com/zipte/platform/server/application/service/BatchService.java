@@ -28,7 +28,7 @@ public class BatchService {
     private final EstatePricePort estatePricePort;
 
     // 매일 오전 3시 실행
-    @Scheduled(cron = "0 00 3 * * *", zone = "Asia/Seoul")
+    @Scheduled(cron = "0 10 3 * * *", zone = "Asia/Seoul")
     public void saveRegionPrice() {
 
         List<Region> regions = regionPort.loadAllRegions();
