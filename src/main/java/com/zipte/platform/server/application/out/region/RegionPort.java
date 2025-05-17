@@ -16,4 +16,7 @@ public interface RegionPort {
     /// 존재 여부를 체크하는 boolean
     boolean checkExistCode(String regionCode);
 
+
+    /// 배치 처리
+    List<Region> loadAllRegions();
 }

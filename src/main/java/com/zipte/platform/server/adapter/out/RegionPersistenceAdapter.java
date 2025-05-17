@@ -46,4 +46,11 @@ public class RegionPersistenceAdapter implements RegionPort {
         return repository.existsByCode(regionCode);
     }
 
+    @Override
+    public List<Region> loadAllRegions() {
+        return repository.findAll().stream()
+                .map(RegionJpaEntity::toDomain)
+                .toList();
+    }
+
 }
