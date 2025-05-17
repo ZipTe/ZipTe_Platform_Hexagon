@@ -13,4 +13,9 @@ public interface AnswerUseCase {
     /// 답변 하기
     Answer createAnswer(AnswerRequest request);
 
+    /// 답변 조회는 질문 서비스에서 한번에 처리한다.
+
+    /// 답변 삭제하기
+    void deleteAnswer(Long id, Long userId);
+
 }

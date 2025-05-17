@@ -45,4 +45,26 @@ public class AnswerService implements AnswerUseCase {
         /// 저장하기
         return answerPort.saveAnswer(answer);
     }
+
+    @Override
+    public void deleteAnswer(Long id, Long userId) {
+
+        /// 유저 예외처리
+        boolean checkedUser = userPort.checkExistingById(userId);
+        if (!checkedUser) {
+            throw new NoSuchElementException(ErrorCode.NOT_USER.getMessage());
+        }
+
+        /// 요청자와 답변 작성자가 일치하는지 예외처리
+        boolean checkedDelete = answerPort.checkExistAnswerByIdAndUserId(id, userId);
+        if (!checkedDelete) {
+            throw new IllegalStateException(ErrorCode.BAD_REQUEST_DELETE_ANSWER.getMessage());
+        }
+
+        /// 삭제하기
+        answerPort.deleteAnswerById(id);
+
+    }
+
+
 }

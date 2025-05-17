@@ -23,4 +23,5 @@ public interface AnswerPort {
     /// 삭제
     void deleteAnswerById(Long id);
 
+    boolean checkExistAnswerByIdAndUserId(Long id, Long userId);
 }

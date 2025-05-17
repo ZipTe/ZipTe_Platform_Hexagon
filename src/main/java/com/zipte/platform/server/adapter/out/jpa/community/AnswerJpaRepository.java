@@ -11,5 +11,7 @@ public interface AnswerJpaRepository extends JpaRepository<AnswerJpaEntity, Long
 
     Optional<AnswerJpaEntity> findTop1ByQuestionIdOrderByCreatedAtAsc(Long questionId);
 
+    boolean existsByIdAndUserId(Long id, Long userId);
+
 
 }

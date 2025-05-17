@@ -47,4 +47,10 @@ public class AnswerPersistenceAdapter implements AnswerPort {
     public void deleteAnswerById(Long id) {
         repository.deleteById(id);
     }
+
+    @Override
+    public boolean checkExistAnswerByIdAndUserId(Long id, Long userId) {
+        return repository.existsByIdAndUserId(id, userId);
+    }
+
 }

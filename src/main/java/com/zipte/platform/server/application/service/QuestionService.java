@@ -112,7 +112,7 @@ public class QuestionService implements QuestionUseCase {
         /// 요청자와 글 작성자가 동일한지 체크
         boolean checkedDelete = questionPort.checkExistQuestionByIdAndUserId(id, userId);
         if (!checkedDelete) {
-            throw new IllegalStateException(ErrorCode.BAD_REQUEST_DELETE_REVIEW.getMessage());
+            throw new IllegalStateException(ErrorCode.BAD_REQUEST_DELETE_QUESTION.getMessage());
         }
 
         /// 삭제 하기
