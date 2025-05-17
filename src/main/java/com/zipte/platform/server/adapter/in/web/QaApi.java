@@ -8,6 +8,7 @@ import com.zipte.platform.server.adapter.in.web.dto.request.AnswerRequest;
 import com.zipte.platform.server.adapter.in.web.dto.response.QuestionAnswerDetailResponse;
 import com.zipte.platform.server.adapter.in.web.dto.request.QuestionRequest;
 import com.zipte.platform.server.adapter.in.web.dto.response.QuestionAnswerListResponse;
+import com.zipte.platform.server.adapter.in.web.swagger.QaApiSpec;
 import com.zipte.platform.server.application.in.community.AnswerUseCase;
 import com.zipte.platform.server.application.in.community.QuestionUseCase;
 import jakarta.validation.Valid;
@@ -25,7 +26,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/v1")
 @RequiredArgsConstructor
-public class QaApi {
+public class QaApi implements QaApiSpec {
 
     /// 질문
     private final QuestionUseCase questionService;
