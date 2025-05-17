@@ -99,4 +99,25 @@ public class QuestionService implements QuestionUseCase {
         return new PageImpl<>(responseList, pageable, questions.getTotalElements());
     }
 
+    /// 질문 삭제하기
+    @Override
+    public void deleteQuestion(Long id, Long userId) {
+
+        /// 선제적으로 유저 예외처리하기
+        boolean checkedUser = userPort.checkExistingById(userId);
+        if (!checkedUser) {
+            throw new NoSuchElementException(ErrorCode.NOT_USER.getMessage());
+        }
+
+        /// 요청자와 글 작성자가 동일한지 체크
+        boolean checkedDelete = questionPort.checkExistQuestionByIdAndUserId(id, userId);
+        if (!checkedDelete) {
+            throw new IllegalStateException(ErrorCode.BAD_REQUEST_DELETE_REVIEW.getMessage());
+        }
+
+        /// 삭제 하기
+        questionPort.deleteQuestionById(id);
+
+    }
+
 }

@@ -9,4 +9,7 @@ public interface QuestionJpaRepository extends JpaRepository<QuestionJpaEntity, 
     Page<QuestionJpaEntity> findByKaptCode(String kaptCode, Pageable pageable);
 
     boolean existsById(Long id);
+
+    boolean existByIdAndUserId(Long id, Long userId);
+
 }

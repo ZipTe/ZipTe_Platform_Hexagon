@@ -23,4 +23,7 @@ public interface QuestionUseCase {
     /// 질문 목록 조회하기
     Page<QuestionAnswerListResponse> loadQuestions(String kaptCode, Pageable pageable);
 
+    /// 질문 삭제하기
+    void deleteQuestion(Long questionId, Long userId);
+
 }

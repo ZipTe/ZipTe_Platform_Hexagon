@@ -46,7 +46,10 @@ public enum ErrorCode {
     NOT_FAVORITE_YOURS(6002, HttpStatus.NOT_FOUND, "해당하는 코드가 유저의 관심목록에 존재하지 않습니다."),
 
     /// 질문 관련
-    NOT_QUESTION(7000, HttpStatus.NOT_FOUND, "해당하는 질문이 존재하지 않습니다");
+    NOT_QUESTION(7000, HttpStatus.NOT_FOUND, "해당하는 질문이 존재하지 않습니다"),
+    BAD_REQUEST_DELETE_QUESTION(7010, HttpStatus.BAD_REQUEST, "본인이 등록하지 않은 질문을 삭제할 수 없습니다."),;
+
+
 
     private final Integer code;
     private final HttpStatus httpStatus;
