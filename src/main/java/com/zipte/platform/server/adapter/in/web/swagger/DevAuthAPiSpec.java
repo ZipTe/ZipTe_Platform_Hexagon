@@ -7,11 +7,15 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 
 @Tag(name = "개발용 JWT 발급 API", description = "개발용 JWT 발급 API입니다.")
 public interface DevAuthAPiSpec {
+
     @Operation(
-            summary = "개발용 JWT를 발급 받을 토큰입니다."
+            summary = "유저 A에 대해 개발용 JWT를 발급 받을 토큰입니다."
     )
-    ApiResponse<UserLoginResponse> devLogin();
+    ApiResponse<UserLoginResponse> devLogin1();
 
-
+    @Operation(
+            summary = "유저 B에 대해 개발용 JWT를 발급 받을 토큰입니다."
+    )
+    ApiResponse<UserLoginResponse> devLogin2();
 
 }
