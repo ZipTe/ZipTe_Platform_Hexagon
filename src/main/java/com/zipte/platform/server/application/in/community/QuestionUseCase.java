@@ -1,6 +1,6 @@
 package com.zipte.platform.server.application.in.community;
 
-import com.zipte.platform.server.adapter.in.web.dto.request.QuestionAnswerDetailResponse;
+import com.zipte.platform.server.adapter.in.web.dto.response.QuestionAnswerDetailResponse;
 import com.zipte.platform.server.adapter.in.web.dto.request.QuestionRequest;
 import com.zipte.platform.server.adapter.in.web.dto.response.QuestionAnswerListResponse;
 import com.zipte.platform.server.domain.community.Question;
