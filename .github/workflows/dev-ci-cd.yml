@@ -15,6 +15,15 @@ jobs:
   #1. 개발 서버 CI, Build 용
   CI:
     runs-on: ubuntu-22.04
+    services:
+      redis:
+        image: redis:7.2.5
+        ports:
+          - 6379:6379
+      mongo:
+        image: mongo:6.0
+        ports:
+          - 27017:27017
     permissions:
       contents: write
       checks: write
@@ -41,7 +50,7 @@ jobs:
           echo "${{ secrets.DATA_SQL }}" > ./src/main/resources/data.sql
           
           mkdir -p src/test/resources
-          echo "${{ secrets.APPLICATION_TEST_YML }}" > ./src/test/resources/application.yml
+          echo "${{ secrets.APPLICATION_TEST_YML }}" > ./src/test/resources/application-test.yml
 
       # 4. gradle 환경 설치
       - name: Gradle Wrapper 권한 부여
