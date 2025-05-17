@@ -29,10 +29,8 @@ public class AnswerNotificationPersistenceAdapter implements SaveAnswerNotificat
 
 
     @Override
-    public void deleteAnswerNotification(Long answerId) {
-        AnswerNotificationDocument document = repository.findByAnswerId(answerId)
-                .orElseThrow(() -> new EntityNotFoundException("값이 존재하지않습니다"));
+    public void deleteAnswerNotification(String id) {
 
-        repository.deleteById(document.getId());
+        repository.deleteById(id);
     }
 }

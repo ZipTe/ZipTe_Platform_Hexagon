@@ -3,6 +3,7 @@ package com.zipte.platform.server.application.service;
 import com.zipte.platform.core.response.ErrorCode;
 import com.zipte.platform.server.adapter.in.web.dto.request.AnswerRequest;
 import com.zipte.platform.server.application.in.community.AnswerUseCase;
+import com.zipte.platform.server.application.in.task.AnswerNotificationTask;
 import com.zipte.platform.server.application.out.community.AnswerPort;
 import com.zipte.platform.server.application.out.community.QuestionPort;
 import com.zipte.platform.server.application.out.user.UserPort;
@@ -24,6 +25,9 @@ public class AnswerService implements AnswerUseCase {
     private final UserPort userPort;
     private final QuestionPort questionPort;
 
+    /// 알림센터 의존성
+    private final AnswerNotificationTask notificationService;
+
     @Override
     public Answer createAnswer(AnswerRequest request) {
 
@@ -43,7 +47,12 @@ public class AnswerService implements AnswerUseCase {
         Answer answer = Answer.of(request.getUserId(), request.getQuestionId(), request.getContent());
 
         /// 저장하기
-        return answerPort.saveAnswer(answer);
+        Answer saved = answerPort.saveAnswer(answer);
+
+        /// 알림 생성하기
+        notificationService.createNotification(saved);
+
+        return saved;
     }
 
     @Override
@@ -63,6 +72,9 @@ public class AnswerService implements AnswerUseCase {
 
         /// 삭제하기
         answerPort.deleteAnswerById(id);
+
+        /// 알림 제거하기
+        notificationService.removeNotification(id);
 
     }
 
