@@ -22,7 +22,9 @@ public class RegionPriceJpaEntity extends BaseEntity {
 
     private Double between15and20;
 
-    private Double between20and30;
+    private Double between20and25;
+
+    private Double between25and30;
 
     private Double upper30;
 
@@ -32,7 +34,8 @@ public class RegionPriceJpaEntity extends BaseEntity {
                 .regionCode(regionPrice.getRegionCode())
                 .under15(regionPrice.getUnder15())
                 .between15and20(regionPrice.getBetween15and20())
-                .between20and30(regionPrice.getBetween20and30())
+                .between20and25(regionPrice.getBetween20and25())
+                .between25and30(regionPrice.getBetween25and30())
                 .upper30(regionPrice.getUpper30())
                 .build();
     }
@@ -43,7 +46,8 @@ public class RegionPriceJpaEntity extends BaseEntity {
                 .regionCode(regionCode)
                 .under15(under15)
                 .between15and20(between15and20)
-                .between20and30(between20and30)
+                .between20and25(between20and25)
+                .between25and30(between25and30)
                 .upper30(upper30)
                 .build();
     }
@@ -54,7 +58,8 @@ public class RegionPriceJpaEntity extends BaseEntity {
         this.regionCode = domain.getRegionCode();
         this.under15 = domain.getUnder15();
         this.between15and20 = domain.getBetween15and20();
-        this.between20and30 = domain.getBetween20and30();
+        this.between20and25 = domain.getBetween20and25();
+        this.between25and30 = domain.getBetween25and30();
         this.upper30 = domain.getUpper30();
     }
 

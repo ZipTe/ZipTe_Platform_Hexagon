@@ -16,7 +16,9 @@ public class RegionPrice extends BaseDomain {
 
     private Double between15and20;
 
-    private Double between20and30;
+    private Double between20and25;
+
+    private Double between25and30;
 
     private Double upper30;
 
@@ -26,7 +28,8 @@ public class RegionPrice extends BaseDomain {
                 .regionCode(regionCode)
                 .under15(averagePrices.get("15평 이하"))
                 .between15and20(averagePrices.get("15~20평"))
-                .between20and30(averagePrices.get("20~25평"))
+                .between20and25(averagePrices.get("20~25평"))
+                .between25and30(averagePrices.get("25~30평"))
                 .upper30(averagePrices.get("30평 이상"))
                 .build();
     }
