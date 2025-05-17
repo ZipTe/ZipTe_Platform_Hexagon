@@ -7,6 +7,7 @@ public interface AnswerNotificationTask {
 
     void createNotification(Answer answer);
 
-    void removeNotification(Answer answer);
+    void removeNotification(Long answerId);
+
 
 }

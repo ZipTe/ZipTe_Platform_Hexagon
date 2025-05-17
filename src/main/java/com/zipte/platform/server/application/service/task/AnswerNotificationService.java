@@ -5,6 +5,7 @@ import com.zipte.platform.core.util.NotificationIdGenerator;
 import com.zipte.platform.server.adapter.out.mongo.notification.base.NotificationType;
 import com.zipte.platform.server.application.in.task.AnswerNotificationTask;
 import com.zipte.platform.server.application.out.community.QuestionPort;
+import com.zipte.platform.server.application.out.notification.LoadNotificationPort;
 import com.zipte.platform.server.application.out.notification.answer.DeleteAnswerNotificationPort;
 import com.zipte.platform.server.application.out.notification.answer.SaveAnswerNotificationPort;
 import com.zipte.platform.server.domain.community.Answer;
@@ -24,6 +25,7 @@ import java.util.Objects;
 public class AnswerNotificationService implements AnswerNotificationTask {
 
     private final SaveAnswerNotificationPort savePort;
+    private final LoadNotificationPort loadPort;
     private final DeleteAnswerNotificationPort deletePort;
 
     /// 의존성
@@ -51,7 +53,13 @@ public class AnswerNotificationService implements AnswerNotificationTask {
     }
 
     @Override
-    public void removeNotification(Answer answer) {
+    public void removeNotification(Long answerId) {
+
+        /// 예외처리
+        AnswerNotification answer = loadPort.loadAnswerNotification(answerId)
+                .orElseThrow(() -> new NoSuchElementException(ErrorCode.NOT_ANSWER.getMessage()));
+
+        /// 삭제
         deletePort.deleteAnswerNotification(answer.getId());
     }
 
