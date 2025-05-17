@@ -58,7 +58,8 @@ jobs:
       - name: application-test.yml 설정
         run: |
           mkdir -p src/test/resources
-          echo "${{ secrets.APPLICATION_TEST_YML }}" > ./src/test/resources/application.yml
+          echo "${{ secrets.APPLICATION_TEST_YML }}" > ./src/test/resources/application-test.yml
+          
 
 
       # 1-4. gradle 환경 설치
