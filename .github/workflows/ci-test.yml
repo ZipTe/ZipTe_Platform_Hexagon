@@ -18,6 +18,15 @@ jobs:
   test:
 
     runs-on: ubuntu-22.04
+    services:
+      redis:
+        image: redis:7.2.5
+        ports:
+          - 6379:6379
+      mongo:
+        image: mongo:6.0
+        ports:
+          - 27017:27017
     permissions:
       contents: write
       checks: write
