@@ -47,7 +47,9 @@ jobs:
         run: echo "${{ secrets.APPLICATION_OAUTH2_YML }}" > ./src/main/resources/application-oauth2.yml
 
       - name: application-test.yml 설정
-        run: echo "${{ secrets.APPLICATION_TEST_YML }}" > ./src/test/resources/application.yml
+        run: |
+          mkdir -p src/test/resources
+          echo "${{ secrets.APPLICATION_TEST_YML }}" > ./src/test/resources/application.yml
 
 
       # 1-4. gradle 환경 설치
