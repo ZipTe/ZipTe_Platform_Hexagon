@@ -10,6 +10,6 @@ public interface QuestionJpaRepository extends JpaRepository<QuestionJpaEntity, 
 
     boolean existsById(Long id);
 
-    boolean existByIdAndUserId(Long id, Long userId);
+    boolean existsByIdAndUserId(Long id, Long userId);
 
 }

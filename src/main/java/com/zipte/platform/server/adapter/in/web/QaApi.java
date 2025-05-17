@@ -11,6 +11,7 @@ import com.zipte.platform.server.application.in.community.AnswerUseCase;
 import com.zipte.platform.server.application.in.community.QuestionUseCase;
 import com.zipte.platform.server.domain.community.Answer;
 import com.zipte.platform.server.domain.community.Question;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
@@ -24,7 +25,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/v1")
 @RequiredArgsConstructor
-public class QuestionAPi {
+public class QaApi {
 
     /// 질문
     private final QuestionUseCase questionService;
@@ -33,7 +34,7 @@ public class QuestionAPi {
     private final AnswerUseCase answerService;
 
     @PostMapping("/question")
-    public ApiResponse<String> createQuestion(@RequestBody QuestionRequest request) {
+    public ApiResponse<String> createQuestion(@RequestBody @Valid QuestionRequest request) {
 
         Question question = questionService.createQuestion(request);
         log.info("Question: {}", question.toString());
@@ -73,7 +74,7 @@ public class QuestionAPi {
 
 
     @PostMapping("/answer")
-    public ApiResponse<String> createAnswer(@RequestBody AnswerRequest request) {
+    public ApiResponse<String> createAnswer(@RequestBody @Valid AnswerRequest request) {
 
         Answer answer = answerService.createAnswer(request);
         log.info("Answer: {}", answer.toString());

@@ -50,7 +50,7 @@ public class QuestionPersistenceAdapter implements QuestionPort {
 
     @Override
     public boolean checkExistQuestionByIdAndUserId(Long id, Long userId) {
-        return repository.existByIdAndUserId(id, userId);
+        return repository.existsByIdAndUserId(id, userId);
     }
 
 }
