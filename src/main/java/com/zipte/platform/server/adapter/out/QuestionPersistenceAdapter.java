@@ -1,5 +1,6 @@
 package com.zipte.platform.server.adapter.out;
 
+import com.zipte.platform.server.adapter.out.jpa.community.QuestionJpaEntity;
 import com.zipte.platform.server.adapter.out.jpa.community.QuestionJpaRepository;
 import com.zipte.platform.server.application.out.community.QuestionPort;
 import com.zipte.platform.server.domain.community.Question;
@@ -18,22 +19,38 @@ public class QuestionPersistenceAdapter implements QuestionPort {
 
     @Override
     public Question save(Question question) {
-        return null;
+
+        var entity = QuestionJpaEntity.from(question);
+
+        return repository.save(entity)
+                .toDomain();
     }
 
-    // 상세 조회하기
     @Override
     public Optional<Question> loadQuestion(Long id) {
-        return Optional.empty();
+        return repository.findById(id)
+                .map(QuestionJpaEntity::toDomain);
     }
 
     @Override
     public Page<Question> loadQuestionsByKaptCode(String kaptCode, Pageable pageable) {
-        return null;
+        return repository.findByKaptCode(kaptCode, pageable)
+                .map(QuestionJpaEntity::toDomain);
     }
 
     @Override
     public void deleteQuestionById(Long id) {
-
+        repository.deleteById(id);
     }
+
+    @Override
+    public boolean checkExistQuestion(Long questionId) {
+        return repository.existsById(questionId);
+    }
+
+    @Override
+    public boolean checkExistQuestionByIdAndUserId(Long id, Long userId) {
+        return repository.existsByIdAndUserId(id, userId);
+    }
+
 }

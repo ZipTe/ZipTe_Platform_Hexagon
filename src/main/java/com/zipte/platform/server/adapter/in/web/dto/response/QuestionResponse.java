@@ -5,11 +5,12 @@ import lombok.Builder;
 
 @Builder
 public record QuestionResponse
-        (String id, String kaptCode, String title, String content) {
+        (Long id, String kaptCode, String title, String content) {
 
     /// 정적 팩토리 메서드
     public static QuestionResponse from(Question question) {
         return QuestionResponse.builder()
+                .id(question.getId())
                 .title(question.getTitle())
                 .kaptCode(question.getKaptCode())
                 .content(question.getContent())

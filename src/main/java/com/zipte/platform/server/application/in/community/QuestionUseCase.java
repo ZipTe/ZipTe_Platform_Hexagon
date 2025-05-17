@@ -1,8 +1,11 @@
 package com.zipte.platform.server.application.in.community;
 
-import com.zipte.platform.server.adapter.in.web.dto.request.QuestionAnswerResponse;
+import com.zipte.platform.server.adapter.in.web.dto.response.QuestionAnswerDetailResponse;
 import com.zipte.platform.server.adapter.in.web.dto.request.QuestionRequest;
+import com.zipte.platform.server.adapter.in.web.dto.response.QuestionAnswerListResponse;
 import com.zipte.platform.server.domain.community.Question;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
 public interface QuestionUseCase {
 
@@ -15,6 +18,12 @@ public interface QuestionUseCase {
     Question createQuestion(QuestionRequest request);
 
     /// 답변과 함께 조회 하기
-    QuestionAnswerResponse loadQuestion(Long questionId);
+    QuestionAnswerDetailResponse loadQuestion(Long questionId);
+
+    /// 질문 목록 조회하기
+    Page<QuestionAnswerListResponse> loadQuestions(String kaptCode, Pageable pageable);
+
+    /// 질문 삭제하기
+    void deleteQuestion(Long questionId, Long userId);
 
 }

@@ -20,4 +20,13 @@ public class Answer extends BaseDomain {
 
     private String content;
 
+    /// 정적 팩토리 메서드
+    public static Answer of(Long userId, Long questionId, String content) {
+        return Answer.builder()
+                .userId(userId)
+                .questionId(questionId)
+                .content(content)
+                .build();
+    }
+
 }
