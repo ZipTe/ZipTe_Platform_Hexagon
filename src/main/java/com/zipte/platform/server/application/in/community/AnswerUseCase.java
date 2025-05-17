@@ -11,6 +11,6 @@ public interface AnswerUseCase {
      */
 
     /// 답변 하기
-    Answer createComment(AnswerRequest request);
+    Answer createAnswer(AnswerRequest request);
 
 }

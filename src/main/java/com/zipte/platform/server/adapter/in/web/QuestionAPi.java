@@ -75,7 +75,7 @@ public class QuestionAPi {
     @PostMapping("/answer")
     public ApiResponse<String> createAnswer(@RequestBody AnswerRequest request) {
 
-        Answer answer = answerService.createComment(request);
+        Answer answer = answerService.createAnswer(request);
         log.info("Answer: {}", answer.toString());
 
         return ApiResponse.ok("성공적으로 답변이 저장되었습니다.");

@@ -25,7 +25,7 @@ public class AnswerService implements AnswerUseCase {
     private final QuestionPort questionPort;
 
     @Override
-    public Answer createComment(AnswerRequest request) {
+    public Answer createAnswer(AnswerRequest request) {
 
         /// 유저 예외처리
         boolean userChecked = userPort.checkExistingById(request.getUserId());
