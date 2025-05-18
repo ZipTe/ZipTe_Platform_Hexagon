@@ -12,20 +12,32 @@ import com.zipte.platform.server.domain.region.Region;
 import com.zipte.platform.server.domain.region.RegionPrice;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.boot.context.event.ApplicationReadyEvent;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
+import org.springframework.context.event.EventListener;
 
 @Slf4j
 @Service
 @RequiredArgsConstructor
 public class BatchService {
 
+    /*
+        GPT 기반 배치 처리 구현
+     */
+
     private final RegionPort regionPort;
     private final RegionPricePort regionPricePort;
     private final LoadEstatePort loadEstatePort;
     private final EstatePricePort estatePricePort;
+
+    @EventListener(ApplicationReadyEvent.class)
+    public void runOnceAtStartup() {
+        log.info("🔥 BatchService initialized - running saveRegionPrice()");
+        saveRegionPrice();
+    }
 
     // 매일 오전 3시 실행
     @Scheduled(cron = "0 20 3 * * *", zone = "Asia/Seoul")
