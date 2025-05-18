@@ -14,9 +14,10 @@ public record RegionPriceResponse(
         @JsonProperty("15~20평")
         String between15and20,
 
-        @JsonProperty("20~30평")
-        String between20and35,
+        @JsonProperty("20~25평")
+        String between20and25,
 
+        @JsonProperty("25~30평")
         String between25and30,
 
 
@@ -28,6 +29,7 @@ public record RegionPriceResponse(
                 .regionCode(regionPrice.getRegionCode())
                 .under15(format(regionPrice.getUnder15()))
                 .between15and20(format(regionPrice.getBetween15and20()))
+                .between20and25(format(regionPrice.getBetween20and25()))
                 .between25and30(format(regionPrice.getBetween25and30()))
                 .upper30(format(regionPrice.getUpper30()))
                 .build();
