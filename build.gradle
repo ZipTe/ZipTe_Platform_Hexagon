@@ -145,8 +145,8 @@ dependencies {
     // Json
     implementation 'com.googlecode.json-simple:json-simple:1.1.1'
 
-    // kafka
-    implementation 'org.springframework.kafka:spring-kafka'
+    // S3
+    implementation 'org.springframework.cloud:spring-cloud-starter-aws:2.2.6.RELEASE'
 
     // Test 관련
     annotationProcessor 'org.projectlombok:lombok'
