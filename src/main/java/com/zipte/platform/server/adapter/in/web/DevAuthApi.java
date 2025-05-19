@@ -23,7 +23,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/v1/auth")
 @RequiredArgsConstructor
-public class DevAuthAPi implements DevAuthAPiSpec {
+public class DevAuthApi implements DevAuthAPiSpec {
 
     private final UserPort userPort;
     private final JwtTokenProvider tokenProvider;

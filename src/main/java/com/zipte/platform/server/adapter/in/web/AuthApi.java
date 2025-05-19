@@ -26,7 +26,7 @@ import java.util.Map;
 @RestController
 @RequestMapping("/api/v1/oauth2")
 @RequiredArgsConstructor
-public class AuthAPi implements AuthAPiSpec {
+public class AuthApi implements AuthAPiSpec {
 
     // 토큰 재발급
     private final AuthUserUseCase authService;
