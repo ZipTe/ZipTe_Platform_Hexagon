@@ -4,6 +4,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.zipte.platform.core.response.ApiResponse;
+import com.zipte.platform.core.util.RedisKeyGenerator;
 import com.zipte.platform.security.jwt.service.JwtTokenUseCase;
 import com.zipte.platform.security.oauth2.domain.OAuth2UserInfo;
 import com.zipte.platform.security.oauth2.util.OAuth2UserInfoFactory;
@@ -25,7 +26,7 @@ import java.util.Map;
 @RestController
 @RequestMapping("/api/v1/oauth2")
 @RequiredArgsConstructor
-public class AuthController implements AuthAPiSpec {
+public class AuthAPi implements AuthAPiSpec {
 
     // 토큰 재발급
     private final AuthUserUseCase authService;
@@ -37,8 +38,10 @@ public class AuthController implements AuthAPiSpec {
     @GetMapping("/temp-user/{state}")
     public ApiResponse<OAuth2UserInfoResponse> getTempUser(@PathVariable String state) throws JsonProcessingException {
 
+        /// 레디스 Key
+        String key = RedisKeyGenerator.getTempUser(state);
+
         /// 값 읽기
-        String key = "OAUTH2:TEMP:" + state;
         String json = redisTemplate.opsForValue().get(key);
 
         Map<String, Object> attributes = objectMapper.readValue(json, new TypeReference<Map<String, Object>>() {});

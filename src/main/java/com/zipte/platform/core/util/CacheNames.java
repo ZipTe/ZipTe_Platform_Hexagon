@@ -5,6 +5,9 @@ public class CacheNames {
     public static final String SEPARATOR = ":";
 
     public static final String USER = "user";
+    public static final String OAUTH2 = "OAUTH2";
+    public static final String TEMP = "TEMP";
+
     public static final String NOTIFICATION = "notification";
 
     public static final String BOARD = "board";
