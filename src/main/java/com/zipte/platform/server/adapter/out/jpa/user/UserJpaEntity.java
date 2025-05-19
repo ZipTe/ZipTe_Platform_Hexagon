@@ -1,8 +1,8 @@
 package com.zipte.platform.server.adapter.out.jpa.user;
 
+import com.zipte.platform.server.adapter.out.jpa.BaseEntity;
 import com.zipte.platform.server.domain.user.OAuthProvider;
 import com.zipte.platform.server.domain.user.User;
-import com.zipte.platform.server.domain.user.UserConsent;
 import com.zipte.platform.server.domain.user.UserRole;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -17,7 +17,7 @@ import java.util.List;
 @AllArgsConstructor
 @Getter
 @Builder
-public class UserJpaEntity {
+public class UserJpaEntity extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -39,7 +39,7 @@ public class UserJpaEntity {
     private OAuthProvider social;
 
     @Embedded
-    private UserConsent consent;
+    private UserConsentJpaEntity consent;
 
     @ElementCollection(fetch = FetchType.EAGER)
     @Enumerated(EnumType.STRING)
@@ -55,7 +55,7 @@ public class UserJpaEntity {
                 .imageUrl(user.getImageUrl())
                 .social(user.getSocial())
                 .birthday(user.getBirthday())
-                .consent(user.getConsent())
+                .consent(UserConsentJpaEntity.from(user.getConsent()))
                 .roles(user.getRoles())
                 .build();
     }
@@ -63,17 +63,39 @@ public class UserJpaEntity {
     // to Domain
     public User toDomain() {
         return User.builder()
-                .id(this.id)
-                .email(this.email)
-                .username(this.username)
-                .nickname(this.nickname)
-                .imageUrl(this.imageUrl)
-                .socialId(this.socialId)
-                .social(this.social)
-                .birthday(this.birthday)
-                .consent(this.consent)
-                .roles(this.roles)
+                .id(id)
+                .email(email)
+                .username(username)
+                .nickname(nickname)
+                .imageUrl(imageUrl)
+                .socialId(socialId)
+                .social(social)
+                .birthday(birthday)
+                .consent(consent.toDomain())
+                .roles(roles)
+                .createdAt(getCreatedAt())
                 .build();
     }
+
+    /// DB 수정용
+    public static UserJpaEntity forUpdate(User user) {
+        UserJpaEntity jpa = UserJpaEntity.builder()
+                .id(user.getId())
+                .email(user.getEmail())
+                .username(user.getUsername())
+                .nickname(user.getNickname())
+                .imageUrl(user.getImageUrl())
+                .socialId(user.getSocialId())
+                .social(user.getSocial())
+                .birthday(user.getBirthday())
+                .consent(UserConsentJpaEntity.from(user.getConsent()))
+                .roles(user.getRoles())
+                .build();
+
+        jpa.setCreatedAt(user.getCreatedAt());
+
+        return jpa;
+    }
+
 }
 

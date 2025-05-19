@@ -1,18 +1,19 @@
 package com.zipte.platform.server.adapter.in.web.dto.response;
 
+import com.zipte.platform.core.util.DateFormatUtil;
 import com.zipte.platform.server.domain.user.OAuthProvider;
 import com.zipte.platform.server.domain.user.User;
 import com.zipte.platform.server.domain.user.UserConsent;
 import com.zipte.platform.server.domain.user.UserRole;
 import lombok.Builder;
-
 import java.util.List;
 
 @Builder
 public record UserMyInfoResponse(
         Long userId, String username, String nickname,
         String email, String birthday, OAuthProvider social,
-        List<UserRole> roles, UserConsentResponse consent
+        List<UserRole> roles, UserConsentResponse consent,
+        String createdAt
 ) {
 
     public static UserMyInfoResponse from(User user) {
@@ -25,6 +26,7 @@ public record UserMyInfoResponse(
                 .social(user.getSocial())
                 .roles(user.getRoles())
                 .consent(UserConsentResponse.from(user.getConsent()))
+                .createdAt(DateFormatUtil.formatPostDate(user.getCreatedAt()))
                 .build();
 
     }

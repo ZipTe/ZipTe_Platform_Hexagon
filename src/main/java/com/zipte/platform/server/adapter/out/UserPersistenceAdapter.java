@@ -26,7 +26,10 @@ public class UserPersistenceAdapter implements UserPort {
 
     @Override
     public User updateUser(User user) {
-        return null;
+        var entity = UserJpaEntity.forUpdate(user);
+
+        return repository.save(entity)
+                .toDomain();
     }
 
     @Override
