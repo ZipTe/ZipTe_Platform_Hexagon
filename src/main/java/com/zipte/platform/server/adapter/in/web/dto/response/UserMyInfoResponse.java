@@ -10,7 +10,7 @@ import java.util.List;
 
 @Builder
 public record UserMyInfoResponse(
-        Long userId, String username, String nickname,
+        Long userId, String username, String nickname, String imageUrl,
         String email, String birthday, OAuthProvider social,
         List<UserRole> roles, UserConsentResponse consent,
         String createdAt
@@ -20,6 +20,7 @@ public record UserMyInfoResponse(
         return UserMyInfoResponse.builder()
                 .userId(user.getId())
                 .username(user.getUsername())
+                .imageUrl(user.getImageUrl())
                 .nickname(user.getNickname())
                 .email(user.getEmail())
                 .birthday(user.getBirthday())
