@@ -67,10 +67,9 @@ public class User extends BaseDomain {
         this.imageUrl = imageUrl;
     }
 
-    public void changeConsent(UserConsent consent) {
-        this.consent = consent;
+    public void changeBirthDay(String birthday) {
+        this.birthday = birthday;
     }
-
 
 }
 

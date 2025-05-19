@@ -78,23 +78,13 @@ public class UserJpaEntity extends BaseEntity {
     }
 
     /// DB 수정용
-    public static UserJpaEntity forUpdate(User user) {
-        UserJpaEntity jpa = UserJpaEntity.builder()
-                .id(user.getId())
-                .email(user.getEmail())
-                .username(user.getUsername())
-                .nickname(user.getNickname())
-                .imageUrl(user.getImageUrl())
-                .socialId(user.getSocialId())
-                .social(user.getSocial())
-                .birthday(user.getBirthday())
-                .consent(UserConsentJpaEntity.from(user.getConsent()))
-                .roles(user.getRoles())
-                .build();
-
-        jpa.setCreatedAt(user.getCreatedAt());
-
-        return jpa;
+    public void changeUser(User user) {
+        this.username = user.getUsername();
+        this.nickname = user.getNickname();
+        this.imageUrl = user.getImageUrl();
+        this.birthday = user.getBirthday();
+        this.consent = UserConsentJpaEntity.from(user.getConsent());
+        this.roles = user.getRoles();
     }
 
 }

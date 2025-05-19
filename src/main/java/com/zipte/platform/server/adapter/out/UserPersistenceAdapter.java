@@ -25,11 +25,14 @@ public class UserPersistenceAdapter implements UserPort {
     }
 
     @Override
+    /// 더티 체킹 활용
     public User updateUser(User user) {
-        var entity = UserJpaEntity.forUpdate(user);
+        UserJpaEntity entity = repository.findById(user.getId())
+                .orElseThrow();
 
-        return repository.save(entity)
-                .toDomain();
+        entity.changeUser(user);
+
+        return entity.toDomain();
     }
 
     @Override

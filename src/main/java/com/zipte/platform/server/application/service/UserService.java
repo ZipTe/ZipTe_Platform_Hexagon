@@ -53,6 +53,10 @@ public class UserService implements GetUserUseCase, UpdateUserUseCase {
             user.changeImageUrl(imageUrl);
         }
 
+        if (request.getBirthday() != null) {
+            user.changeBirthDay(request.getBirthday());
+        }
+
         if (request.getNickname() != null) {
             user.changeNickname(request.getNickname());
         }
