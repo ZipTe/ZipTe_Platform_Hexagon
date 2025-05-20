@@ -1,8 +1,10 @@
 package com.zipte.platform.server.adapter.in.web.dto.request;
 
+import lombok.Builder;
 import lombok.Data;
 
 @Data
+@Builder
 public class UserConsentRequest {
 
     private boolean personalInfoRequired;  // 필수 개인정보 동의

@@ -4,9 +4,11 @@ import com.zipte.platform.server.domain.user.OAuthProvider;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
+import lombok.Builder;
 import lombok.Data;
 
 @Data
+@Builder
 public class UserRegisterRequest {
 
     @NotNull(message = "email은 반드시 입력해야하는 필수 사항입니다!")

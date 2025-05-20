@@ -23,6 +23,7 @@ public enum ErrorCode {
 
     /// 유저 관련
     NOT_USER(1000, HttpStatus.NOT_FOUND, "해당하는 유저가 존재하지 않습니다."),
+    NOT_CONSENT(1010, HttpStatus.BAD_REQUEST, "유저 정보 동의가 체크되지 않았습니다"),
     FIRST_LOGIN(1200,HttpStatus.NOT_FOUND,"최초 로그인유저이기에 추가정보기입이 필요합니다."),
 
     /// 부동산 관련
@@ -51,8 +52,6 @@ public enum ErrorCode {
     NOT_ANSWER(7001, HttpStatus.NOT_FOUND, "해당하는 답변이 존재하지 않습니다"),
     BAD_REQUEST_DELETE_QUESTION(7010, HttpStatus.BAD_REQUEST, "본인이 등록하지 않은 질문을 삭제할 수 없습니다."),
     BAD_REQUEST_DELETE_ANSWER(7011, HttpStatus.BAD_REQUEST, "본인이 등록하지 않은 질문을 삭제할 수 없습니다.");
-
-
 
     private final Integer code;
     private final HttpStatus httpStatus;
