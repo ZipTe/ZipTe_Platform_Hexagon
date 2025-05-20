@@ -1,5 +1,6 @@
 package com.zipte.platform.server.adapter.out;
 
+import com.zipte.platform.core.response.ErrorCode;
 import com.zipte.platform.server.adapter.out.jpa.user.UserJpaEntity;
 import com.zipte.platform.server.adapter.out.jpa.user.UserJpaRepository;
 import com.zipte.platform.server.application.out.user.UserPort;
@@ -8,6 +9,7 @@ import com.zipte.platform.server.domain.user.User;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
+import java.util.NoSuchElementException;
 import java.util.Optional;
 
 @Component
@@ -28,7 +30,7 @@ public class UserPersistenceAdapter implements UserPort {
     /// 더티 체킹 활용
     public User updateUser(User user) {
         UserJpaEntity entity = repository.findById(user.getId())
-                .orElseThrow();
+                .orElseThrow(() -> new NoSuchElementException(ErrorCode.NOT_USER.getMessage()));
 
         entity.changeUser(user);
 

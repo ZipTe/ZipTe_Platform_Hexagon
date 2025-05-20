@@ -26,7 +26,6 @@ public class UserApi implements UserApiSpec {
     @GetMapping("/mypage")
     public ApiResponse<UserMyInfoResponse> getMyInfo(@AuthenticationPrincipal PrincipalDetails principalDetails) {
 
-        log.info("[getMyInfo] {}", principalDetails);
         User user = getService.getMyInfo(principalDetails.getId());
 
         return ApiResponse.ok(UserMyInfoResponse.from(user));

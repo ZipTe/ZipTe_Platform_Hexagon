@@ -25,6 +25,12 @@ public class AwsS3Config {
 
     @Bean
     public AmazonS3 s3Client() {
+
+        // 속성 유효성 검사
+        if (accessKey == null || accessSecret == null || region == null) {
+            throw new IllegalStateException("AWS S3 설정이 잘못되었습니다. 속성을 확인하세요.");
+        }
+        
         AWSCredentials credentials = new BasicAWSCredentials(accessKey, accessSecret);
         return AmazonS3ClientBuilder.standard()
                 .withCredentials(new AWSStaticCredentialsProvider(credentials))

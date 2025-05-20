@@ -79,12 +79,28 @@ public class UserJpaEntity extends BaseEntity {
 
     /// DB 수정용
     public void changeUser(User user) {
-        this.username = user.getUsername();
-        this.nickname = user.getNickname();
-        this.imageUrl = user.getImageUrl();
-        this.birthday = user.getBirthday();
-        this.consent = UserConsentJpaEntity.from(user.getConsent());
-        this.roles = user.getRoles();
+        if (user.getUsername() != null) {
+            this.username = user.getUsername();
+        }
+
+        if (user.getNickname() != null) {
+            this.nickname = user.getNickname();
+        }
+        if (user.getImageUrl() != null) {
+            this.imageUrl = user.getImageUrl();
+        }
+
+        if (user.getSocial() != null) {
+            this.birthday = user.getBirthday();
+        }
+
+        if (user.getConsent() != null) {
+            this.consent = UserConsentJpaEntity.from(user.getConsent());
+        }
+
+        if (user.getRoles() != null) {
+            this.roles = user.getRoles();
+        }
     }
 
 }

@@ -54,7 +54,7 @@ public class UserService implements GetUserUseCase, UpdateUserUseCase {
         }
 
         if (request.getBirthday() != null) {
-            user.changeBirthDay(request.getBirthday());
+            user.changeBirthday(request.getBirthday());
         }
 
         if (request.getNickname() != null) {

@@ -67,7 +67,7 @@ public class User extends BaseDomain {
         this.imageUrl = imageUrl;
     }
 
-    public void changeBirthDay(String birthday) {
+    public void changeBirthday(String birthday) {
         this.birthday = birthday;
     }
 
