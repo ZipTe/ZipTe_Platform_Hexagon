@@ -29,16 +29,22 @@ jobs:
           MYSQL_USER: testuser
           MYSQL_PASSWORD: testpass
           MYSQL_ROOT_PASSWORD: root
+        aliases:
+          - mysql
 
       redis:
         image: redis:7.2.5
         ports:
           - '6379:6379'
+        aliases:
+          - redis
 
       mongo:
         image: mongo:6.0
         ports:
           - 27017:27017
+        aliases:
+          - mongo
 
     permissions:
       contents: write
@@ -79,16 +85,19 @@ jobs:
         uses: gradle/actions/setup-gradle@af1da67850ed9a4cedd57bfd976089dd991e2582 # v4.0.0
 
       # 체크
-      - name: MySQL 호스트명 확인
-        run: |
-          ping -c 3 mysql
-
       - name: Debug DNS resolution
         run: |
           getent hosts mysql
           getent hosts redis
           getent hosts mongo
 
+
+      - name: MySQL 체크
+        run: |
+          until nc -z mysql 3306; do
+            echo "Waiting for MySQL..."
+            sleep 3
+          done
 
       - name: MySQL 체크
         run: |
@@ -99,14 +108,14 @@ jobs:
 
       - name: Redis 체크
         run: |
-          until nc -z localhost 6379; do
+          until nc -z redis 6379; do
             echo "Waiting for Redis..."
             sleep 3
           done
 
       - name: MongoDB 체크
         run: |
-          until nc -z localhost 27017; do
+          until nc -z mongo 27017; do
             echo "Waiting for MongoDB..."
             sleep 3
           done
