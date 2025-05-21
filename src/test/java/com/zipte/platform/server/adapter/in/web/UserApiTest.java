@@ -2,67 +2,46 @@ package com.zipte.platform.server.adapter.in.web;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
-import com.zipte.platform.security.oauth2.domain.PrincipalDetails;
+import com.zipte.platform.core.response.ApiResponse;
+import com.zipte.platform.security.annotation.WithMockCustomUser;
 import com.zipte.platform.server.adapter.in.web.dto.response.UserMyInfoResponse;
 import com.zipte.platform.server.application.in.user.GetUserUseCase;
 import com.zipte.platform.server.application.in.user.UpdateUserUseCase;
-import com.zipte.platform.server.domain.user.User;
 import com.zipte.platform.server.domain.user.UserFixtures;
 import org.junit.jupiter.api.*;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContext;
-import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.ResultActions;
-import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
-import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
-import static org.mockito.Mockito.when;
+import static org.mockito.BDDMockito.given;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-@ExtendWith(MockitoExtension.class)
+@AutoConfigureMockMvc(addFilters = false)
+@SpringBootTest
 class UserApiTest {
 
-    @Mock
+    @Autowired
     private MockMvc mockMvc;
 
-    @Mock
+    @MockitoBean
     private GetUserUseCase getService;
 
-    @Mock
+    @MockitoBean
     private UpdateUserUseCase updateService;
 
     private ObjectMapper objectMapper;
 
-    @InjectMocks
-    private UserApi sut;
 
     @BeforeEach
     public void init() {
         objectMapper = new ObjectMapper();
         objectMapper.registerModule(new JavaTimeModule());
-
-        sut = new UserApi(getService, updateService);
-        mockMvc = MockMvcBuilders.standaloneSetup(sut).build();
-        
-        ///  setupSecurityContext
-        User user = UserFixtures.stub(1L); // userId = 1L
-        PrincipalDetails principalDetails = PrincipalDetails.of(user);
-
-        Authentication authentication =
-                new UsernamePasswordAuthenticationToken(principalDetails, null, principalDetails.getAuthorities());
-
-        SecurityContext context = SecurityContextHolder.createEmptyContext();
-
-        context.setAuthentication(authentication);
-        SecurityContextHolder.setContext(context);
     }
 
     @Nested
@@ -70,23 +49,19 @@ class UserApiTest {
     class LoadUser {
 
         @Test
+        @WithMockCustomUser
         @DisplayName("[happy] 마이 페이지 조회")
         void loadUser_happy() throws Exception {
 
             // given
-            Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-
-            PrincipalDetails principal = (PrincipalDetails) authentication.getPrincipal();
-            Long userId = principal.getId();
+            Long userId = 1L;
             UserMyInfoResponse response = UserMyInfoResponse.from(UserFixtures.stub(userId));
+            ApiResponse<UserMyInfoResponse> ok = ApiResponse.ok(response);
 
-            // when
-            when(getService.getMyInfo(userId))
-                    .thenReturn(UserFixtures.stub(userId));
+            given(getService.getMyInfo(userId)).willReturn(UserFixtures.stub(userId));
 
-            // Then
-            ResultActions resultActions = mockMvc.perform(MockMvcRequestBuilders
-                    .get("/api/v1/users/mypage") // 실제 API 주소 입력
+            // when & then
+            ResultActions resultActions = mockMvc.perform(get("/api/v1/users/mypage")
                     .contentType(MediaType.APPLICATION_JSON));
 
             MvcResult mvcResult = resultActions
@@ -94,12 +69,10 @@ class UserApiTest {
                     .andReturn();
 
             String responseBody = mvcResult.getResponse().getContentAsString();
-            String expectedJson = objectMapper.writeValueAsString(response);
+            String expectedJson = objectMapper.writeValueAsString(ok);
 
-            Assertions.assertEquals(responseBody, expectedJson);
-
+            Assertions.assertEquals(expectedJson, responseBody);
         }
-
 
 
     }
