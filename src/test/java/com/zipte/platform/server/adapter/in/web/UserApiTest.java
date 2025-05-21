@@ -3,6 +3,7 @@ package com.zipte.platform.server.adapter.in.web;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import com.zipte.platform.core.response.ApiResponse;
+import com.zipte.platform.security.OAuth2TestConfig;
 import com.zipte.platform.security.annotation.WithMockCustomUser;
 import com.zipte.platform.server.adapter.in.web.dto.response.UserMyInfoResponse;
 import com.zipte.platform.server.application.in.user.GetUserUseCase;
@@ -12,6 +13,7 @@ import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.context.annotation.Import;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
@@ -25,6 +27,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @AutoConfigureMockMvc(addFilters = false)
 @SpringBootTest
+@Import(OAuth2TestConfig.class)
 @ActiveProfiles("test")
 class UserApiTest {
 
