@@ -1,5 +1,6 @@
 package com.zipte.platform.server.domain.user;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 public class UserFixtures {
@@ -16,6 +17,8 @@ public class UserFixtures {
                 .social(OAuthProvider.KAKAO)
                 .consent(UserConsentFixtures.stub())
                 .roles(List.of(UserRole.MEMBER))
+                .createdAt(LocalDateTime.now())
+                .updatedAt(LocalDateTime.now())
                 .build();
     }
 
@@ -31,6 +34,8 @@ public class UserFixtures {
                 .social(OAuthProvider.KAKAO)
                 .consent(UserConsentFixtures.stub())
                 .roles(List.of(UserRole.MEMBER))
+                .createdAt(LocalDateTime.now())
+                .updatedAt(LocalDateTime.now())
                 .build();
     }
 
@@ -46,6 +51,8 @@ public class UserFixtures {
                 .social(OAuthProvider.KAKAO)
                 .consent(consent)
                 .roles(List.of(UserRole.MEMBER))
+                .createdAt(LocalDateTime.now())
+                .updatedAt(LocalDateTime.now())
                 .build();
     }
 }

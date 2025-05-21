@@ -56,4 +56,19 @@ public class UserRegisterRequestFixtures {
                 .build();
     }
 
+    public static UserRegisterRequest badRequest() {
+        return UserRegisterRequest.builder()
+                .email("not-an-email") // 잘못된 이메일 형식
+                .socialId(null) // nullable이라 괜찮음
+                .username("") // 빈 문자열 (실제로는 null이 아니므로 @NotNull 통과할 수 있음, 필요 시 null로 테스트)
+                .nickname("이것은20자를넘는아주아주긴닉네임입니다") // 20자 초과
+                .provider(null) // nullable
+                .imageUrl(null) // nullable
+                .birthday(null) // @NotNull
+                .consent(null) // @NotNull
+                .build();
+    }
+
+
+
 }
