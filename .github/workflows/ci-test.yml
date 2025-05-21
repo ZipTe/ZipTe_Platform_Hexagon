@@ -99,17 +99,6 @@ jobs:
             echo "Waiting for MongoDB..."
             sleep 3
           done
-          
-      # 체크
-      - name: Debug DNS resolution
-        run: |
-          getent hosts mysql
-          getent hosts redis
-          getent hosts mongo
-
-
-     
-      
 
       # 1-5. 빌드
       - name: Build with Gradle Wrapper
