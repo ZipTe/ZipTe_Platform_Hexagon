@@ -4,7 +4,7 @@ package com.zipte.platform.server.adapter.in.web.swagger;
 import com.zipte.platform.core.response.ApiResponse;
 import com.zipte.platform.security.oauth2.domain.PrincipalDetails;
 import com.zipte.platform.server.adapter.in.web.dto.request.UserUpdateRequest;
-import com.zipte.platform.server.adapter.in.web.dto.response.UserResponse;
+import com.zipte.platform.server.adapter.in.web.dto.response.UserMyInfoResponse;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.ExampleObject;
@@ -21,7 +21,7 @@ public interface UserApiSpec {
             summary = "유저 정보 조회",
             description = "JWT 토큰을 기반으로 유저의 정보를 조회합니다"
     )
-    ApiResponse<UserResponse> getMyInfo(
+    ApiResponse<UserMyInfoResponse> getMyInfo(
             @AuthenticationPrincipal PrincipalDetails principalDetails);
 
 

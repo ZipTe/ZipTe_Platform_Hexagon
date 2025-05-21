@@ -1,51 +1,26 @@
 package com.zipte.platform.server.adapter.in.web.dto.request;
 
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.Size;
+import jakarta.validation.constraints.Pattern;
+import lombok.Builder;
+import lombok.Data;
+import org.springframework.web.multipart.MultipartFile;
 
+@Data
+@Builder
 public class UserUpdateRequest {
 
-
-    @NotBlank(message = "nickname은 반드시 입력해야하는 필수 사항입니다!")
-    @Size(max = 20, message = "닉네임은 최대 20글자 입니다.")
     private String nickname;
 
-    @NotBlank(message = "password는 반드시 입력해야하는 필수 사항입니다!")
-    private String password;
+    private MultipartFile image;
 
-    @NotBlank(message = "passwordCheck는 반드시 입력해야하는 필수 사항입니다!")
-    private String passwordCheck;
-
-    private String imageUrl;
-
-    @NotBlank(message = "description는 반드시 입력해야하는 필수 사항입니다!")
-    private String description;
-
-    @NotBlank(message = "descripbirthdaytion는 반드시 입력해야하는 필수 사항입니다!")
+    @Pattern(
+            regexp = "^\\d{4}-\\d{2}-\\d{2}$",
+            message = "생년월일은 yyyy-MM-dd 형식이어야 합니다."
+    )
     private String birthday;
 
+    private UserConsentUpdateRequest consent;
 
-    public String getNickname() {
-        return nickname;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public String getImageUrl() {
-        return imageUrl;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public String getBirthday() {
-        return birthday;
-    }
-
-    public String getPasswordCheck() {
-        return passwordCheck;
-    }
 }
+
+

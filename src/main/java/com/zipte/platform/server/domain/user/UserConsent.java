@@ -1,6 +1,7 @@
 package com.zipte.platform.server.domain.user;
 
 import com.zipte.platform.server.adapter.in.web.dto.request.UserConsentRequest;
+import com.zipte.platform.server.adapter.in.web.dto.request.UserConsentUpdateRequest;
 import jakarta.persistence.Embeddable;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -55,4 +56,11 @@ public class UserConsent {
                 .build();
     }
 
+
+    public void changeConsent(UserConsentUpdateRequest request) {
+        this.dataSharingOptional =  request.isDataSharingOptional();
+        this.adsOptional = request.isAdsOptional();
+        this.marketingEmailsOptional = request.isMarketingEmailsOptional();
+        this.marketingSMSOptional = request.isMarketingSMSOptional();
+    }
 }

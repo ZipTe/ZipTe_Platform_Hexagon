@@ -19,14 +19,27 @@ jobs:
 
     runs-on: ubuntu-22.04
     services:
+
+      mysql:
+        image: mysql:8.0
+        ports:
+          - '3306:3306'
+        env:
+          MYSQL_DATABASE: zipte_test
+          MYSQL_USER: testuser
+          MYSQL_PASSWORD: testpass
+          MYSQL_ROOT_PASSWORD: root
+
       redis:
         image: redis:7.2.5
         ports:
-          - 6379:6379
+          - '6379:6379'
+
       mongo:
         image: mongo:6.0
         ports:
           - 27017:27017
+
     permissions:
       contents: write
       checks: write
@@ -59,16 +72,37 @@ jobs:
         run: |
           mkdir -p src/test/resources
           echo "${{ secrets.APPLICATION_TEST_YML }}" > ./src/test/resources/application-test.yml
-          
 
 
       # 1-4. gradle 환경 설치
       - name: Setup Gradle
         uses: gradle/actions/setup-gradle@af1da67850ed9a4cedd57bfd976089dd991e2582 # v4.0.0
 
+      - name: MySQL 체크
+        run: |
+          until nc -z localhost 3306; do
+            echo "Waiting for MySQL..."
+            sleep 3
+          done
+
+
+      - name: Redis 체크
+        run: |
+          until nc -z localhost 6379; do
+            echo "Waiting for Redis..."
+            sleep 3
+          done
+
+      - name: MongoDB 체크
+        run: |
+          until nc -z localhost 27017; do
+            echo "Waiting for MongoDB..."
+            sleep 3
+          done
+
       # 1-5. 빌드
       - name: Build with Gradle Wrapper
-        run: ./gradlew build
+        run: ./gradlew clean test -i
 
           ## 테스트 커버리지
       - name: Test Coverage Report

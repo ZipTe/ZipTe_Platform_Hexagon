@@ -1,5 +1,6 @@
 package com.zipte.platform.server.application.service;
 
+import com.zipte.platform.core.response.ErrorCode;
 import com.zipte.platform.server.adapter.in.web.dto.request.UserRegisterRequest;
 import com.zipte.platform.server.application.in.auth.AuthUserUseCase;
 import com.zipte.platform.server.application.out.user.UserPort;
@@ -27,6 +28,10 @@ public class AuthService implements AuthUserUseCase {
 
         if (existing){
             throw new DuplicationUserException("이미 존재하는 유저입니다.");
+        }
+
+        if (request.getConsent() == null){
+            throw new IllegalArgumentException(ErrorCode.NOT_CONSENT.getMessage());
         }
 
         User user = User.of(request.getSocialId(), request.getEmail(), request.getUsername(),

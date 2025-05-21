@@ -1,14 +1,18 @@
 package com.zipte.platform.server.application.service;
 
+import com.zipte.platform.core.response.ErrorCode;
 import com.zipte.platform.server.adapter.in.web.dto.request.UserUpdateRequest;
 import com.zipte.platform.server.application.in.user.GetUserUseCase;
 import com.zipte.platform.server.application.in.user.UpdateUserUseCase;
+import com.zipte.platform.server.application.out.external.image.ImagePort;
 import com.zipte.platform.server.application.out.user.UserPort;
 import com.zipte.platform.server.domain.user.User;
+import com.zipte.platform.server.domain.user.UserConsent;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.NoSuchElementException;
 
@@ -20,6 +24,8 @@ public class UserService implements GetUserUseCase, UpdateUserUseCase {
 
     private final UserPort userPort;
 
+    /// 이미지 의존성
+    private final ImagePort imagePort;
 
     /// 조회
     @Override
@@ -27,7 +33,7 @@ public class UserService implements GetUserUseCase, UpdateUserUseCase {
 
         /// 예외 처리
         return userPort.loadUserById(userId)
-                .orElseThrow(() -> new NoSuchElementException("해당 유저는 존재하지 않습니다."));
+                .orElseThrow(() -> new NoSuchElementException(ErrorCode.NOT_USER.getMessage()));
     }
 
 
@@ -35,23 +41,32 @@ public class UserService implements GetUserUseCase, UpdateUserUseCase {
     @Override
     public void updateUser(Long userId, UserUpdateRequest request) {
 
+        /// 예외 처리
         User user = userPort.loadUserById(userId)
-                .orElseThrow(() -> new NoSuchElementException("존재하지 않는 유저는 수정할 수 없습니다."));
+                .orElseThrow(() -> new NoSuchElementException(ErrorCode.NOT_USER.getMessage()));
 
-        ///  카카오 및 자체 유저의 수정하기
-        // 닉네임이 요청에 있으면 수정
-        if (request.getNickname() != null && !request.getNickname().isEmpty()) {
+        /// 수정 사항 예외처리
+        if (request.getImage() != null) {
+            MultipartFile image = request.getImage();
+
+            String imageUrl = imagePort.uploadFile(image);
+            user.changeImageUrl(imageUrl);
+        }
+
+        if (request.getBirthday() != null) {
+            user.changeBirthday(request.getBirthday());
+        }
+
+        if (request.getNickname() != null) {
             user.changeNickname(request.getNickname());
         }
 
-
-        // 이미지 URL이 요청에 있으면 수정
-        if (request.getImageUrl() != null && !request.getImageUrl().isEmpty()) {
-            user.changeImageUrl(request.getImageUrl());
+        if (request.getConsent() != null) {
+            UserConsent consent = user.getConsent();
+            consent.changeConsent(request.getConsent());
         }
 
-        log.info(user.getNickname());
-
+        /// 유저와 개인정보 한번에 업데이트!
         userPort.updateUser(user);
 
     }

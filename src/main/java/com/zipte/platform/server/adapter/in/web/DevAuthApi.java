@@ -19,13 +19,11 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-import static com.zipte.platform.security.jwt.util.JwtTokenKey.ACCESS_TOKEN_EXPIRATION_TIME;
-
 @Profile("dev")  // dev 환경에서만 활성화
 @RestController
 @RequestMapping("/api/v1/auth")
 @RequiredArgsConstructor
-public class DevAuthController implements DevAuthAPiSpec {
+public class DevAuthApi implements DevAuthAPiSpec {
 
     private final UserPort userPort;
     private final JwtTokenProvider tokenProvider;
