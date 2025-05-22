@@ -10,10 +10,10 @@ public class AnswerRequest {
 
     private Long userId;
 
-    @NotNull
+    @NotNull(message = "질문 아이디는 필수입니다.")
     private Long questionId;
 
-    @NotNull
+    @NotNull(message = "답변의 내용은 필수입니다.")
     private String content;
 
 }
