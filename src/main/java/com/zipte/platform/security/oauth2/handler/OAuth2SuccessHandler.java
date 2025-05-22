@@ -12,6 +12,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.authentication.SimpleUrlAuthenticationSuccessHandler;
 import org.springframework.stereotype.Component;
 
@@ -34,17 +35,17 @@ public class OAuth2SuccessHandler extends SimpleUrlAuthenticationSuccessHandler 
         PrincipalDetails principal = (PrincipalDetails) authentication.getPrincipal();
         User user = principal.getUser();
 
-        log.info("[onAuthenticationSuccess] user={}", user);
-
         String accessToken = tokenService.createAccessToken(authentication);
 
         tokenService.createRefreshToken(response, authentication);
 
         // ApiResponse에 담을 데이터 (Map 혹은 DTO)
-
         UserLoginResponse loginResponse = UserLoginResponse.from(user.getEmail(), accessToken);
 
         ApiResponse<UserLoginResponse> apiResponse = ApiResponse.ok(loginResponse);
+
+        /// 시큐리티 홀더에 해당 멤버 저장
+        SecurityContextHolder.getContext().setAuthentication(authentication);
 
         // 응답 설정
         response.setStatus(apiResponse.httpStatus().value());

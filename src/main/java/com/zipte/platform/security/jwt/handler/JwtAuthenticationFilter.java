@@ -34,7 +34,6 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
         if (authorization != null && authorization.startsWith("Bearer ")) {
             String token = authorization.substring(7);
-            log.info("JWT token: {}", token);
 
             /// 토큰 검증
             if (tokenProvider.validateToken(token)) {
@@ -56,7 +55,6 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             failureHandler.commence(request, response, ex);
             return;
         }
-        log.info("통과");
 
         filterChain.doFilter(request, response);
     }
@@ -66,8 +64,6 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
         boolean shouldSkip = requestMatcherHolder.getRequestMatchersByMinRole(null)
                 .matches(request);
-
-        log.info("요청 URL: {} | 필터 생략 여부: {}", request.getRequestURI(), shouldSkip);
 
         return shouldSkip;
     }
