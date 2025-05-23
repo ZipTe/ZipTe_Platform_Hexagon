@@ -5,10 +5,13 @@ import com.zipte.platform.core.response.pageable.PageRequest;
 import com.zipte.platform.core.response.pageable.PageResponse;
 import com.zipte.platform.server.adapter.in.web.dto.response.EstateDetailResponse;
 import com.zipte.platform.server.adapter.in.web.dto.response.EstateListResponse;
+import com.zipte.platform.server.adapter.in.web.dto.response.EstatePriceListResponse;
 import com.zipte.platform.server.adapter.in.web.swagger.EstateApiSpec;
+import com.zipte.platform.server.application.in.estate.EstatePriceUseCase;
 import com.zipte.platform.server.application.in.estate.GetEstateUseCase;
 import com.zipte.platform.server.application.in.external.OpenAiUseCase;
 import com.zipte.platform.server.domain.estate.Estate;
+import com.zipte.platform.server.domain.estate.EstatePrice;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -24,6 +27,9 @@ import java.util.List;
 public class EstateApi implements EstateApiSpec {
 
     private final GetEstateUseCase getService;
+
+    /// 가격 의존성
+    private final EstatePriceUseCase priceService;
 
     /// AI 의존성
     private final OpenAiUseCase openAiService;
@@ -74,9 +80,8 @@ public class EstateApi implements EstateApiSpec {
             @RequestParam(value = "longitude") double longitude,
             @RequestParam(value = "latitude") double latitude,
             @RequestParam(value = "radius") double radius) {
-        List<Estate> list = getService.loadEstatesNearBy(longitude, latitude, radius);
 
-        return ApiResponse.ok(EstateListResponse.from(list));
+        return ApiResponse.ok(getService.loadEstatesNearBy(longitude, latitude, radius));
 
     }
 
@@ -100,5 +105,26 @@ public class EstateApi implements EstateApiSpec {
         String result = openAiService.getKaptCharacteristic(kaptCode);
 
         return ApiResponse.ok(result);
+    }
+
+
+    /// 가격 조회
+    @GetMapping("/price")
+    public ApiResponse<List<EstatePriceListResponse>> getPriceByCodeAndArea(
+            @RequestParam String kaptCode,
+            @RequestParam double area) {
+
+        List<EstatePrice> list = priceService.getEstatePriceByCode(kaptCode, area);
+
+        return ApiResponse.ok(EstatePriceListResponse.from(list));
+    }
+
+
+    @GetMapping("/price/{kaptCode}")
+    public ApiResponse<List<EstatePriceListResponse>> getPrice(@PathVariable String kaptCode) {
+
+        List<EstatePrice> list = priceService.getEstatePriceByCode(kaptCode);
+
+        return ApiResponse.ok(EstatePriceListResponse.from(list));
     }
 }

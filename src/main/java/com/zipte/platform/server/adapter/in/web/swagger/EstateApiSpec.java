@@ -5,6 +5,7 @@ import com.zipte.platform.core.response.pageable.PageRequest;
 import com.zipte.platform.core.response.pageable.PageResponse;
 import com.zipte.platform.server.adapter.in.web.dto.response.EstateDetailResponse;
 import com.zipte.platform.server.adapter.in.web.dto.response.EstateListResponse;
+import com.zipte.platform.server.adapter.in.web.dto.response.EstatePriceListResponse;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -45,10 +46,10 @@ public interface EstateApiSpec {
             description = "지정한 경도, 위도, 반경 값으로부터 근처에 위치한 아파트 목록을 반환합니다."
     )
     ApiResponse<List<EstateListResponse>> getEstateByLocation(
-            @Parameter(description = "경도", required = true, example = "127.029704677041")
+            @Parameter(description = "경도", required = true, example = "127.118904")
             @RequestParam(value = "longitude") double longitude,
 
-            @Parameter(description = "위도", required = true, example = "37.498266842599")
+            @Parameter(description = "위도", required = true, example = "37.382698")
             @RequestParam(value = "latitude") double latitude,
 
             @Parameter(description = "반경 (km 단위)", required = true, example = "1")
@@ -60,10 +61,10 @@ public interface EstateApiSpec {
             description = "지정한 좌표와 반경을 기준으로 근처의 아파트 및 해당 아파트에 등록된 매물 정보를 함께 조회합니다."
     )
     ApiResponse<List<EstateListResponse>> getEstateByLocationByKaptCode(
-            @Parameter(description = "경도", required = true, example = "127.029704677041")
+            @Parameter(description = "경도", required = true, example = "127.118904")
             @RequestParam(value = "longitude") double longitude,
 
-            @Parameter(description = "위도", required = true, example = "37.498266842599")
+            @Parameter(description = "위도", required = true, example = "37.382698")
             @RequestParam(value = "latitude") double latitude,
 
             @Parameter(description = "반경 (km 단위)", required = true, example = "1.0")
@@ -77,4 +78,27 @@ public interface EstateApiSpec {
     ApiResponse<String> getEstateDetail(
             @Parameter(description = "아파트 코드", required = true, example = "A46378823")
             @PathVariable String kaptCode);
+
+
+
+    @Operation(
+            summary = "아파트 가격 정보 조회",
+            description = "아파트 코드를 통해 가격 정보를 조회합니다."
+    )
+    ApiResponse<List<EstatePriceListResponse>> getPrice(
+            @Parameter(description = "아파트 코드", required = true, example = "A46392821")
+            @PathVariable String kaptCode);
+
+
+
+    @Operation(
+            summary = "아파트 가격 정보 조회",
+            description = "아파트 코드와 평수를 통해 가격 정보를 조회합니다."
+    )
+    ApiResponse<List<EstatePriceListResponse>> getPriceByCodeAndArea(
+            @Parameter(description = "아파트 코드", required = true, example = "A46392821")
+            @RequestParam String kaptCode,
+
+            @Parameter(description = "면적", required = true, example = "83.73")
+            @RequestParam double area);
 }
