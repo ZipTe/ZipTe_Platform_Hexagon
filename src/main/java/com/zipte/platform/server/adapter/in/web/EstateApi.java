@@ -98,6 +98,16 @@ public class EstateApi implements EstateApiSpec {
 
     }
 
+    @GetMapping("/compare")
+    public ApiResponse<List<EstateDetailResponse>> getEstateByCompare(
+            @RequestParam(value = "first") String first,
+            @RequestParam(value = "second") String second
+    ) {
+        List<Estate> estates = getService.loadEstatesByCompare(List.of(first, second));
+
+        return ApiResponse.ok(EstateDetailResponse.from(estates));
+    }
+
 
     /// AI 기반 특징 요약
     @GetMapping("/ai/{kaptCode}")

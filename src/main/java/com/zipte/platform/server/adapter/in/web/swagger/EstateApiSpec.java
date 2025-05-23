@@ -101,4 +101,16 @@ public interface EstateApiSpec {
 
             @Parameter(description = "면적", required = true, example = "83.73")
             @RequestParam double area);
+
+
+    @Operation(
+            summary = "아파트 비교 조회",
+            description = "아파트 코드를 통해 2개의 아파트를 비교 조회합니다."
+    )
+    ApiResponse<List<EstateDetailResponse>> getEstateByCompare(
+            @Parameter(description = "비교할 아파트 코드 (1)", required = true, example = "A46392821")
+            @RequestParam(value = "first") String first,
+
+            @Parameter(description = "비교할 아파트 코드 (2)", required = true, example = "A46378823")
+            @RequestParam(value = "second") String second);
 }

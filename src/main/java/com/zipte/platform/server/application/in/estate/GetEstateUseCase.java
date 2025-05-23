@@ -29,6 +29,7 @@ public interface GetEstateUseCase {
     // 특정 지역(동)을 포함하는 아파트 목록 페이징 조회
     Page<Estate> loadEstatesByRegion(String region, Pageable pageable);
 
-
+    // 원하는 아파트 비교하기
+    List<Estate> loadEstatesByCompare(List<String> kaptCodes);
 
 }

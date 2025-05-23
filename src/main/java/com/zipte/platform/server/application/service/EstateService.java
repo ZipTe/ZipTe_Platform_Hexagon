@@ -1,5 +1,6 @@
 package com.zipte.platform.server.application.service;
 
+import com.zipte.platform.core.response.ErrorCode;
 import com.zipte.platform.server.adapter.in.web.dto.response.EstateListResponse;
 import com.zipte.platform.server.application.in.estate.GetEstateUseCase;
 import com.zipte.platform.server.application.out.estate.EstatePricePort;
@@ -15,6 +16,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.Optional;
 
 @Slf4j
@@ -82,6 +84,21 @@ public class EstateService implements GetEstateUseCase {
     @Override
     public Page<Estate> loadEstatesByRegion(String region, Pageable pageable) {
         return loadPort.loadEstatesByRegion(region, pageable);
+    }
+
+    /// 아파트를 서로 비교하기
+    @Override
+    public List<Estate> loadEstatesByCompare(List<String> kaptCodes) {
+
+        /// 예외처리를 통한 아파트 가져오기
+        Estate first = loadPort.loadEstateByCode(kaptCodes.get(0))
+                .orElseThrow(() -> new NoSuchElementException("first" + ErrorCode.NOT_ESTATE.getMessage()));
+
+        Estate second = loadPort.loadEstateByCode(kaptCodes.get(1))
+                .orElseThrow(() -> new NoSuchElementException("second" + ErrorCode.NOT_ESTATE.getMessage()));
+
+        return List.of(first, second);
+
     }
 
 }
