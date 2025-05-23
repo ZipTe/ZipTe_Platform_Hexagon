@@ -15,7 +15,7 @@ public interface GetEstateUseCase {
      */
 
     // 특정 좌표 주변의 아파트 가져오기
-    List<Estate> loadEstatesNearBy(double latitude, double longitude, double radiusInKm);
+    List<EstateListResponse> loadEstatesNearBy(double latitude, double longitude, double radiusInKm);
 
     // 특정 좌표 근처에서의 매물이 있는 아파트만 뜨도록
     List<EstateListResponse> loadEstatesNearByProperty(double latitude, double longitude, double radiusInKm);
