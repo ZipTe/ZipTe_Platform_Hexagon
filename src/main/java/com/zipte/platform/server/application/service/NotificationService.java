@@ -35,10 +35,6 @@ public class NotificationService implements UserNotificationUseCase {
             return false;
         }
 
-        log.info("Checking if notifications have been sent to user {}", userId);
-        log.info("Latest read at: {}", readAt);
-        log.info("Notifications at: {}", latest.getCreatedAt());
-
         if (readAt == null) {
             return true; // 최신 읽은 시간이 없으면 무조건 새로운 알림이 있음
         }

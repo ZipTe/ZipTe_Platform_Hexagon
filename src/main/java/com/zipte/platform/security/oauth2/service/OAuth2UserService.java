@@ -40,15 +40,11 @@ public class OAuth2UserService extends DefaultOAuth2UserService {
         String userNameAttributeName = userRequest.getClientRegistration().getProviderDetails()
                 .getUserInfoEndpoint().getUserNameAttributeName();
 
-        log.info(registrationId + ": " + userNameAttributeName);
 
         // OAuth2를 바탕으로 정보 생성
         OAuth2UserInfo userInfo = null;
 
         userInfo = OAuth2UserInfoFactory.create(registrationId, oAuth2UserAttributes);
-        log.info("userInfo: {}", userInfo.getProvider());
-        log.info("userInfo: {}", userInfo.getUserName());
-        log.info("userInfo: {}", userInfo.getEmail());
 
         OAuthProvider social = OAuthProvider.valueOf(userInfo.getProvider());
         Optional<User> existUser = userPort.loadUserBySocialAndSocialId(social, userInfo.getProviderId());
@@ -56,7 +52,6 @@ public class OAuth2UserService extends DefaultOAuth2UserService {
         // 존재한다면 로그인
         if (existUser.isPresent()) {
             User user = existUser.get();
-            log.info("이미 로그인한 유저입니다.");
 
             return PrincipalDetails.of(user, oAuth2UserAttributes);
 
