@@ -2,6 +2,8 @@ package com.zipte.platform.server.application.out.estateOwnership;
 
 import com.zipte.platform.server.domain.estateOwnership.EstateOwnership;
 
+import java.util.*;
+
 public interface EstateOwnerShipPort {
 
     /// 저장하기
@@ -14,5 +16,8 @@ public interface EstateOwnerShipPort {
     /// 삭제하기
     void deleteOwnership(Long userId, String kaptCode);
 
+
+    /// 대시보드용
+    List<EstateOwnership> loadMyOwnerships(Long userId);
 
 }
