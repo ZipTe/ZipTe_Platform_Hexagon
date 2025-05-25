@@ -26,6 +26,9 @@ public enum ErrorCode {
     NOT_CONSENT(1010, HttpStatus.BAD_REQUEST, "유저 정보 동의가 체크되지 않았습니다"),
     FIRST_LOGIN(1200,HttpStatus.NOT_FOUND,"최초 로그인유저이기에 추가정보기입이 필요합니다."),
 
+    // 가중치 관련
+    NOT_WEIGHT(1050, HttpStatus.NOT_FOUND, "해당하는 가중치 값이 존재하지 않습니다."),
+
     /// 부동산 관련
     NOT_ESTATE(2000, HttpStatus.NOT_FOUND, "해당하는 부동산이 존재하지 않습니다."),
     NOT_ESTATE_IN_YOUR_AREA(2001, HttpStatus.BAD_REQUEST, "1KM 반경 내에 해당 부동산이 존재하지 않습니다."),
