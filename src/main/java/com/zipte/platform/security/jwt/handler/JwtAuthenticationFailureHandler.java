@@ -24,6 +24,7 @@ public class JwtAuthenticationFailureHandler implements AuthenticationEntryPoint
                          HttpServletResponse response,
                          AuthenticationException authException) throws IOException {
 
+        /// 401 에러
         CustomException exception = new CustomException(ErrorCode.SC_UNAUTHORIZED);
         ApiResponse<Object> apiResponse = ApiResponse.fail(exception);
 

@@ -15,7 +15,7 @@ public enum ErrorCode {
     // 401 SC_UNAUTHORIZED
     SC_UNAUTHORIZED(401, HttpStatus.UNAUTHORIZED,"로그인이 필요합니다"),
     // 403 Bad Reques
-    Forbidden(403, HttpStatus.FORBIDDEN, "접속 권한이 없습니다."),
+    FORBIDDEN(403, HttpStatus.FORBIDDEN, "접속 권한이 없습니다."),
     // 404 Not Found
     NOT_FOUND_END_POINT(404, HttpStatus.NOT_FOUND, "요청한 대상이 존재하지 않습니다."),
     // 500 Internal Server Error
@@ -51,9 +51,23 @@ public enum ErrorCode {
     NOT_QUESTION(7000, HttpStatus.NOT_FOUND, "해당하는 질문이 존재하지 않습니다"),
     NOT_ANSWER(7001, HttpStatus.NOT_FOUND, "해당하는 답변이 존재하지 않습니다"),
     BAD_REQUEST_DELETE_QUESTION(7010, HttpStatus.BAD_REQUEST, "본인이 등록하지 않은 질문을 삭제할 수 없습니다."),
-    BAD_REQUEST_DELETE_ANSWER(7011, HttpStatus.BAD_REQUEST, "본인이 등록하지 않은 질문을 삭제할 수 없습니다.");
+    BAD_REQUEST_DELETE_ANSWER(7011, HttpStatus.BAD_REQUEST, "본인이 등록하지 않은 질문을 삭제할 수 없습니다."),
+
+    /// 인증 관련
+    NOT_VALID(401, HttpStatus.UNAUTHORIZED, "토큰이 유효하지 않습니다."),
+    NO_TOKEN(401, HttpStatus.UNAUTHORIZED, "토큰이 존재하지 않습니다."),;
 
     private final Integer code;
     private final HttpStatus httpStatus;
     private final String message;
+
+
+    public static ErrorCode fromMessage(String message) {
+        for (ErrorCode errorCode : ErrorCode.values()) {
+            if (errorCode.getMessage().equals(message)) {
+                return errorCode;
+            }
+        }
+        throw new IllegalArgumentException("해당 message를 가진 ErrorCode가 존재하지 않습니다: " + message);
+    }
 }
