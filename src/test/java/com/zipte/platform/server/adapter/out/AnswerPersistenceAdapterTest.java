@@ -3,54 +3,56 @@ package com.zipte.platform.server.adapter.out;
 import com.zipte.platform.server.adapter.out.jpa.community.AnswerJpaEntity;
 import com.zipte.platform.server.adapter.out.jpa.community.AnswerJpaRepository;
 import com.zipte.platform.server.domain.community.Answer;
-import com.zipte.platform.server.domain.qa.AnswerJpaFixtures;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.ActiveProfiles;
 
 import java.util.Optional;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.BDDAssertions.then;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.anyLong;
-import static org.mockito.BDDMockito.given;
-import static org.mockito.Mockito.*;
 
-@ExtendWith(MockitoExtension.class)
+@SpringBootTest
+@ActiveProfiles("test")
 class AnswerPersistenceAdapterTest {
 
-    @Mock
+    @Autowired
     private AnswerJpaRepository repository;
 
-    @InjectMocks
+    @Autowired
     private AnswerPersistenceAdapter sut;
 
-    @Test
-    @DisplayName("[happy] 답변 저장 및 조회 테스트")
-    void save_happy() {
 
-        // Given
-        Long userId = 1L;
-        Long questionId = 2L;
-        String content = "테스트";
+    @Nested
+    @DisplayName("저장 테스트")
+    class Save {
 
-        Answer domain = Answer.of(userId, questionId, content);
-        AnswerJpaEntity answer = AnswerJpaFixtures.stubAnswer(100L, userId, questionId, content);
+        @Test
+        @DisplayName("[happy] 답변 저장 및 조회 테스트")
+        void saveAndFindById() {
+            // Given
 
-        given(repository.save(any(AnswerJpaEntity.class)))
-                .willReturn(answer);
+            Long userId = 1L;
+            Long questionId = 2L;
+            String content = "테스트";
 
-        // When
-        sut.saveAnswer(domain);
+            Answer domain = Answer.of(userId, questionId, content);
 
-        // Then
-        verify(repository, times(1)).save(any(AnswerJpaEntity.class));
+            // When
+            Answer saved = sut.saveAnswer(domain);
+
+            // Then
+            Optional<AnswerJpaEntity> result = repository.findById(saved.getId());
+            assertThat(result)
+                    .isPresent();
+            assertThat(result.get()
+                    .getContent())
+                    .isEqualTo(content);
+        }
+
     }
 
     @Nested
@@ -61,22 +63,16 @@ class AnswerPersistenceAdapterTest {
         @DisplayName("[happy] ID로 조회 테스트")
         void loadById() {
             // Given
-            Long id = 1L;
-            AnswerJpaEntity entity = AnswerJpaFixtures.stubAnswer(id, 1L, 2L, "조회 테스트");
-
-            given(repository.findById(id))
-                    .willReturn(Optional.of(entity));
+            Answer answer = sut.saveAnswer(Answer.of(1L, 2L, "조회 테스트"));
 
             // When
-            Optional<Answer> answer = sut.loadAnswerById(id);
-            Answer answer1 = answer.get();
+            Optional<Answer> result = sut.loadAnswerById(answer.getId());
 
             // Then
-            then(answer1)
-                    .isNotNull()
-                    .hasFieldOrPropertyWithValue("id", id);
-
-            verify(repository, times(1)).findById(id);
+            assertThat(result).isPresent();
+            assertThat(result.get()
+                    .getContent())
+                    .isEqualTo("조회 테스트");
         }
 
         @Test
@@ -84,10 +80,8 @@ class AnswerPersistenceAdapterTest {
         void loadByQuestionIdFirst() {
             // Given
             Long questionId = 100L;
-            AnswerJpaEntity entity = AnswerJpaFixtures.stubAnswer(1L, 1L, questionId, "첫 번째");
-
-            given(repository.findTop1ByQuestionIdOrderByCreatedAtAsc(questionId))
-                    .willReturn(Optional.of(entity));
+            sut.saveAnswer(Answer.of(1L, questionId, "첫 번째"));
+            sut.saveAnswer(Answer.of(2L, questionId, "두 번째"));
 
             // When
             Optional<Answer> result = sut.loadAnswerByQuestionIdFirst(questionId);
@@ -97,9 +91,6 @@ class AnswerPersistenceAdapterTest {
             assertThat(result.get()
                     .getContent())
                     .isEqualTo("첫 번째");
-
-            verify(repository, times(1)).findTop1ByQuestionIdOrderByCreatedAtAsc(questionId);
-
         }
 
         @Test
@@ -107,11 +98,8 @@ class AnswerPersistenceAdapterTest {
         void loadAllByQuestionId() {
             // Given
             Long questionId = 200L;
-            AnswerJpaEntity entityA = AnswerJpaFixtures.stubAnswer(1L, 1L, questionId, "답변 A");
-            AnswerJpaEntity entityB = AnswerJpaFixtures.stubAnswer(2L, 2L, questionId, "답변 B");
-
-            given(repository.findByQuestionId(questionId))
-                    .willReturn(List.of(entityA, entityB));
+            sut.saveAnswer(Answer.of(1L, questionId, "답변 A"));
+            sut.saveAnswer(Answer.of(2L, questionId, "답변 B"));
 
             // When
             List<Answer> result = sut.loadAnswerByQuestionId(questionId);
@@ -119,8 +107,8 @@ class AnswerPersistenceAdapterTest {
             // Then
             assertThat(result).hasSize(2);
             assertThat(result).extracting(Answer::getContent).containsExactlyInAnyOrder("답변 A", "답변 B");
-            verify(repository, times(1)).findByQuestionId(questionId);
         }
+
     }
 
     @Nested
@@ -131,16 +119,17 @@ class AnswerPersistenceAdapterTest {
         @DisplayName("[happy] 답변 삭제 테스트")
         void deleteAnswer() {
             // Given
-            Long id = 1L;
-
-            doNothing().when(repository).deleteById(id);
+            Answer answer = sut.saveAnswer(Answer.of(1L, 2L, "삭제될 답변"));
+            Long id = answer.getId();
 
             // When
             sut.deleteAnswerById(id);
 
             // Then
-            verify(repository, times(1)).deleteById(id);
+            Optional<AnswerJpaEntity> result = repository.findById(id);
+            assertThat(result).isNotPresent();
         }
+
     }
 
     @Nested
@@ -151,33 +140,24 @@ class AnswerPersistenceAdapterTest {
         @DisplayName("[happy] ID와 User ID로 존재 여부 확인")
         void existsByIdAndUserId() {
             // Given
-            Long id = 1L;
-            Long userId = 10L;
-
-            given(repository.existsByIdAndUserId(id, userId))
-                    .willReturn(true);
+            Answer answer = sut.saveAnswer(Answer.of(10L, 20L, "존재 여부"));
 
             // When
-            boolean exists = sut.checkExistAnswerByIdAndUserId(id, userId);
+            boolean exists = sut.checkExistAnswerByIdAndUserId(answer.getId(), 10L);
 
             // Then
             assertThat(exists).isTrue();
-            verify(repository, times(1)).existsByIdAndUserId(id, userId);
         }
 
         @Test
         @DisplayName("[unhappy] 존재하지 않을 경우 false")
         void notExists() {
-            // Given
-            given(repository.existsByIdAndUserId(anyLong(), anyLong()))
-                    .willReturn(false);
-
             // When
             boolean exists = sut.checkExistAnswerByIdAndUserId(999L, 999L);
 
             // Then
             assertThat(exists).isFalse();
-            verify(repository, times(1)).existsByIdAndUserId(999L, 999L);
         }
     }
+
 }

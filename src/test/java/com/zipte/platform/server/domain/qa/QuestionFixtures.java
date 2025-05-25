@@ -32,6 +32,20 @@ public class QuestionFixtures {
 
     }
 
+    public static Question stub(Long userId, String kaptCode) {
+
+        return Question.builder()
+                .id(1L)
+                .userId(userId)
+                .kaptCode(kaptCode)
+                .title("title")
+                .content("content")
+                .statistics(QuestionStatisticsFixtures.stub())
+                .build();
+
+
+    }
+
     public static Question stub(Long userId, String kaptCode, String title, String content) {
 
         return Question.builder()
@@ -42,8 +56,6 @@ public class QuestionFixtures {
                 .content(content)
                 .statistics(QuestionStatisticsFixtures.stub())
                 .build();
-
-
     }
 
 }

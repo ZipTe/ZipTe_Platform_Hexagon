@@ -3,28 +3,25 @@ package com.zipte.platform.server.adapter.out;
 import com.zipte.platform.server.adapter.out.jpa.community.QuestionJpaEntity;
 import com.zipte.platform.server.adapter.out.jpa.community.QuestionJpaRepository;
 import com.zipte.platform.server.domain.community.Question;
-import com.zipte.platform.server.domain.qa.QuestionJpaFixtures;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.ActiveProfiles;
 
 import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.mockito.BDDMockito.*;
-import static org.assertj.core.api.Assertions.*;
 
-@ExtendWith(MockitoExtension.class)
+@SpringBootTest
+@ActiveProfiles("test")
 class QuestionPersistenceAdapterTest {
 
-    @Mock
+    @Autowired
     private QuestionJpaRepository repository;
 
-    @InjectMocks
+    @Autowired
     private QuestionPersistenceAdapter sut;
 
     @Nested
@@ -42,21 +39,15 @@ class QuestionPersistenceAdapterTest {
 
             Question domain = Question.of(userId, kaptCode, title, content);
 
-            QuestionJpaEntity savedEntity = QuestionJpaFixtures.stub(1L, userId, kaptCode, title, content); // 저장 후 반환된 엔티티 예시
-
-            given(repository.save(any(QuestionJpaEntity.class)))
-                    .willReturn(savedEntity);
-
             // When
             Question saved = sut.save(domain);
 
             // Then
-            verify(repository)
-                    .save(any(QuestionJpaEntity.class));
+            Optional<QuestionJpaEntity> result = repository.findById(saved.getId());
 
-            assertThat(saved.getId()).isEqualTo(savedEntity.getId());
-            assertThat(saved.getTitle()).isEqualTo(title);
-            assertThat(saved.getContent()).isEqualTo(content);
+            assertThat(result).isPresent();
+            assertThat(result.get().getContent()).isEqualTo(content);
+            assertThat(result.get().getTitle()).isEqualTo(title);
         }
     }
 
@@ -68,23 +59,14 @@ class QuestionPersistenceAdapterTest {
         @DisplayName("[happy] 질문 ID로 조회 성공")
         void get() {
             // Given
-            Long questionId = 1L;
-            QuestionJpaEntity entity = QuestionJpaFixtures.stub(questionId);
-
-            given(repository.findById(questionId))
-                    .willReturn(Optional.of(entity));
+            Question saved = sut.save(Question.of(1L, "A10000001", "제목", "내용"));
 
             // When
-            Optional<Question> result = sut.loadQuestion(questionId);
+            Optional<Question> result = sut.loadQuestion(saved.getId());
 
             // Then
-            verify(repository)
-                    .findById(questionId);
-
-            assertThat(result)
-                    .isPresent();
-            assertThat(result.get().getTitle())
-                    .isEqualTo("기본 제목");
+            assertThat(result).isPresent();
+            assertThat(result.get().getTitle()).isEqualTo("제목");
         }
     }
 
@@ -96,14 +78,14 @@ class QuestionPersistenceAdapterTest {
         @DisplayName("[happy] 질문 삭제 성공")
         void delete() {
             // Given
-            Long questionId = 1L;
-            willDoNothing().given(repository).deleteById(questionId);
+            Question saved = sut.save(Question.of(1L, "삭제용", "내용", "A10000001"));
 
             // When
-            sut.deleteQuestionById(questionId);
+            sut.deleteQuestionById(saved.getId());
 
             // Then
-            verify(repository).deleteById(questionId);
+            Optional<QuestionJpaEntity> result = repository.findById(saved.getId());
+            assertThat(result).isNotPresent();
         }
     }
 
@@ -115,14 +97,12 @@ class QuestionPersistenceAdapterTest {
         @DisplayName("[happy] 질문 존재 여부 확인")
         void checkExistQuestion() {
             // Given
-            Long questionId = 1L;
-            given(repository.existsById(questionId)).willReturn(true);
+            Question saved = sut.save(Question.of(1L, "제목", "내용", "A10000001"));
 
             // When
-            boolean exists = sut.checkExistQuestion(questionId);
+            boolean exists = sut.checkExistQuestion(saved.getId());
 
             // Then
-            then(repository).should().existsById(questionId);
             assertThat(exists).isTrue();
         }
 
@@ -130,19 +110,15 @@ class QuestionPersistenceAdapterTest {
         @DisplayName("[happy] 질문 ID와 유저 ID로 존재 여부 확인")
         void checkExistQuestionByIdAndUserId() {
             // Given
-            Long questionId = 1L;
             Long userId = 1L;
-            given(repository.existsByIdAndUserId(questionId, userId)).willReturn(true);
+            Question saved = sut.save(Question.of(userId, "제목", "내용", "A10000001"));
 
             // When
-            boolean exists = sut.checkExistQuestionByIdAndUserId(questionId, userId);
+            boolean exists = sut.checkExistQuestionByIdAndUserId(saved.getId(), userId);
 
             // Then
-            verify(repository)
-                    .existsByIdAndUserId(questionId, userId);
-
             assertThat(exists).isTrue();
         }
     }
-}
 
+}
