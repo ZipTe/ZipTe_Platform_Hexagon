@@ -13,9 +13,9 @@ public enum ErrorCode {
     // 400 Bad Request
     BAD_REQUEST(400, HttpStatus.BAD_REQUEST, "잘못된 요청입니다."),
     // 401 SC_UNAUTHORIZED
-    SC_UNAUTHORIZED(401, HttpStatus.UNAUTHORIZED,"로그인이 필요합니다"),
+    SC_UNAUTHORIZED(40100, HttpStatus.UNAUTHORIZED,"로그인이 필요합니다"),
     // 403 Bad Reques
-    Forbidden(403, HttpStatus.FORBIDDEN, "접속 권한이 없습니다."),
+    FORBIDDEN(40300, HttpStatus.FORBIDDEN, "접속 권한이 없습니다."),
     // 404 Not Found
     NOT_FOUND_END_POINT(404, HttpStatus.NOT_FOUND, "요청한 대상이 존재하지 않습니다."),
     // 500 Internal Server Error
@@ -33,7 +33,7 @@ public enum ErrorCode {
     NOT_ESTATE(2000, HttpStatus.NOT_FOUND, "해당하는 부동산이 존재하지 않습니다."),
     NOT_ESTATE_IN_YOUR_AREA(2001, HttpStatus.BAD_REQUEST, "1KM 반경 내에 해당 부동산이 존재하지 않습니다."),
     NOT_DATE(2002, HttpStatus.BAD_REQUEST, "오늘 이후의 구매 일정은 설정할 수 없습니다."),
-    BAD_REQUEST_ESTATE(400, HttpStatus.BAD_REQUEST, "이미 등록된 아파트를 등록할 수 없습니다,."),
+    BAD_REQUEST_ESTATE(2004, HttpStatus.BAD_REQUEST, "이미 등록된 아파트를 등록할 수 없습니다,."),
 
     /// 지역 관련
     NOT_REGION(4000, HttpStatus.NOT_FOUND, "해당하는 지역이 존재하지 않습니다."),
@@ -54,9 +54,27 @@ public enum ErrorCode {
     NOT_QUESTION(7000, HttpStatus.NOT_FOUND, "해당하는 질문이 존재하지 않습니다"),
     NOT_ANSWER(7001, HttpStatus.NOT_FOUND, "해당하는 답변이 존재하지 않습니다"),
     BAD_REQUEST_DELETE_QUESTION(7010, HttpStatus.BAD_REQUEST, "본인이 등록하지 않은 질문을 삭제할 수 없습니다."),
-    BAD_REQUEST_DELETE_ANSWER(7011, HttpStatus.BAD_REQUEST, "본인이 등록하지 않은 질문을 삭제할 수 없습니다.");
+    BAD_REQUEST_DELETE_ANSWER(7011, HttpStatus.BAD_REQUEST, "본인이 등록하지 않은 질문을 삭제할 수 없습니다."),
+
+    /// 인증 관련
+    NOT_VALID(40101, HttpStatus.UNAUTHORIZED, "토큰이 유효하지 않습니다."),
+    NO_TOKEN(40102, HttpStatus.UNAUTHORIZED, "토큰이 존재하지 않습니다."),
+
+    /// 파라미터 관련
+    BAD_PARAMETER(10000, HttpStatus.BAD_REQUEST, "요청 파라미터에 문제가 존재합니다.");
 
     private final Integer code;
     private final HttpStatus httpStatus;
     private final String message;
+
+
+    /// 에러코드로 변환시키기
+    public static ErrorCode fromMessage(String message) {
+        for (ErrorCode errorCode : ErrorCode.values()) {
+            if (errorCode.getMessage().equals(message)) {
+                return errorCode;
+            }
+        }
+        throw new IllegalArgumentException("해당 message를 가진 ErrorCode가 존재하지 않습니다: " + message);
+    }
 }

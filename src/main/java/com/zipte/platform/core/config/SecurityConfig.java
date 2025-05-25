@@ -1,5 +1,7 @@
 package com.zipte.platform.core.config;
 
+import com.zipte.platform.security.jwt.handler.JwtAuthenticationDeniedHandler;
+import com.zipte.platform.security.jwt.handler.JwtAuthenticationFailureHandler;
 import com.zipte.platform.security.jwt.handler.JwtAuthenticationFilter;
 import com.zipte.platform.security.jwt.util.RequestMatcherHolder;
 import com.zipte.platform.security.oauth2.handler.OAuth2FailureHandler;
@@ -14,7 +16,6 @@ import org.springframework.security.config.annotation.web.configurers.HeadersCon
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
-import org.springframework.security.web.csrf.CookieCsrfTokenRepository;
 
 import static com.zipte.platform.server.domain.user.UserRole.ADMIN;
 import static com.zipte.platform.server.domain.user.UserRole.MEMBER;
@@ -28,6 +29,8 @@ public class SecurityConfig {
     private final OAuth2FailureHandler oAuth2FailureHandler;
 
     private final JwtAuthenticationFilter jwtAuthenticationFilter;
+    private final JwtAuthenticationFailureHandler jwtAuthenticationFailureHandler;
+    private final JwtAuthenticationDeniedHandler jwtAuthenticationDeniedHandler;
     private final RequestMatcherHolder requestMatcherHolder;
 
     @Bean
@@ -63,6 +66,9 @@ public class SecurityConfig {
                                 .failureHandler(oAuth2FailureHandler))
 
                 .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
+                .exceptionHandling(exception -> exception
+                        .authenticationEntryPoint(jwtAuthenticationFailureHandler)
+                        .accessDeniedHandler(jwtAuthenticationDeniedHandler))
 
         ;
 
