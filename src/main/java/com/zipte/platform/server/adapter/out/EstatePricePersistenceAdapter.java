@@ -8,12 +8,19 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
+import java.util.Optional;
 
 @Component
 @RequiredArgsConstructor
 public class EstatePricePersistenceAdapter implements EstatePricePort {
 
     private final EstatePriceMongoRepository repository;
+
+    @Override
+    public Optional<EstatePrice> loadRecentPriceByKaptCode(String kaptCode) {
+        return repository.findFirstByKaptCodeOrderByTransactionDateDesc(kaptCode)
+                .map(EstatePriceDocument::toDomain);
+    }
 
     @Override
     public List<EstatePrice> loadAllEstatePrices(String kaptCode) {
@@ -24,7 +31,7 @@ public class EstatePricePersistenceAdapter implements EstatePricePort {
 
     @Override
     public List<EstatePrice> loadEstatePriceByCodeAndArea(String kaptCode, double exclusiveArea) {
-        return repository.findALlByKaptCodeAndExclusiveArea(kaptCode, exclusiveArea).stream()
+        return repository.findAllByKaptCodeAndExclusiveArea(kaptCode, exclusiveArea).stream()
                 .map(EstatePriceDocument::toDomain)
                 .toList();
     }

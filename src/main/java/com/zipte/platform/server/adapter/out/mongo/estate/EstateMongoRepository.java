@@ -28,4 +28,7 @@ public interface EstateMongoRepository extends MongoRepository<EstateDocument, S
     List<EstateDocument> findByLocation(double longitude, double latitude, double radiusInRadians);
 
     boolean existsByKaptCode(String kaptCode);
+
+    /// 테스트용
+    void deleteByKaptCode(String kaptCode);
 }
