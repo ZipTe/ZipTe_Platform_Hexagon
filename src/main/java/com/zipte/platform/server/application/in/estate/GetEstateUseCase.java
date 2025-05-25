@@ -21,10 +21,10 @@ public interface GetEstateUseCase {
     List<EstateListResponse> loadEstatesNearByProperty(double latitude, double longitude, double radiusInKm);
 
     // 코드를 바탕으로 아파트 가져오기
-    Optional<Estate> loadEstateByCode(String kaptCode);
+    Estate loadEstateByCode(String kaptCode);
 
     // 이름을 바탕으로 아파트 가져오기
-    Optional<Estate> loadEstateByName(String kaptName);
+    Estate loadEstateByName(String kaptName);
 
     // 특정 지역(동)을 포함하는 아파트 목록 페이징 조회
     Page<Estate> loadEstatesByRegion(String region, Pageable pageable);

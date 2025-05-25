@@ -72,13 +72,15 @@ public class EstateService implements GetEstateUseCase {
 
 
     @Override
-    public Optional<Estate> loadEstateByCode(String kaptCode) {
-        return loadPort.loadEstateByCode(kaptCode);
+    public Estate loadEstateByCode(String kaptCode) {
+        return loadPort.loadEstateByCode(kaptCode)
+                .orElseThrow(() -> new NoSuchElementException(ErrorCode.NOT_ESTATE.getMessage()));
     }
 
     @Override
-    public Optional<Estate> loadEstateByName(String kaptName) {
-        return loadPort.loadEstateByName(kaptName);
+    public Estate loadEstateByName(String kaptName) {
+        return loadPort.loadEstateByName(kaptName)
+                .orElseThrow(() -> new NoSuchElementException(ErrorCode.NOT_ESTATE.getMessage()));
     }
 
     @Override

@@ -12,7 +12,6 @@ import com.zipte.platform.server.application.in.estate.GetEstateUseCase;
 import com.zipte.platform.server.application.in.external.OpenAiUseCase;
 import com.zipte.platform.server.domain.estate.Estate;
 import com.zipte.platform.server.domain.estate.EstatePrice;
-import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -43,13 +42,11 @@ public class EstateApi implements EstateApiSpec {
         Estate estate;
 
         if (code != null) {
-            estate = getService.loadEstateByCode(code)
-                    .orElseThrow(() -> new EntityNotFoundException("해당하는 아파트가 존재하지 않습니다."));
+            estate = getService.loadEstateByCode(code);
         } else if (name != null) {
-            estate = getService.loadEstateByName(name)
-                    .orElseThrow(() -> new EntityNotFoundException("해당하는 아파트가 존재하지 않습니다."));
+            estate = getService.loadEstateByName(name);
         } else {
-            throw new IllegalArgumentException("최소 하나 이상의 요청 파라미터가 필요합니다.");
+            throw new IllegalArgumentException();
         }
 
         return ApiResponse.created(EstateDetailResponse.from(estate));
