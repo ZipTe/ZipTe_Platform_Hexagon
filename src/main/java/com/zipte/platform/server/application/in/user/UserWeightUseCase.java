@@ -19,7 +19,7 @@ public interface UserWeightUseCase {
 
      */
 
-    UserWeight createWeight(UserWeightRequest request);
+    UserWeight createWeight(Long userId, UserWeightRequest request);
 
     UserWeight getWeight(Long userId);
 

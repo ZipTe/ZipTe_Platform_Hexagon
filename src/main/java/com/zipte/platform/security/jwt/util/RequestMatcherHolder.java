@@ -23,7 +23,6 @@ public class RequestMatcherHolder {
             new RequestInfo(OPTIONS, "/**", null),
             new RequestInfo(GET, "/", null),
             new RequestInfo(GET, "/login", null),
-            new RequestInfo(POST, "/error", null),
 
             // 개발용
             new RequestInfo(POST, "/api/v1/auth/dev-login-1", null),
@@ -66,6 +65,9 @@ public class RequestMatcherHolder {
             // 알림
             new RequestInfo(GET, "/api/v1/notification/**", UserRole.MEMBER),
 
+            // 가중치
+            new RequestInfo(GET, "/api/v1/weight/**", UserRole.MEMBER),
+
             // review
             new RequestInfo(POST, "/api/v1/review/**", UserRole.MEMBER),
             new RequestInfo(GET, "/api/v1/review/**", null),
@@ -85,11 +87,13 @@ public class RequestMatcherHolder {
             new RequestInfo(GET, "/index.html", null),
             new RequestInfo(GET, "/error", null),
 
+
             // Swagger UI 및 API 문서 관련 요청
-            new RequestInfo(GET, "/swagger-ui/**", null),
             new RequestInfo(GET, "/v3/api-docs/**", null),
+            new RequestInfo(GET, "/swagger-ui/**", null),
             new RequestInfo(GET, "/swagger-resources/**", null),
             new RequestInfo(GET, "/webjars/**", null),
+            new RequestInfo(GET, "/swagger-ui.html", null),
 
             // 정적 아이콘 요청
             new RequestInfo(GET, "/favicon.ico", null),

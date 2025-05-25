@@ -24,10 +24,10 @@ public class UserWeightService implements UserWeightUseCase {
     private final UserPort loadUserPort;
 
     @Override
-    public UserWeight createWeight(UserWeightRequest request) {
+    public UserWeight createWeight(Long userId, UserWeightRequest request) {
 
         /// 유저 예외처리
-        if(!loadUserPort.checkExistingById(request.getUserId())){
+        if (!loadUserPort.checkExistingById(userId)) {
             throw new NoSuchElementException(ErrorCode.NOT_USER.getMessage());
         }
 
@@ -35,8 +35,8 @@ public class UserWeightService implements UserWeightUseCase {
 
 
         /// 객체 생성
-        UserWeight userWeight = UserWeight.of(request.getUserId(), request.getConvenience(), request.getTransportation(),
-                        request.getRegionPreference(), request.getParkAccess(), request.getDistanceToWork());
+        UserWeight userWeight = UserWeight.of(userId, request.getConvenience(), request.getTransportation(),
+                request.getRegionPreference(), request.getParkAccess(), request.getDistanceToWork());
 
         return weightPort.saveUserWeight(userWeight);
     }
