@@ -9,7 +9,7 @@ public interface EstatePriceMongoRepository extends MongoRepository<EstatePriceD
 
     List<EstatePriceDocument> findAllByKaptCode(String kaptCode);
 
-    List<EstatePriceDocument> findALlByKaptCodeAndExclusiveArea(String kaptCode, double exclusiveArea);
+    List<EstatePriceDocument> findAllByKaptCodeAndExclusiveArea(String kaptCode, double exclusiveArea);
 
     Optional<EstatePriceDocument> findFirstByKaptCodeOrderByTransactionDateDesc(String kaptCode);
 

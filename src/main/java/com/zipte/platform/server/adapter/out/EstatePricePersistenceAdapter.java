@@ -31,7 +31,7 @@ public class EstatePricePersistenceAdapter implements EstatePricePort {
 
     @Override
     public List<EstatePrice> loadEstatePriceByCodeAndArea(String kaptCode, double exclusiveArea) {
-        return repository.findALlByKaptCodeAndExclusiveArea(kaptCode, exclusiveArea).stream()
+        return repository.findAllByKaptCodeAndExclusiveArea(kaptCode, exclusiveArea).stream()
                 .map(EstatePriceDocument::toDomain)
                 .toList();
     }
