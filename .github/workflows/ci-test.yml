@@ -102,7 +102,7 @@ jobs:
 
       # 1-5. 빌드
       - name: Build with Gradle Wrapper
-        run: ./gradlew clean test -i
+        run: ./gradlew clean build
 
           ## 테스트 커버리지
       - name: Test Coverage Report
