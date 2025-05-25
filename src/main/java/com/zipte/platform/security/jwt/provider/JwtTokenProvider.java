@@ -1,5 +1,6 @@
 package com.zipte.platform.security.jwt.provider;
 
+import com.zipte.platform.core.response.ErrorCode;
 import com.zipte.platform.security.jwt.exception.CustomJWTException;
 import com.zipte.platform.security.oauth2.domain.PrincipalDetails;
 import com.zipte.platform.server.application.out.user.UserPort;
@@ -100,7 +101,7 @@ public class JwtTokenProvider {
 
         // 해당 userId로 Member를 조회
         User user = userPort.loadUserById(userId)
-                .orElseThrow(() -> new NoSuchElementException("해당 멤버가 존재하지 않습니다."));
+                .orElseThrow(() -> new NoSuchElementException(ErrorCode.NOT_USER.getMessage()));
 
         PrincipalDetails details = PrincipalDetails.of(user);
 

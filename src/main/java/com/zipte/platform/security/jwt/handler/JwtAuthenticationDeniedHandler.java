@@ -27,7 +27,7 @@ public class JwtAuthenticationDeniedHandler implements AccessDeniedHandler {
 
         /// 응답 내용 생성
         ApiResponse<Object> fail = ApiResponse.fail(
-                new CustomException(ErrorCode.FORBIDDEN)
+                new CustomException(ErrorCode.FORBIDDEN, accessDeniedException.getMessage())
         );
 
 
