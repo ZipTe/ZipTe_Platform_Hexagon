@@ -116,12 +116,7 @@ public class DashBoardService implements DashBoardUseCase {
                 .map(Favorite::getKaptCode)
                 .toList();
 
-        log.info("codes: {}", codes);
-
-        List<EstatePrice> list = estatePricePort.loadEstatePricesByCodes(codes);
-
-        log.info("list: {}", list);
-        return list;
+        return estatePricePort.loadEstatePricesByCodes(codes);
     }
 
 
