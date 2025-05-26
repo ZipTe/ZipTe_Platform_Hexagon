@@ -3,6 +3,8 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.zipte.platform.server.domain.region.RegionPrice;
 import lombok.Builder;
 
+import java.util.*;
+
 @Builder
 public record RegionPriceResponse(
         @JsonProperty("지역코드")
@@ -20,7 +22,6 @@ public record RegionPriceResponse(
         @JsonProperty("25~30평")
         String between25and30,
 
-
         @JsonProperty("30평 이상")
         String upper30
 ) {
@@ -35,8 +36,28 @@ public record RegionPriceResponse(
                 .build();
     }
 
+
+    public static List<RegionPriceResponse> from(List<RegionPrice> regionPrices) {
+        return regionPrices.stream()
+                .map(RegionPriceResponse::from)
+                .toList();
+    }
+
+    /// 내부 함수
     private static String format(Double price) {
         if (price == null) return "-";
-        return String.format("%.0f만원", price);
+
+        long value = price.longValue(); // 만원 단위 정수화
+        long billion = value / 10000;   // 억 단위
+        long rest = value % 10000;      // 천만원 이하
+
+        if (billion > 0 && rest > 0) {
+            return String.format("%d억 %,d만원", billion, rest);
+        } else if (billion > 0) {
+            return String.format("%d억", billion);
+        } else {
+            return String.format("%,d만원", rest);
+        }
     }
+
 }

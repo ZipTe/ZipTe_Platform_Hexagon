@@ -4,6 +4,8 @@ import com.zipte.platform.server.domain.estate.Estate;
 import lombok.Builder;
 import lombok.Data;
 
+import java.util.*;
+
 @Data
 @Builder
 public class EstateDetailResponse {
@@ -33,5 +35,12 @@ public class EstateDetailResponse {
                 .area(EstateAreaResponse.from(estate))
                 .facility(EstateFacilityResponse.from(estate))
                 .build();
+    }
+
+    public static List<EstateDetailResponse> from(List<Estate> estates) {
+        return estates.stream()
+                .map(EstateDetailResponse::from)
+                .toList();
+
     }
 }
