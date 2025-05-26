@@ -16,4 +16,6 @@ public interface RegionJpaRepository extends JpaRepository<RegionJpaEntity, Stri
 
     boolean existsByCode(String code);
 
+    List<RegionJpaEntity> findByCodeIn(List<String> codes);
+
 }

@@ -17,15 +17,16 @@ import com.zipte.platform.server.domain.favorite.FavoriteType;
 import com.zipte.platform.server.domain.region.Region;
 import com.zipte.platform.server.domain.region.RegionPrice;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
 
+@Slf4j
 @Service
-@Transactional
+@Transactional(readOnly = true)
 @RequiredArgsConstructor
 public class DashBoardService implements DashBoardUseCase {
 
@@ -38,7 +39,7 @@ public class DashBoardService implements DashBoardUseCase {
 
     private final RegionPricePort regionPricePort;
 
-    private final LoadEstatePort loadEstatePort;
+    private final LoadEstatePort estatePort;
 
     private final EstatePricePort estatePricePort;
 
@@ -47,79 +48,57 @@ public class DashBoardService implements DashBoardUseCase {
     /// 나의 관심 지역 조회
     @Override
     public List<Region> getFavoriteRegion(Long userId) {
+
         /// 유저 예외 처리
-        if (userPort.checkExistingById(userId)) {
-            throw new NoSuchElementException(ErrorCode.NOT_USER.getMessage());
-        }
+        checkUser(userId);
 
         /// 유저의 관심 지역 목록 조회하기
         List<Favorite> regionList = favoritePort.loadUserFavoriteByType(userId, FavoriteType.REGION);
 
-
         /// 관심 지역 목록을 바탕으로 조회하기
-        List<Region> response = new ArrayList<>();
+        List<String> regionCodes = regionList.stream()
+                .map(Favorite::getRegionCode)
+                .toList();
 
-
-        regionList.forEach(favorite -> {
-            String regionCode = favorite.getRegionCode();
-            Region region = regionPort.loadRegion(regionCode)
-                    .orElseThrow(() -> new NoSuchElementException(ErrorCode.NOT_REGION.getMessage()));
-
-            response.add(region);
-        });
-
-        return response;
+        return regionPort.loadRegionsByCodes(regionCodes);
     }
 
     @Override
     public List<RegionPrice> getFavoriteRegionPrices(Long userId) {
 
         /// 유저 예외 처리
-        if (userPort.checkExistingById(userId)) {
-            throw new NoSuchElementException(ErrorCode.NOT_USER.getMessage());
-        }
+        checkUser(userId);
 
         /// 유저의 관심 지역 목록 조회하기
         List<Favorite> regionList = favoritePort.loadUserFavoriteByType(userId, FavoriteType.REGION);
 
         /// 관심 지역 목록을 바탕으로 가격 조회하기
-        List<RegionPrice> response = new ArrayList<>();
+        List<String> regionCodes = regionList.stream()
+                .map(Favorite::getRegionCode)
+                .toList();
 
-        regionList.forEach(region -> {
-            String regionCode = region.getRegionCode();
-            RegionPrice regionPrice = regionPricePort.loadRegionPriceByCode(regionCode)
-                    .orElseThrow(() -> new NoSuchElementException(ErrorCode.NOT_REGION_PRICE.getMessage()));
-
-            response.add(regionPrice);
-        });
-
-        return response;
+        /// 코드들을 바탕으로 조회하기
+        return regionPricePort.loadRegionPriceByCodes(regionCodes);
     }
 
 
     /// 나의 관심 아파트 조회
     @Override
     public List<Estate> getFavoriteEstates(Long userId) {
+
         /// 유저 예외 처리
-        if (userPort.checkExistingById(userId)) {
-            throw new NoSuchElementException(ErrorCode.NOT_USER.getMessage());
-        }
+        checkUser(userId);
 
         /// 유저의 관심 목록 조회하기
         List<Favorite> estateList = favoritePort.loadUserFavoriteByType(userId, FavoriteType.APARTMENT);
 
         /// 유저 관련 아파트 조회
-        List<Estate> response = new ArrayList<>();
+        List<String> codes = estateList.stream()
+                .map(Favorite::getKaptCode)
+                .toList();
 
-
-        estateList.forEach(favorite -> {
-            String kaptCode = favorite.getKaptCode();
-            Estate estate = loadEstatePort.loadEstateByCode(kaptCode)
-                    .orElseThrow(() -> new NoSuchElementException(ErrorCode.NOT_ESTATE.getMessage()));
-            response.add(estate);
-        });
-
-        return response;
+        /// 코드들을 바탕으로 조회하기
+        return estatePort.loadEstatesByCodes(codes);
     }
 
 
@@ -127,20 +106,22 @@ public class DashBoardService implements DashBoardUseCase {
     public List<EstatePrice> getFavoriteEstatePrice(Long userId) {
 
         /// 유저 예외 처리
-        if (userPort.checkExistingById(userId)) {
-            throw new NoSuchElementException(ErrorCode.NOT_USER.getMessage());
-        }
+        checkUser(userId);
 
         /// 유저의 관심 목록 조회하기
         List<Favorite> regionList = favoritePort.loadUserFavoriteByType(userId, FavoriteType.APARTMENT);
 
         /// 관심 아파트 목록을 바탕으로 가격 조회하기
-        // flatMap을 통해 새롭게 정의 해봄
-        return regionList.stream()
+        List<String> codes = regionList.stream()
                 .map(Favorite::getKaptCode)
-                .map(estatePricePort::loadAllEstatePrices)
-                .flatMap(List::stream)
                 .toList();
+
+        log.info("codes: {}", codes);
+
+        List<EstatePrice> list = estatePricePort.loadEstatePricesByCodes(codes);
+
+        log.info("list: {}", list);
+        return list;
     }
 
 
@@ -149,17 +130,25 @@ public class DashBoardService implements DashBoardUseCase {
     public List<EstatePrice> getMyEstatePrices(Long userId) {
 
         /// 유저 예외 처리
-        if (userPort.checkExistingById(userId)) {
-            throw new NoSuchElementException(ErrorCode.NOT_USER.getMessage());
-        }
+        checkUser(userId);
 
         /// 나의 주거지 인증 아파트 목록 조회
         List<EstateOwnership> ownerships = estateOwnerShipPort.loadMyOwnerships(userId);
 
-        return ownerships.stream()
+        List<String> codes = ownerships.stream()
                 .map(EstateOwnership::getKaptCode)
-                .map(estatePricePort::loadAllEstatePrices)
-                .flatMap(List::stream)
                 .toList();
+
+        return estatePricePort.loadEstatePricesByCodes(codes);
     }
+
+
+    /// 내부 함수
+    private void checkUser(Long userId) {
+        if (!userPort.checkExistingById(userId)) {
+            throw new NoSuchElementException(ErrorCode.NOT_USER.getMessage());
+        }
+    }
+
+
 }

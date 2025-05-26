@@ -2,7 +2,7 @@ package com.zipte.platform.server.application.out.region;
 
 import com.zipte.platform.server.domain.region.RegionPrice;
 
-import java.util.Optional;
+import java.util.*;
 
 public interface RegionPricePort {
 
@@ -16,6 +16,8 @@ public interface RegionPricePort {
     Optional<RegionPrice> loadRegionPriceByCode(String regionCode);
 
     boolean checkRegionPriceExist(String regionCode);
+
+    List<RegionPrice> loadRegionPriceByCodes(List<String> regionCodes);
 
     /// 삭제
     void deleteRegionPriceByCode(String regionCode);

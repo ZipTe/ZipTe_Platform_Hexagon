@@ -23,4 +23,5 @@ public interface LoadEstatePort {
     /// 외부에서 활용하는 포트
     List<Estate> loadEstatesByRegion(String region);
 
+    List<Estate> loadEstatesByCodes(List<String> kaptCodes);
 }
