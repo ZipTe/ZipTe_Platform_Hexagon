@@ -185,8 +185,8 @@ class DashBoardServiceTest {
 
             String kaptCode1 = "KaptCode1";
             String kaptCode2 = "KaptCode2";
-            Favorite apt1 = FavoriteFixtures.apartmentFavorite(userId, "AAPT1");
-            Favorite apt2 = FavoriteFixtures.apartmentFavorite(userId, "AAPT2");
+            Favorite apt1 = FavoriteFixtures.apartmentFavorite(userId, kaptCode1);
+            Favorite apt2 = FavoriteFixtures.apartmentFavorite(userId, kaptCode2);
 
             given(favoritePort.loadUserFavoriteByType(userId, FavoriteType.APARTMENT))
                     .willReturn(List.of(apt1, apt2));
@@ -194,7 +194,7 @@ class DashBoardServiceTest {
             EstatePrice stub = EstatePriceFixtures.stub(kaptCode1);
             EstatePrice stub2 = EstatePriceFixtures.stub(kaptCode2);
 
-            given(estatePricePort.loadEstatePricesByCodes(List.of("AAPT1", "AAPT2")))
+            given(estatePricePort.loadEstatePricesByCodes(List.of(kaptCode1, kaptCode2)))
                     .willReturn(List.of(stub, stub2));
 
             // When
