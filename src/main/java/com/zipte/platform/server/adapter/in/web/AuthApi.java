@@ -52,8 +52,6 @@ public class AuthApi implements AuthAPiSpec {
 
         OAuth2UserInfoResponse response = OAuth2UserInfoResponse.from(userInfo);
 
-        log.info("로그 {}", response);
-
         return ApiResponse.ok(response);
     }
 

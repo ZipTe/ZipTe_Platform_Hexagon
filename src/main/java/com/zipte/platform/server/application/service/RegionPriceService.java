@@ -44,9 +44,6 @@ public class RegionPriceService implements RegionPriceUseCase {
     @Override
     public void saveRegionPrice(String regionCode) {
 
-        ///
-        log.info("Save region price [{}]", regionCode);
-
         /// 조회할 지역 코드 조회
         String regionName = getRegionName(regionCode);
 

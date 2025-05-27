@@ -1,5 +1,6 @@
 package com.zipte.platform.security.jwt.handler;
 
+import com.zipte.platform.core.response.ErrorCode;
 import com.zipte.platform.security.jwt.exception.JwtAuthenticationException;
 import com.zipte.platform.security.jwt.provider.JwtTokenProvider;
 import com.zipte.platform.security.jwt.util.RequestMatcherHolder;
@@ -29,47 +30,40 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
 
         try {
-        /// 헤더에서 토큰 꺼내기
-        String authorization = request.getHeader("Authorization");
 
-        if (authorization != null && authorization.startsWith("Bearer ")) {
-            String token = authorization.substring(7);
-            log.info("JWT token: {}", token);
+            /// 헤더에서 토큰 꺼내기
+            String authorization = request.getHeader("Authorization");
 
-            /// 토큰 검증
-            if (tokenProvider.validateToken(token)) {
-                var authentication = tokenProvider.getAuthentication(token);
+            if (authorization != null && authorization.startsWith("Bearer ")) {
+                String token = authorization.substring(7);
 
-                /// 시큐리티 홀더에 해당 멤버 저장
-                SecurityContextHolder.getContext().setAuthentication(authentication);
+                /// 토큰 검증
+                if (tokenProvider.validateToken(token)) {
+                    var authentication = tokenProvider.getAuthentication(token);
+
+                    /// 시큐리티 홀더에 해당 멤버 저장
+                    SecurityContextHolder.getContext().setAuthentication(authentication);
+                    filterChain.doFilter(request, response);
+                } else {
+                    throw new JwtAuthenticationException(ErrorCode.NOT_VALID.getMessage());
+                }
+
             } else {
-                throw new JwtAuthenticationException("토큰이 잘못 되었습니다.");
+                throw new JwtAuthenticationException(ErrorCode.NO_TOKEN.getMessage());
             }
-
-        } else {
-            throw new JwtAuthenticationException("토큰이 없습니다.");
-        }
         }
         catch (JwtAuthenticationException ex) {
-            log.warn("JWT 인증 실패: {}", ex.getMessage());
             // 실패 핸들러 호출
             failureHandler.commence(request, response, ex);
             return;
         }
-        log.info("통과");
-
-        filterChain.doFilter(request, response);
     }
 
     @Override
     protected boolean shouldNotFilter(HttpServletRequest request) {
 
-        boolean shouldSkip = requestMatcherHolder.getRequestMatchersByMinRole(null)
+        return requestMatcherHolder.getRequestMatchersByMinRole(null)
                 .matches(request);
-
-        log.info("요청 URL: {} | 필터 생략 여부: {}", request.getRequestURI(), shouldSkip);
-
-        return shouldSkip;
     }
 
 }

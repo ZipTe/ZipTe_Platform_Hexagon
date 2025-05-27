@@ -3,8 +3,12 @@ package com.zipte.platform.server.application.out.estate;
 import com.zipte.platform.server.domain.estate.EstatePrice;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface EstatePricePort {
+
+    /// 가장 최근의 거래 조회하기
+    Optional<EstatePrice> loadRecentPriceByKaptCode(String kaptCode);
 
     /// 목록 조회하기
     List<EstatePrice> loadAllEstatePrices(String kaptCode);

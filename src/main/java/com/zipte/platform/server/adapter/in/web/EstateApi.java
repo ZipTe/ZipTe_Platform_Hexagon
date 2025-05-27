@@ -5,11 +5,13 @@ import com.zipte.platform.core.response.pageable.PageRequest;
 import com.zipte.platform.core.response.pageable.PageResponse;
 import com.zipte.platform.server.adapter.in.web.dto.response.EstateDetailResponse;
 import com.zipte.platform.server.adapter.in.web.dto.response.EstateListResponse;
+import com.zipte.platform.server.adapter.in.web.dto.response.EstatePriceListResponse;
 import com.zipte.platform.server.adapter.in.web.swagger.EstateApiSpec;
+import com.zipte.platform.server.application.in.estate.EstatePriceUseCase;
 import com.zipte.platform.server.application.in.estate.GetEstateUseCase;
 import com.zipte.platform.server.application.in.external.OpenAiUseCase;
 import com.zipte.platform.server.domain.estate.Estate;
-import jakarta.persistence.EntityNotFoundException;
+import com.zipte.platform.server.domain.estate.EstatePrice;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -25,6 +27,9 @@ public class EstateApi implements EstateApiSpec {
 
     private final GetEstateUseCase getService;
 
+    /// 가격 의존성
+    private final EstatePriceUseCase priceService;
+
     /// AI 의존성
     private final OpenAiUseCase openAiService;
 
@@ -37,13 +42,11 @@ public class EstateApi implements EstateApiSpec {
         Estate estate;
 
         if (code != null) {
-            estate = getService.loadEstateByCode(code)
-                    .orElseThrow(() -> new EntityNotFoundException("해당하는 아파트가 존재하지 않습니다."));
+            estate = getService.loadEstateByCode(code);
         } else if (name != null) {
-            estate = getService.loadEstateByName(name)
-                    .orElseThrow(() -> new EntityNotFoundException("해당하는 아파트가 존재하지 않습니다."));
+            estate = getService.loadEstateByName(name);
         } else {
-            throw new IllegalArgumentException("최소 하나 이상의 요청 파라미터가 필요합니다.");
+            throw new IllegalArgumentException();
         }
 
         return ApiResponse.created(EstateDetailResponse.from(estate));
@@ -74,9 +77,8 @@ public class EstateApi implements EstateApiSpec {
             @RequestParam(value = "longitude") double longitude,
             @RequestParam(value = "latitude") double latitude,
             @RequestParam(value = "radius") double radius) {
-        List<Estate> list = getService.loadEstatesNearBy(longitude, latitude, radius);
 
-        return ApiResponse.ok(EstateListResponse.from(list));
+        return ApiResponse.ok(getService.loadEstatesNearBy(longitude, latitude, radius));
 
     }
 
@@ -93,6 +95,16 @@ public class EstateApi implements EstateApiSpec {
 
     }
 
+    @GetMapping("/compare")
+    public ApiResponse<List<EstateDetailResponse>> getEstateByCompare(
+            @RequestParam(value = "first") String first,
+            @RequestParam(value = "second") String second
+    ) {
+        List<Estate> estates = getService.loadEstatesByCompare(List.of(first, second));
+
+        return ApiResponse.ok(EstateDetailResponse.from(estates));
+    }
+
 
     /// AI 기반 특징 요약
     @GetMapping("/ai/{kaptCode}")
@@ -100,5 +112,26 @@ public class EstateApi implements EstateApiSpec {
         String result = openAiService.getKaptCharacteristic(kaptCode);
 
         return ApiResponse.ok(result);
+    }
+
+
+    /// 가격 조회
+    @GetMapping("/price")
+    public ApiResponse<List<EstatePriceListResponse>> getPriceByCodeAndArea(
+            @RequestParam String kaptCode,
+            @RequestParam double area) {
+
+        List<EstatePrice> list = priceService.getEstatePriceByCode(kaptCode, area);
+
+        return ApiResponse.ok(EstatePriceListResponse.from(list));
+    }
+
+
+    @GetMapping("/price/{kaptCode}")
+    public ApiResponse<List<EstatePriceListResponse>> getPrice(@PathVariable String kaptCode) {
+
+        List<EstatePrice> list = priceService.getEstatePriceByCode(kaptCode);
+
+        return ApiResponse.ok(EstatePriceListResponse.from(list));
     }
 }

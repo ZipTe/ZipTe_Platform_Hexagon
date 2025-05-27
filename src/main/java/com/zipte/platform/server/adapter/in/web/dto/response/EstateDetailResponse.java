@@ -41,6 +41,5 @@ public class EstateDetailResponse {
         return estates.stream()
                 .map(EstateDetailResponse::from)
                 .toList();
-
     }
 }
