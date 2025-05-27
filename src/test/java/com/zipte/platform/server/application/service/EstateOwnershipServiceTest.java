@@ -8,7 +8,7 @@ import com.zipte.platform.server.application.service.exception.AlreadyExistingEs
 import com.zipte.platform.server.application.service.exception.NotExistingEstateInYourAreaException;
 import com.zipte.platform.server.domain.estate.Estate;
 import com.zipte.platform.server.domain.estateOwnership.EstateOwnership;
-import com.zipte.platform.server.domain.review.EstateFixtures;
+import com.zipte.platform.server.domain.estate.EstateFixtures;
 import com.zipte.platform.server.domain.review.EstateOwnerShipFixtures;
 import org.junit.Assert;
 import org.junit.jupiter.api.DisplayName;
