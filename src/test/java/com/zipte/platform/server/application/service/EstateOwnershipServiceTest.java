@@ -85,13 +85,19 @@ class EstateOwnershipServiceTest {
     public void createOwnerShipBy1KM() {
 
         // Given
-        var request = createRequest(00.00, 00.00);
+        var request = createRequest(37.12345, 127.123456);
 
-        given(loadUserPort.checkExistingById(anyLong())).willReturn(true);
+        given(loadUserPort.checkExistingById(anyLong()))
+                .willReturn(true);
 
-        given(loadEstatePort.checkExistingByCode(any())).willReturn(true);
+        given(loadEstatePort.checkExistingByCode(any()))
+                .willReturn(true);
 
-        Estate stub = EstateFixtures.stub();
+        given(port.loadOwnershipByUser(request.getUserId(), request.getKaptCode()))
+                .willReturn(false);
+
+        Estate stub = EstateFixtures.stub(request.getKaptCode());
+
         given(loadEstatePort.loadEstatesNearBy(request.getLongitude(), request.getLatitude(), ONE_KM_IN_RADIANS))
                 .willReturn(List.of(stub));
 
