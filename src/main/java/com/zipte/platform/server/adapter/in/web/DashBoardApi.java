@@ -3,6 +3,7 @@ package com.zipte.platform.server.adapter.in.web;
 import com.zipte.platform.core.response.ApiResponse;
 import com.zipte.platform.security.oauth2.domain.PrincipalDetails;
 import com.zipte.platform.server.adapter.in.web.dto.response.*;
+import com.zipte.platform.server.adapter.in.web.swagger.DashBoardApiSpec;
 import com.zipte.platform.server.application.in.dashboard.DashBoardUseCase;
 import com.zipte.platform.server.domain.estate.Estate;
 import com.zipte.platform.server.domain.estate.EstatePrice;
@@ -19,7 +20,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/v1/dashboard")
 @RequiredArgsConstructor
-public class DashBoardApi {
+public class DashBoardApi implements DashBoardApiSpec {
 
     private final DashBoardUseCase dashboardService;
 
