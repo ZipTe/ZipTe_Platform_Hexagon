@@ -19,5 +19,6 @@ public interface EstatePricePort {
     /// 기간별 조회하기
     List<EstatePrice> loadAllEstatePricesBetween(String kaptCode, String from, String to);
 
-
+    /// 외부 의존성
+    List<EstatePrice> loadEstatePricesByCodes(List<String> kaptCodes);
 }

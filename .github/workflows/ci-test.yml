@@ -74,10 +74,18 @@ jobs:
           echo "${{ secrets.APPLICATION_TEST_YML }}" > ./src/test/resources/application-test.yml
 
 
-      # 1-4. gradle 환경 설치
-      - name: Setup Gradle
-        uses: gradle/actions/setup-gradle@af1da67850ed9a4cedd57bfd976089dd991e2582 # v4.0.0
+      # 1-4. 성능 향상을 위한 Gradle 캐싱
+      - name: Gradle Caching
+        uses: actions/cache@v3
+        with:
+          path: |
+            ~/.gradle/caches
+            ~/.gradle/wrapper
+          key: gradle-${{ runner.os }}-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties') }}
+          restore-keys: |
+            gradle-${{ runner.os }}
 
+      # 1-5. 테스트 컨테이너들 작동여부 체크
       - name: MySQL 체크
         run: |
           until nc -z localhost 3306; do
@@ -100,11 +108,11 @@ jobs:
             sleep 3
           done
 
-      # 1-5. 빌드
+      # 2. 빌드
       - name: Build with Gradle Wrapper
         run: ./gradlew clean build
 
-          ## 테스트 커버리지
+      # 3. 테스트 커버리지
       - name: Test Coverage Report
         id: jacoco
         uses: madrapps/jacoco-report@v1.2
@@ -116,7 +124,7 @@ jobs:
           min-coverage-overall: 0
           debug-mode: true
 
-      # 7. JUnit 테스트 결과 게시
+      # 4. JUnit 테스트 결과 게시
       - name: Test 결과 출력
         uses: EnricoMi/publish-unit-test-result-action@v2
         if: always()

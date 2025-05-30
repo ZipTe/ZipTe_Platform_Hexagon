@@ -15,6 +15,8 @@ public interface FavoriteJpaRepository extends JpaRepository<FavoriteJpaEntity, 
 
     Page<FavoriteJpaEntity> findByUserIdAndType(Long userId, FavoriteType type, Pageable pageable);
 
+    List<FavoriteJpaEntity> findByUserIdAndType(Long userId, FavoriteType type);
+
     Optional<FavoriteJpaEntity> findByIdAndUserId(Long id, Long userId);
 
     boolean existsByUserIdAndKaptCode(Long userId, String kaptCode);

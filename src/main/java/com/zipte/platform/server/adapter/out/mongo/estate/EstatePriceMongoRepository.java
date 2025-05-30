@@ -13,4 +13,5 @@ public interface EstatePriceMongoRepository extends MongoRepository<EstatePriceD
 
     Optional<EstatePriceDocument> findFirstByKaptCodeOrderByTransactionDateDesc(String kaptCode);
 
+    List<EstatePriceDocument> findByKaptCodeIn(List<String> kaptCodes);
 }

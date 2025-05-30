@@ -56,6 +56,13 @@ public class FavoritePersistenceAdapter implements FavoritePort {
     }
 
     @Override
+    public List<Favorite> loadUserFavoriteByType(Long userId, FavoriteType type) {
+        return repository.findByUserIdAndType(userId, type).stream()
+                .map(FavoriteJpaEntity::toDomain)
+                .toList();
+    }
+
+    @Override
     public boolean checkFavoriteByUserIdAndTypeAndCode(Long userId, FavoriteType type, String code) {
         if (type.equals(FavoriteType.REGION)) {
             return repository.existsByUserIdAndRegionCode(userId, code);

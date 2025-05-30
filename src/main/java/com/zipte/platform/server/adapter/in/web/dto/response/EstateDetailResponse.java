@@ -42,5 +42,4 @@ public class EstateDetailResponse {
                 .map(EstateDetailResponse::from)
                 .toList();
     }
-
 }

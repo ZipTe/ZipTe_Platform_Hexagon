@@ -7,6 +7,8 @@ import com.zipte.platform.server.domain.estateOwnership.EstateOwnership;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
+import java.util.List;
+
 @Component
 @RequiredArgsConstructor
 public class EstateOwnerShipAdapter implements EstateOwnerShipPort {
@@ -31,6 +33,14 @@ public class EstateOwnerShipAdapter implements EstateOwnerShipPort {
     @Override
     public void deleteOwnership(Long userId, String kaptCode) {
         repository.deleteByKaptCodeAndUserId(kaptCode, userId);
+    }
+
+    @Override
+    public List<EstateOwnership> loadMyOwnerships(Long userId) {
+
+        return repository.findByUserId(userId).stream()
+                .map(EstateOwnershipJpaEntity::toDomain)
+                .toList();
     }
 
 }

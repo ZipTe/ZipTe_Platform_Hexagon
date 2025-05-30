@@ -53,4 +53,11 @@ public class EstatePersistenceAdapter implements LoadEstatePort {
                 .map(EstateDocument::toDomain)
                 .toList();
     }
+
+    @Override
+    public List<Estate> loadEstatesByCodes(List<String> kaptCodes) {
+        return repository.findByKaptCodeIn(kaptCodes).stream()
+                .map(EstateDocument::toDomain)
+                .toList();
+    }
 }

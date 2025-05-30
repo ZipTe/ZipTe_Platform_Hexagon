@@ -27,6 +27,8 @@ public interface FavoritePort {
     // 관심 목록 조회하기
     Page<Favorite> loadUserFavoriteByType(Long userId, FavoriteType type, Pageable pageable);
 
+    List<Favorite> loadUserFavoriteByType(Long userId, FavoriteType type);
+
     // 중복 여부 판단 조회
     boolean checkFavoriteByUserIdAndTypeAndCode(Long userId, FavoriteType type, String code);
 

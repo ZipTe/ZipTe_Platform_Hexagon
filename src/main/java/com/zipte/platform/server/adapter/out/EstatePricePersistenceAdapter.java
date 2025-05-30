@@ -40,4 +40,11 @@ public class EstatePricePersistenceAdapter implements EstatePricePort {
     public List<EstatePrice> loadAllEstatePricesBetween(String kaptCode, String from, String to) {
         return List.of();
     }
+
+    @Override
+    public List<EstatePrice> loadEstatePricesByCodes(List<String> kaptCodes) {
+        return repository.findByKaptCodeIn(kaptCodes).stream()
+                .map(EstatePriceDocument::toDomain)
+                .toList();
+    }
 }

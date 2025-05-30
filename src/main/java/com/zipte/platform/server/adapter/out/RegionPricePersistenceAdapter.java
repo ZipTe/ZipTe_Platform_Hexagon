@@ -7,6 +7,7 @@ import com.zipte.platform.server.domain.region.RegionPrice;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
+import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Optional;
 
@@ -48,6 +49,13 @@ public class RegionPricePersistenceAdapter implements RegionPricePort {
     @Override
     public boolean checkRegionPriceExist(String regionCode) {
         return repository.existsByRegionCode(regionCode);
+    }
+
+    @Override
+    public List<RegionPrice> loadRegionPriceByCodes(List<String> regionCodes) {
+        return repository.findByRegionCodeIn(regionCodes).stream()
+                .map(RegionPriceJpaEntity::toDomain)
+                .toList();
     }
 
     @Override

@@ -29,6 +29,11 @@ public interface EstateMongoRepository extends MongoRepository<EstateDocument, S
 
     boolean existsByKaptCode(String kaptCode);
 
+
+    /// 코드를 바탕으로 여러개를 한번에 가져오기
+    List<EstateDocument> findByKaptCodeIn(List<String> kaptCodes);
+
     /// 테스트용
     void deleteByKaptCode(String kaptCode);
+
 }
