@@ -99,6 +99,16 @@ public class QuestionService implements QuestionUseCase {
         return new PageImpl<>(responseList, pageable, questions.getTotalElements());
     }
 
+    @Override
+    public Page<Question> loadQuestionsByKeyword(String kaptCode, String keyword, Pageable pageable) {
+        return null;
+    }
+
+    @Override
+    public List<Question> loadQuestionsByKeyword(String kaptCode, String keyword) {
+        return questionPort.loadQuestionsByKeyword(kaptCode, keyword);
+    }
+
     /// 질문 삭제하기
     @Override
     public void deleteQuestion(Long id, Long userId) {

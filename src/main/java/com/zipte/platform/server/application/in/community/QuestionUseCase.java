@@ -7,6 +7,8 @@ import com.zipte.platform.server.domain.community.Question;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
+import java.util.List;
+
 public interface QuestionUseCase {
 
     /*
@@ -22,6 +24,12 @@ public interface QuestionUseCase {
 
     /// 질문 목록 조회하기
     Page<QuestionAnswerListResponse> loadQuestions(String kaptCode, Pageable pageable);
+
+    /// 특정 키워드 조회
+    Page<Question> loadQuestionsByKeyword(String kaptCode, String keyword, Pageable pageable);
+
+
+    List<Question> loadQuestionsByKeyword(String kaptCode, String keyword);
 
     /// 질문 삭제하기
     void deleteQuestion(Long questionId, Long userId);
