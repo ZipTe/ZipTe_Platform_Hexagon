@@ -60,7 +60,7 @@ public class QuestionPersistenceAdapter implements QuestionPort {
 
     @Override
     public List<Question> loadQuestionsByKeyword(String kaptCode, String keyword) {
-        return elkRepository.findByTitle(keyword).stream()
+        return elkRepository.findByTitleAndKaptCode(keyword, kaptCode).stream()
                 .map(QuestionELKDocument::toDomain)
                 .toList();
     }
@@ -69,7 +69,11 @@ public class QuestionPersistenceAdapter implements QuestionPort {
     /// 삭제
     @Override
     public void deleteQuestionById(Long id) {
+        /// DB에서 삭제
         repository.deleteById(id);
+
+        /// ELK에서 삭제
+        elkRepository.deleteById(id);
     }
 
 

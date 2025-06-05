@@ -40,7 +40,7 @@ public class QuestionELKDocument {
     private LocalDateTime updatedAt;
 
     @Builder
-    public QuestionELKDocument(Long id, Long userId, String kaptCode, String title, String content, LocalDateTime createdAt, LocalDateTime updatedAt) {
+    private QuestionELKDocument(Long id, Long userId, String kaptCode, String title, String content, LocalDateTime createdAt, LocalDateTime updatedAt) {
         this.id = id;
         this.userId = userId;
         this.kaptCode = kaptCode;

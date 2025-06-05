@@ -106,6 +106,7 @@ public class QuestionService implements QuestionUseCase {
 
     @Override
     public List<Question> loadQuestionsByKeyword(String kaptCode, String keyword) {
+        /// 특정 아파트에서 키워드를 바탕으로 조회하도록 진행해야한다.
         return questionPort.loadQuestionsByKeyword(kaptCode, keyword);
     }
 
