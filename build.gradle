@@ -152,6 +152,9 @@ dependencies {
     // AOP
     implementation 'org.springframework.boot:spring-boot-starter-aop'
 
+    /// WebClient
+    implementation 'org.springframework.boot:spring-boot-starter-webflux'
+
     // Test 관련
     annotationProcessor 'org.projectlombok:lombok'
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
