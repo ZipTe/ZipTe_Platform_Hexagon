@@ -13,7 +13,7 @@ import org.springframework.context.annotation.Profile;
 
 @Configuration
 @Profile("dev")
-@OpenAPIDefinition(servers = {@Server(url = "https://www.zipte-dev.store", description = "집터 개발 서버")})
+//@OpenAPIDefinition(servers = {@Server(url = "https://www.zipte-dev.store", description = "집터 개발 서버")})
 public class SwaggerConfig {
 
     @Bean

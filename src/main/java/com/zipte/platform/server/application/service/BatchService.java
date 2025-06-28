@@ -20,7 +20,7 @@ import java.util.*;
 import org.springframework.context.event.EventListener;
 
 @Slf4j
-@Service
+//@Service
 @RequiredArgsConstructor
 public class BatchService {
 
