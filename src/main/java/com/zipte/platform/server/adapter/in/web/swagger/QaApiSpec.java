@@ -8,6 +8,7 @@ import com.zipte.platform.server.adapter.in.web.dto.request.AnswerRequest;
 import com.zipte.platform.server.adapter.in.web.dto.request.QuestionRequest;
 import com.zipte.platform.server.adapter.in.web.dto.response.QuestionAnswerDetailResponse;
 import com.zipte.platform.server.adapter.in.web.dto.response.QuestionAnswerListResponse;
+import com.zipte.platform.server.adapter.in.web.dto.response.QuestionResponse;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -18,6 +19,9 @@ import jakarta.validation.Valid;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
+
+import java.util.List;
 
 @Tag(name = "Q&A API", description = "Q&A 관련 API")
 public interface QaApiSpec {
@@ -39,6 +43,19 @@ public interface QaApiSpec {
             @RequestBody @Valid QuestionRequest request,
             @Parameter(hidden = true) PrincipalDetails principalDetails);
 
+
+    /// 질문 검색
+    @Operation(
+            summary = "질문 검색",
+            description = "ES를 통해서 질문에 대한 키워드를 바탕으로 질문을 검색합니다."
+    )
+    ApiResponse<List<QuestionResponse>> getQuestions(
+            @Parameter(description = "아파트 코드", example = "A46393018")
+            @RequestParam(required = true) String kaptCode,
+
+            @Parameter(description = "검색할 키워드", example = "벌레")
+            @RequestParam(required = true) String title
+    );
 
 
     @Operation(

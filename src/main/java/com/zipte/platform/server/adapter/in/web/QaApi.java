@@ -8,9 +8,11 @@ import com.zipte.platform.server.adapter.in.web.dto.request.AnswerRequest;
 import com.zipte.platform.server.adapter.in.web.dto.response.QuestionAnswerDetailResponse;
 import com.zipte.platform.server.adapter.in.web.dto.request.QuestionRequest;
 import com.zipte.platform.server.adapter.in.web.dto.response.QuestionAnswerListResponse;
+import com.zipte.platform.server.adapter.in.web.dto.response.QuestionResponse;
 import com.zipte.platform.server.adapter.in.web.swagger.QaApiSpec;
 import com.zipte.platform.server.application.in.community.AnswerUseCase;
 import com.zipte.platform.server.application.in.community.QuestionUseCase;
+import com.zipte.platform.server.domain.community.Question;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -84,6 +86,19 @@ public class QaApi implements QaApiSpec {
         questionService.deleteQuestion(questionId, principalDetails.getId());
 
         return ApiResponse.ok("성공적으로 질문이 삭제되었습니다.");
+    }
+
+
+    @GetMapping("/question")
+    public ApiResponse<List<QuestionResponse>> getQuestions(
+            @RequestParam(required = true) String kaptCode,
+            @RequestParam(required = true) String title
+    ) {
+        List<Question> questionList = questionService.loadQuestionsByKeyword(kaptCode, title);
+
+        List<QuestionResponse> responses = QuestionResponse.from(questionList);
+
+        return ApiResponse.ok(responses);
     }
 
 

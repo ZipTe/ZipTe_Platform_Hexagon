@@ -1,0 +1,26 @@
+package com.zipte.platform.core.config.external;
+
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Profile;
+import org.springframework.data.elasticsearch.client.ClientConfiguration;
+import org.springframework.data.elasticsearch.client.elc.ElasticsearchConfiguration;
+import org.springframework.data.elasticsearch.repository.config.EnableElasticsearchRepositories;
+
+@Configuration
+@Profile({"local","test"})
+@EnableElasticsearchRepositories(basePackages = "com.zipte.platform.server.adapter.out.external.elk")
+public class ElasticSearchConfig extends ElasticsearchConfiguration {
+
+    @Value("${elasticsearch.host}")
+    private String host;
+
+    @Override
+    public ClientConfiguration clientConfiguration() {
+        return ClientConfiguration.builder()
+                .connectedTo(host)
+                .usingSsl(false)
+                .build();
+    }
+
+}
