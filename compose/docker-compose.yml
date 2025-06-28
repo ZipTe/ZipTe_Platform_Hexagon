@@ -5,10 +5,6 @@ volumes:
     driver: local
   kibanadata:
     driver: local
-  metricbeatdata01:
-    driver: local
-  filebeatdata01:
-    driver: local
   logstashdata01:
     driver: local
 
@@ -110,35 +106,6 @@ services:
     networks:
       - backend-bridge
 
-  nginx:
-    image: nginx:latest
-    container_name: zipte-nginx
-    volumes:
-      - ./nginx/conf.d/default.conf:/etc/nginx/conf.d/default.conf
-      - /letsencrypt/certbot/conf:/etc/letsencrypt
-      - /letsencrypt/certbot/www:/var/www/certbot
-    ports:
-      - 80:80
-      - 443:443
-    depends_on:
-      - spring
-    networks:
-      - backend-bridge
-    command: '/bin/sh -c ''while :; do sleep 6h & wait $${!}; nginx -s reload; done & nginx -g "daemon off;"'''
-
-  certbot:
-    image: certbot/certbot
-    container_name: zipte-certbot
-    restart: unless-stopped
-    volumes:
-      - /letsencrypt/certbot/conf:/etc/letsencrypt
-      - /letsencrypt/certbot/www:/var/www/certbot
-    depends_on:
-      - nginx
-    networks:
-      - backend-bridge
-    entrypoint: "/bin/sh -c 'trap exit TERM; while :; do certbot renew; sleep 12h & wait $${!}; done;'"
-
   es01:
     container_name: zipte-es
     depends_on:
@@ -150,8 +117,6 @@ services:
     volumes:
       - certs:/usr/share/elasticsearch/config/certs
       - esdata01:/usr/share/elasticsearch/data
-      - ./es-entrypoint.sh:/usr/local/bin/es-entrypoint.sh
-    entrypoint: [ "/usr/local/bin/es-entrypoint.sh" ]
     ports:
       - ${ES_PORT}:9200
     environment:
@@ -218,55 +183,6 @@ services:
       interval: 10s
       timeout: 10s
       retries: 120
-    networks:
-      - backend-bridge
-
-  metricbeat01:
-    container_name: zipte-metricbeat
-    depends_on:
-      es01:
-        condition: service_healthy
-      kibana:
-        condition: service_healthy
-    image: docker.elastic.co/beats/metricbeat:${STACK_VERSION}
-    user: root
-    volumes:
-      - certs:/usr/share/metricbeat/certs
-      - metricbeatdata01:/usr/share/metricbeat/data
-      - "./metricbeat/metricbeat.yml:/usr/share/metricbeat/metricbeat.yml:ro"
-      - "/var/run/docker.sock:/var/run/docker.sock:ro"
-      - "/sys/fs/cgroup:/hostfs/sys/fs/cgroup:ro"
-      - "/proc:/hostfs/proc:ro"
-      - "/:/hostfs:ro"
-    environment:
-      - ELASTIC_USER=elastic
-      - ELASTIC_PASSWORD=${ELASTIC_PASSWORD}
-      - ELASTIC_HOSTS=https://es01:9200
-      - KIBANA_HOSTS=http://kibana:5601
-      - LOGSTASH_HOSTS=http://logstash01:9600
-    networks:
-      - backend-bridge
-
-  filebeat01:
-    container_name: zipte-filebeat
-    depends_on:
-      es01:
-        condition: service_healthy
-    image: docker.elastic.co/beats/filebeat:${STACK_VERSION}
-    user: root
-    volumes:
-      - certs:/usr/share/filebeat/certs
-      - filebeatdata01:/usr/share/filebeat/data
-      - "./filebeat/filebeat_ingest_data/:/usr/share/filebeat/ingest_data/"
-      - "./filebeat/filebeat.yml:/usr/share/filebeat/filebeat.yml:ro"
-      - "/var/lib/docker/containers:/var/lib/docker/containers:ro"
-      - "/var/run/docker.sock:/var/run/docker.sock:ro"
-    environment:
-      - ELASTIC_USER=elastic
-      - ELASTIC_PASSWORD=${ELASTIC_PASSWORD}
-      - ELASTIC_HOSTS=https://es01:9200
-      - KIBANA_HOSTS=http://kibana:5601
-      - LOGSTASH_HOSTS=http://logstash01:9600
     networks:
       - backend-bridge
 
