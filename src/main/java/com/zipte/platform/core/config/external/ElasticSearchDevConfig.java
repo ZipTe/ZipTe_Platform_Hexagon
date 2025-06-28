@@ -1,5 +1,6 @@
 package com.zipte.platform.core.config.external;
 
+import com.zipte.platform.core.response.ErrorCode;
 import org.apache.http.ssl.SSLContextBuilder;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Configuration;
@@ -46,7 +47,7 @@ public class ElasticSearchDevConfig extends ElasticsearchConfiguration {
                     .build();
 
         } catch (Exception e) {
-            throw new RuntimeException("Failed to configure Elasticsearch SSL context", e);
+            throw new RuntimeException(ErrorCode.INTERNAL_SERVER_ERROR.getMessage(), e);
         }
     }
 }
