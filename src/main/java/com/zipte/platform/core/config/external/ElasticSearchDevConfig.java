@@ -8,19 +8,24 @@ import org.springframework.data.elasticsearch.client.elc.ElasticsearchConfigurat
 import org.springframework.data.elasticsearch.repository.config.EnableElasticsearchRepositories;
 
 @Configuration
-@Profile("local")
+@Profile("dev")
 @EnableElasticsearchRepositories(basePackages = "com.zipte.platform.server.adapter.out.external.elk")
-public class ElasticSearchConfig extends ElasticsearchConfiguration {
+public class ElasticSearchDevConfig extends ElasticsearchConfiguration {
 
     @Value("${elasticsearch.host}")
     private String host;
+
+    @Value("${elasticsearch.user_name}")
+    private String username;
+
+    @Value("${elasticsearch.user_password}")
+    private String password;
 
     @Override
     public ClientConfiguration clientConfiguration() {
         return ClientConfiguration.builder()
                 .connectedTo(host)
-                .usingSsl(false)
+                .withBasicAuth(username, password)
                 .build();
     }
-
 }
